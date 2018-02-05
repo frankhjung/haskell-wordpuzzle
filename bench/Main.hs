@@ -7,10 +7,9 @@ import           Lib
 
 main :: IO ()
 main = defaultMain
-  [ bgroup "myGreeting"
+  [ bgroup "isValid"
     [
-      bench "greet" $ whnf greet "Hello\tWorld"
-    , bench "greet" $ whnf greet "Greetings Earthlings!\n"
+      bench "foobar" $ nf isValid "foobar"
     ]
   ]
 

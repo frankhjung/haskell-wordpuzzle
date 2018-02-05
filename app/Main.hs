@@ -9,5 +9,5 @@ import           Lib
 
 main :: IO ()
 main = do
-    dictionaryWords <- fmap Text.lines (Text.readFile "words")
-    putStrLn $ "loaded " ++ show (length dictionaryWords) ++ " words from dictionary"
+    dictionary <- fmap Text.lines (Text.readFile "words")
+    putStrLn $ "loaded " ++ show (length dictionary) ++ " words from dictionary"

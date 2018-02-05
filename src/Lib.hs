@@ -2,31 +2,51 @@
 
 {-|
 
-  Module      : greet
-  Description : Print a greeting to console.
+  Module      : wordpuzzle
+  Description : Word Puzzle supporting functions.
   Copyright   : © Frank Jung, 2018
   License     : GPL-3
   Maintainer  : frankhjung@linux.com
   Stability   : experimental
   Portability : Linux
 
-  A simple program to demonstrate project structure using the following
-  [Haskell](https://www.haskell.org/) tools:
-
-  * [Cabal](https://www.haskell.org/cabal/)
-  * [Criterion.Main](https://hackage.haskell.org/package/criterion)
-  * [Haddock](https://www.haskell.org/haddock/)
-  * [hlint](https://hackage.haskell.org/package/hlint)
-  * [Stack](https://www.haskellstack.org/)
-  * [Stylish Haskell](https://hackage.haskell.org/package/stylish-haskell-0.8.1.0)
-  * [Test.Hspec](https://hackage.haskell.org/package/hspec)
+  Supporting functions for 9 letter word puzzles.
 
 -}
 
-module Lib (greet) where
+module Lib (
+             delete
+           , filterWords
+           , isValid
+           ) where
 
--- | The greet function is an alias to "putStrLn".
+-- | Check if the word contains valid characters from a list.
+--
+-- The character freqency in the word can not exceed the frequency in the
+-- list.
+isValid :: (Eq a) => [a] -> [a] -> Bool
+isValid _  []     = True
+isValid [] _      = False
+isValid (x:xs) ys = if x `elem` ys
+                      then isValid xs (x `delete` ys)
+                      else isValid xs ys
 
--- | Greet will print a message to the console.
-greet :: String -> IO ()
-greet = putStrLn
+-- | Delete first occurrence of the character in a list.
+delete :: (Eq a) => a -> [a] -> [a]
+delete _ []     = []
+delete x (y:ys) = if x == y
+                    then ys
+                    else y : delete x ys
+
+-- | Filter words that match rules:
+--   * must be greater than the minimum length word length
+--   * must contain mandatory character
+--   * must contain only valid characters
+--   * must not exceed valid character frequency
+filterWords :: (Eq a) => Int -> a -> [a] -> [a] -> Bool
+filterWords x m xs ys
+  | x > length ys = False
+  | m `notElem` ys = False
+  | not (isValid xs ys) = False
+  | otherwise = True
+
