@@ -24,7 +24,7 @@ module Lib (
 --
 -- The character freqency in the word can not exceed the frequency in the
 -- list.
-isValid :: (Eq a) => [a] -> [a] -> Bool
+isValid :: String -> String -> Bool
 isValid _  []     = True
 isValid [] _      = False
 isValid (x:xs) ys = if x `elem` ys
@@ -32,7 +32,7 @@ isValid (x:xs) ys = if x `elem` ys
                       else isValid xs ys
 
 -- | Delete first occurrence of the character in a list.
-delete :: (Eq a) => a -> [a] -> [a]
+delete :: Char -> String -> String
 delete _ []     = []
 delete x (y:ys) = if x == y
                     then ys
@@ -43,7 +43,7 @@ delete x (y:ys) = if x == y
 --   * must contain mandatory character
 --   * must contain only valid characters
 --   * must not exceed valid character frequency
-filterWords :: (Eq a) => Int -> a -> [a] -> [a] -> Bool
+filterWords :: Int -> Char -> String -> String -> Bool
 filterWords x m xs ys
   | x > length ys = False
   | m `notElem` ys = False
