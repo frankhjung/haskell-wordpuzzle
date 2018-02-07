@@ -14,8 +14,7 @@
 
 -}
 
-module Lib (
-             delete
+module Lib ( delete
            , filterWords
            , isValid
            ) where
@@ -44,8 +43,8 @@ delete x (y:ys) = if x == y
 --   * must contain only valid characters
 --   * must not exceed valid character frequency
 filterWords :: Int -> Char -> String -> String -> Bool
-filterWords x m xs ys
-  | x > length ys = False
+filterWords s m xs ys
+  | s > length ys = False
   | m `notElem` ys = False
   | not (isValid xs ys) = False
   | otherwise = True

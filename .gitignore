@@ -5,6 +5,7 @@ cabal.project.local
 cabal.sandbox.config
 *.chi
 *.chs.h
+dictionary
 dist
 dist-*
 *.dyn_hi

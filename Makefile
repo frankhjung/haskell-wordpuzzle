@@ -3,6 +3,10 @@
 TARGET = wordpuzzle
 SRCS = $(wildcard *.hs */*.hs)
 
+.PHONY: build
+build:	check
+	@stack build
+
 .PHONY: all
 all:	style lint build test bench doc
 
@@ -17,13 +21,13 @@ lint:
 .PHONY: check
 check:	lint style
 
-.PHONY: build
-build:	check
-	@stack build
-
 .PHONY: exec
-exec:
-	@stack exec ${TARGET}
+exec:	dictionary
+	@stack exec -- ${TARGET} 4 c adevcrsoi
+
+.PHONY: dictionary
+dictionary:
+	@ln -sf /usr/share/dict/british-english dictionary
 
 .PHONY: test
 test:

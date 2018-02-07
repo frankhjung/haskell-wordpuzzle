@@ -33,7 +33,6 @@ executable wordpuzzle
                     -Wall
                     -threaded
   build-depends:    base
-                  , text
                   , wordpuzzle
 
 test-suite test
