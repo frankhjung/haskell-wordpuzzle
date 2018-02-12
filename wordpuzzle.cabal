@@ -1,0 +1,58 @@
+name:               wordpuzzle
+version:            0.1.0
+synopsis:           Hello World example using stack and cabal
+description:        Haskell "Hello World" example using stack and cabal
+homepage:           https://github.com/frankhjung/wordpuzzle#readme
+license:            BSD3
+license-file:       LICENSE
+author:             Frank H Jung
+maintainer:         frankhjung@linux.com
+copyright:          Copyright © 2017 Frank H Jung
+category:           education
+build-type:         Simple
+extra-source-files: README.md
+cabal-version:      >=1.10
+
+source-repository head
+  type:             git
+  location:         git@github.com:frankhjung/haskell-wordpuzzle.git
+
+library
+  default-language: Haskell2010
+  hs-source-dirs:   src
+  exposed-modules:  Lib
+  ghc-options:      -O2
+                    -Wall
+  build-depends:    base >= 4.7 && < 5
+
+executable wordpuzzle
+  default-language: Haskell2010
+  hs-source-dirs:   app
+  main-is:          Main.hs
+  ghc-options:      -O2
+                    -Wall
+                    -threaded
+  build-depends:    base
+                  , text
+                  , wordpuzzle
+
+test-suite test
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   test
+  main-is:          Spec.hs
+  build-depends:    base
+                  , hspec
+                  , wordpuzzle
+  ghc-options:      -Wall
+                    -threaded
+
+benchmark benchmark
+  default-language: Haskell2010
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   bench
+  main-is:          Main.hs
+  build-depends:    base >= 4.7 && < 5
+                  , criterion
+                  , wordpuzzle
+
