@@ -1,24 +1,8 @@
-{-# LANGUAGE UnicodeSyntax #-}
-
-import           Lib
-import           Test.Hspec
+import           Test.Hspec (context, describe, hspec, it, shouldBe)
+import           WordPuzzle (filterWords, isValid)
 
 main :: IO ()
 main = hspec $ do
-
-  describe "isValid" $ do
-    context "when word containing characters" $
-      it "returns true" $
-        isValid "foobar" "barfoo" `shouldBe` True
-    context "when word containing a valid subset of characters" $
-      it "returns true" $
-        isValid "foobar" "rof" `shouldBe` True
-    context "when word does not contain valid characters" $
-      it "returns false" $
-        isValid "foobar" "bartez" `shouldBe` False
-    context "when word does not contain valid character frequency" $
-      it "returns false" $
-        isValid "foobar" "baarof" `shouldBe` False
 
   describe "filterWords" $ do
     context "when word is too short" $
@@ -36,4 +20,18 @@ main = hspec $ do
     context "when word is valid" $
       it "returns true" $
         filterWords 4 'h' "hello" "hello" `shouldBe` True
+
+  describe "isValid" $ do
+    context "when word containing characters" $
+      it "returns true" $
+        isValid "foobar" "barfoo" `shouldBe` True
+    context "when word containing a valid subset of characters" $
+      it "returns true" $
+        isValid "foobar" "rof" `shouldBe` True
+    context "when word does not contain valid characters" $
+      it "returns false" $
+        isValid "foobar" "bartez" `shouldBe` False
+    context "when word does not contain valid character frequency" $
+      it "returns false" $
+        isValid "foobar" "baarof" `shouldBe` False
 

@@ -1,5 +1,3 @@
-{-# LANGUAGE UnicodeSyntax #-}
-
 {-|
 
   Module      : wordpuzzle
@@ -14,7 +12,7 @@
 
 -}
 
-module Lib ( delete
+module WordPuzzle ( delete
            , filterWords
            , isValid
            ) where

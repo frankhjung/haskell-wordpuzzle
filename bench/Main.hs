@@ -1,9 +1,7 @@
-{-# LANGUAGE UnicodeSyntax #-}
-
 module Main(main) where
 
-import           Criterion.Main
-import           Lib            (filterWords, isValid)
+import           Criterion.Main (bench, bgroup, defaultMain, nf)
+import           WordPuzzle     (filterWords, isValid)
 
 filterWords' = filterWords 4 'c'
 

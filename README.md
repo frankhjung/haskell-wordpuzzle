@@ -10,12 +10,14 @@ Here we are using a subset of the British dictionary from the
 
 ## Method
 
-A brief outline of this program is:
+This program is used to list all words from a popular puzzle.
+A brief outline of what this program does is:
 
 * get user input of:
-  * letters as one string (first letter is the mandatory letter)
-  * a dictionary
-  * [optional] minimum word length (default is 4)
+  * minimum word length
+  * mandatory letter required in each word
+  * letters as one string
+  * [optional] dictionary to use to search for matching words
 
 * print each word in dictionary that satisfies:
   * word is greater than or equal to minimum character length
@@ -24,14 +26,15 @@ A brief outline of this program is:
 
 ## How to run
 
+When specifying a dictionary use (default is "dictionary"):
+
 ```bash
-# specifying a dictionary
 stack exec -- wordpuzzle 4 c adevcrsoi dictionary
 ```
 
-To show in word size order use:
+To show order of word size use:
 
 ```bash
-stack exec -- wordpuzzle 4 c adevcrsoi dictionary | gawk '{if (length($0) < 10) print length($0), $0; | "sort" }'
+stack exec -- wordpuzzle 4 c adevcrsoi dictionary | gawk '{print length($0), $0; | "sort"}'
 ```
 
