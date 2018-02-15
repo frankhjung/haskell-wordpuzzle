@@ -1,35 +1,75 @@
 module Main(main) where
 
-import qualified WordPuzzle         as WP (filterWords)
+import           WordPuzzle            (filterWords)
 
-import qualified System.Environment as Env (getArgs, getProgName)
-import qualified System.Exit        as Sys (exitFailure, exitSuccess)
+import           Data.Char             (isAlpha)
+import           Data.Maybe            (fromJust, fromMaybe)
+import           System.Console.GetOpt (ArgDescr (NoArg, OptArg, ReqArg),
+                                        ArgOrder (RequireOrder),
+                                        OptDescr (Option), getOpt, usageInfo)
+import           System.Environment    (getArgs, getProgName)
+import           System.Exit           (exitFailure, exitSuccess)
+import           System.IO             (hPutStrLn, stderr)
 
--- Usage with current program name and command arguments
-usage :: IO ()
-usage = do
-  progName <- Env.getProgName
-  putStrLn $ "Usage: " ++ progName ++ " size mandatory letters [dictionary]"
+-- Command line flags
+data Options = Options { optHelp       :: Bool
+                       , optSize       :: Int
+                       , optMandatory  :: Char
+                       , optLetters    :: String
+                       , optDictionary :: Maybe FilePath
+                       } deriving Show
 
--- Parse command line arguments
-parseArgs :: [String] -> (Int, Char, String, FilePath)
-parseArgs args = do
-  let (s:m:l:d)  = args
-      size       = read s :: Int
-      mandatory  = head m :: Char
-      letters    = l :: String
-      dictionary = if not (null d)
-                    then (head d :: FilePath)
-                    else "dictionary" :: FilePath
-  (size, mandatory, letters, dictionary)
+-- Option defaults
+startOptions :: Options
+startOptions = Options { optHelp = False
+                       , optSize = 4
+                       , optMandatory = ' '
+                       , optLetters = []
+                       , optDictionary = Just "dictionary"
+                       }
 
--- Need either 3 or 4 parameters
-isValid :: [String] -> Bool
-isValid args
-    | null args       = False
-    | length args < 3 = False
-    | length args > 4 = False
-    | otherwise       = True
+-- Command line options
+options :: [ OptDescr (Options -> IO Options) ]
+options =
+  [ Option "s" ["size"]
+      (ReqArg
+        (\arg opt -> return opt { optSize = read arg })
+        "int"
+      )
+      "Minimum word size"
+
+  , Option "m" ["mandatory"]
+      (ReqArg
+        (\arg opt -> return opt { optMandatory = head arg })
+        "char"
+      )
+      "Mandatory character for all words"
+
+  , Option "l" ["letters"]
+      (ReqArg
+        (\arg opt -> return opt { optLetters = arg })
+        "string"
+      )
+      "String of letters to make words"
+
+  , Option "d" ["dictionary"]
+      (OptArg
+        ((\f opt -> return opt { optDictionary = Just f }) . fromMaybe "dictionary")
+        "FILE"
+      )
+      "Path of alternate dictionary"
+
+  , Option "h" ["help"]
+      (NoArg
+        (\_ -> do
+          progName <- getProgName
+          hPutStrLn stderr (usageInfo progName options)
+          exitSuccess
+        )
+      )
+      "Show help"
+  ]
+
 
 --
 -- MAIN
@@ -37,15 +77,32 @@ isValid args
 main :: IO ()
 main = do
 
-  args <- Env.getArgs
+  args <- getArgs
 
-  if not (isValid args)
+  -- parse options, getting a list of option actions
+  let (actions, nonOptions, errors) = getOpt RequireOrder options args
+
+  -- thread defaults through option actions
+  opts <- foldl (>>=) (return startOptions) actions
+
+  -- map options to local variables
+  let Options { optHelp = _
+              , optSize = size
+              , optMandatory = mandatory
+              , optLetters = letters
+              , optDictionary = dictionary
+              } = opts
+
+  -- check for parameter errors, if none then solve wordpuzzle
+  if not (isAlpha mandatory) || not (null errors) || not (null nonOptions) || null letters
     then do
-      usage
-      Sys.exitFailure
+      progName <- getProgName
+      hPutStrLn stderr (concat errors ++ usageInfo progName options)
+      exitFailure
+      -- the same bu using bind (no need for do)
+      -- getProgName >>= \progName -> hPutStrLn stderr (concat errors ++ usageInfo progName options) >> exitFailure
     else do
-      let (size, mandatory, letters, dictionary) = parseArgs args
-          checkWords = WP.filterWords size mandatory letters
-      dictionaryWords <- readFile dictionary
+      let checkWords = filterWords size mandatory letters
+      dictionaryWords <- readFile (fromJust dictionary)
       mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
-      Sys.exitSuccess
+      exitSuccess

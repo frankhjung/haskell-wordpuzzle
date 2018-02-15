@@ -23,7 +23,7 @@ check:	lint style
 
 .PHONY: exec
 exec:	dictionary
-	@stack exec -- ${TARGET} 4 c adevcrsoi
+	@stack exec -- ${TARGET} -s 4 -m c -l adevcrsoi
 
 .PHONY: dictionary
 dictionary:
