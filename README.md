@@ -31,13 +31,13 @@ A brief outline of what this program does is:
 When specifying a dictionary use (default is "dictionary"):
 
 ```bash
-stack exec -- wordpuzzle 4 c adevcrsoi dictionary
+stack exec -- wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary
 ```
 
-To show order of word size use:
+To show words by size use:
 
 ```bash
-stack exec -- wordpuzzle 4 c adevcrsoi dictionary | gawk '{print length($0), $0; | "sort"}'
+stack exec -- wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
 ## Documentation

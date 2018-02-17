@@ -1,8 +1,19 @@
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
-import           WordPuzzle (filterWords, isValid)
+import           WordPuzzle (delete, filterWords, isValid)
 
 main :: IO ()
 main = hspec $ do
+
+  describe "delete" $ do
+    context "when character is in list" $
+      it "returns list less that character" $
+        delete 'c' "cde" `shouldBe` "de"
+    context "when character is in list twice" $
+      it "returns list less one instance of that character" $
+        delete 'c' "cce" `shouldBe` "ce"
+    context "when character is not in list" $
+      it "returns original list" $
+        delete 'c' "def" `shouldBe` "def"
 
   describe "filterWords" $ do
     context "when word is too short" $

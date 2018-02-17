@@ -79,11 +79,11 @@ main = do
 
   args <- getArgs
 
-  -- parse options, getting a list of option actions
-  let (actions, nonOptions, errors) = getOpt RequireOrder options args
+  -- parse options, getting a list of parameters
+  let (parameters, nonOptions, errors) = getOpt RequireOrder options args
 
-  -- thread defaults through option actions
-  opts <- foldl (>>=) (return startOptions) actions
+  -- add defaults to option parameters not parsed
+  opts <- foldl (>>=) (return startOptions) parameters
 
   -- map options to local variables
   let Options { optHelp = _
