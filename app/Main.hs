@@ -7,7 +7,7 @@ import           Data.Maybe            (fromJust, fromMaybe)
 import           System.Console.GetOpt (ArgDescr (NoArg, OptArg, ReqArg),
                                         ArgOrder (RequireOrder),
                                         OptDescr (Option), getOpt, usageInfo)
-import           System.Environment    (getArgs, getProgName)
+import           System.Environment    (getArgs)
 import           System.Exit           (exitFailure, exitSuccess)
 import           System.IO             (hPutStrLn, stderr)
 
@@ -62,14 +62,12 @@ options =
   , Option "h" ["help"]
       (NoArg
         (\_ -> do
-          progName <- getProgName
-          hPutStrLn stderr (usageInfo progName options)
+          putUsage
           exitSuccess
         )
       )
       "Show help"
   ]
-
 
 --
 -- MAIN
@@ -95,14 +93,15 @@ main = do
 
   -- check for parameter errors, if none then solve wordpuzzle
   if not (isAlpha mandatory) || not (null errors) || not (null nonOptions) || null letters
-    then do
-      progName <- getProgName
-      hPutStrLn stderr (concat errors ++ usageInfo progName options)
-      exitFailure
-      -- the same bu using bind (no need for do)
+    then
+      putUsage >> exitFailure
       -- getProgName >>= \progName -> hPutStrLn stderr (concat errors ++ usageInfo progName options) >> exitFailure
     else do
       let checkWords = filterWords size mandatory letters
       dictionaryWords <- readFile (fromJust dictionary)
       mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
       exitSuccess
+
+-- usage message
+putUsage :: IO ()
+putUsage = hPutStrLn stderr (usageInfo "wordpuzzle [options]" options)

@@ -27,7 +27,7 @@ exec:	dictionary
 
 .PHONY: dictionary
 dictionary:
-	@ln -sf /usr/share/dict/british-english dictionary
+	@ln -sf /usr/share/dict/british-english-huge dictionary
 
 .PHONY: test
 test:
