@@ -47,6 +47,10 @@ bench:
 doc:
 	@stack haddock
 
+.PHONY: install
+install:
+	@stack install --local-bin-path $(HOME)/bin ${TARGET}
+
 .PHONY: clean
 clean:
 	@stack clean
