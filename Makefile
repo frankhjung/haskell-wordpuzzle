@@ -22,12 +22,18 @@ lint:
 check:	lint style
 
 .PHONY: exec
-exec:	dictionary
+exec:
 	@stack exec -- ${TARGET} -s 4 -m c -l adevcrsoi
 
 .PHONY: dictionary
 dictionary:
+ifneq ("$(wildcard /usr/share/dict/british-english-huge)","")
+	@echo using dictionary from /usr/share/dict/british-english-huge
 	@ln -sf /usr/share/dict/british-english-huge dictionary
+else
+	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
+	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
+endif
 
 .PHONY: test
 test:
