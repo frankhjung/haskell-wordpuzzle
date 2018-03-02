@@ -12,6 +12,7 @@
 
 module WordPuzzle ( delete
                   , filterWords
+                  , isInValid
                   , isValid
                   ) where
 
@@ -32,6 +33,11 @@ isValid (x:xs) ys = if x `elem` ys
                       then isValid xs (x `delete` ys)
                       else isValid xs ys
 
+-- | Opposite of 'isValid'.
+isInValid :: String -> String -> Bool
+isInValid x y = not (isValid x y)
+
+
 -- * Filter Words Matching Criteria
 
 -- | Only include words that match these rules:
@@ -43,8 +49,8 @@ isValid (x:xs) ys = if x `elem` ys
 --
 filterWords :: Int -> Char -> String -> String -> Bool
 filterWords s m xs ys
-  | s > length ys       = False
-  | m `notElem` ys      = False
-  | not (isValid xs ys) = False
-  | otherwise           = True
+  | s > length ys   = False
+  | m `notElem` ys  = False
+  | isInValid xs ys = False
+  | otherwise       = True
 
