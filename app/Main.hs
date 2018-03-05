@@ -1,6 +1,6 @@
 module Main(main) where
 
-import           WordPuzzle            (filterPlurals, filterWords)
+import           WordPuzzle            (filterWords)
 
 import           Data.Char             (isAlpha)
 import           Data.Maybe            (fromJust, fromMaybe)
@@ -99,8 +99,7 @@ main = do
     else do
       let checkWords = filterWords size mandatory letters
       dictionaryWords <- readFile (fromJust dictionary)
-      let validWords = filter checkWords (lines dictionaryWords)
-      mapM_ putStrLn $ filter (filterPlurals letters) validWords
+      mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
       exitSuccess
 
 -- usage message

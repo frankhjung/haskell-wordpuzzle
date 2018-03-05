@@ -1,6 +1,5 @@
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
-import           WordPuzzle (delete, filterPlurals, filterWords, isInValid,
-                             isValid)
+import           WordPuzzle (delete, filterWords, isInValid, isValid)
 
 main :: IO ()
 main = hspec $ do
@@ -60,12 +59,4 @@ main = hspec $ do
     context "when word does not contain valid character frequency" $
       it "returns true" $
         isInValid "foobar" "baarof" `shouldBe` True
-
-  describe "filterPlurals" $ do
-    context "when word is not a plural" $
-      it "returns true" $
-        filterPlurals "voices" "voice" `shouldBe` True
-    context "when word is a plural" $
-      it "returns false" $
-        filterPlurals "voices" "voices" `shouldBe` False
 
