@@ -11,6 +11,7 @@
 -}
 
 module WordPuzzle ( delete
+                  , filterPlurals
                   , filterWords
                   , isInValid
                   , isValid
@@ -54,3 +55,14 @@ filterWords s m xs ys
   | isInValid xs ys = False
   | otherwise       = True
 
+
+-- | Filter plurals that end in 's'
+--
+-- (1) Return true if word does not end in 's'
+-- 2. Return false if 's' is truncated from word and that word is valid
+--
+filterPlurals :: String -> String -> Bool
+filterPlurals xs ys
+  | last ys /= 's'                       = True
+  | isValid xs (take (length ys - 1) ys) = False
+  | otherwise                            = True
