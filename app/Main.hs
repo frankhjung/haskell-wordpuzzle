@@ -75,9 +75,10 @@ options =
 main :: IO ()
 main = do
 
+  -- get raw arguments
   args <- getArgs
 
-  -- parse options, getting a list of parameters
+  -- parse arguments, getting a list of option parameters
   let (parameters, nonOptions, errors) = getOpt RequireOrder options args
 
   -- add defaults to option parameters not parsed
@@ -95,7 +96,6 @@ main = do
   if not (isAlpha mandatory) || not (null errors) || not (null nonOptions) || null letters
     then
       putUsage >> exitFailure
-      -- getProgName >>= \progName -> hPutStrLn stderr (concat errors ++ usageInfo progName options) >> exitFailure
     else do
       let checkWords = filterWords size mandatory letters
       dictionaryWords <- readFile (fromJust dictionary)

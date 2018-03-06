@@ -11,9 +11,10 @@
 -}
 
 module WordPuzzle ( delete
-                  , filterWords
                   , isInValid
                   , isValid
+                  , isPlural
+                  , filterWords
                   ) where
 
 -- * Helper Functions
@@ -37,6 +38,17 @@ isValid (x:xs) ys = if x `elem` ys
 isInValid :: String -> String -> Bool
 isInValid x y = not (isValid x y)
 
+-- | Check if word is a plural.
+--
+-- (1) False if word does not end in 's'
+-- 2. False if word ends in "ss"
+-- 3. True Otherwise as ends in single 's'
+--
+isPlural :: String -> Bool
+isPlural a
+  | last a /= 's'          = False  -- last character not an 's'
+  | last ( init a ) == 's' = False  -- last two characters not "ss"
+  | otherwise              = True
 
 -- * Filter Words Matching Criteria
 
@@ -53,6 +65,5 @@ filterWords s m xs ys
   | s > length ys   = False
   | m `notElem` ys  = False
   | isInValid xs ys = False
-  | last ys == 's'  = False
+  | isPlural ys     = False
   | otherwise       = True
-

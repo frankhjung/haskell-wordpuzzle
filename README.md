@@ -45,3 +45,8 @@ stack exec -- wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}'
 Documentation is built using [Haddock](https://www.haskell.org/haddock/):
 
 ![Example: wordpuzzle library](doc/wordpuzzle.png)
+
+## ToDo
+
+Try [Options.Applicative](https://github.com/pcapriotti/optparse-applicative).
+
