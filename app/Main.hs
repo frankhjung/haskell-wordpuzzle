@@ -1,107 +1,72 @@
 module Main(main) where
 
-import           WordPuzzle            (filterWords)
+import           WordPuzzle          (filterWords)
 
-import           Data.Char             (isAlpha)
-import           Data.Maybe            (fromJust, fromMaybe)
-import           System.Console.GetOpt (ArgDescr (NoArg, OptArg, ReqArg),
-                                        ArgOrder (RequireOrder),
-                                        OptDescr (Option), getOpt, usageInfo)
-import           System.Environment    (getArgs)
-import           System.Exit           (exitFailure, exitSuccess)
-import           System.IO             (hPutStrLn, stderr)
+import           Data.Char           (isAlpha)
+import           Data.Semigroup      ((<>))
+import           Options.Applicative
+import           System.Exit         (exitSuccess)
 
--- Command line flags
-data Options = Options { optHelp       :: Bool
-                       , optSize       :: Int
-                       , optMandatory  :: Char
-                       , optLetters    :: String
-                       , optDictionary :: Maybe FilePath
-                       } deriving Show
+-- command line options
+data Opts = Opts
+              { _size       :: Int
+              , _mandatory  :: Char
+              , _letters    :: String
+              , _dictionary :: FilePath
+              } deriving Show
 
--- Option defaults
-startOptions :: Options
-startOptions = Options { optHelp = False
-                       , optSize = 4
-                       , optMandatory = ' '
-                       , optLetters = []
-                       , optDictionary = Just "dictionary"
-                       }
+-- structure for parser
+options :: Parser Opts
+options = Opts
+  <$> option auto
+      ( long "size"
+     <> short 's'
+     <> help "Minimum word size"
+     <> showDefault
+     <> value 4
+     <> metavar "INT" )
+  <*> option alpha
+      ( long "mandatory"
+     <> short 'm'
+     <> help "Mandatory character for all words"
+     <> metavar "CHAR" )
+  <*> strOption
+      ( long "letters"
+     <> short 'l'
+     <> help "String of letters to make words"
+     <> metavar "STRING" )
+  <*> strOption
+      ( long "dictionary"
+     <> short 'd'
+     <> help "Alternate dictionary"
+     <> showDefault
+     <> value "dictionary"
+     <> metavar "FILENAME" )
 
--- Command line options
-options :: [ OptDescr (Options -> IO Options) ]
-options =
-  [ Option "s" ["size"]
-      (ReqArg
-        (\arg opt -> return opt { optSize = read arg })
-        "int"
-      )
-      "Minimum word size"
+-- custom reader of char rather than string
+alpha :: ReadM Char
+alpha = maybeReader $ \c -> if length c == 1 && isAlpha (head c)
+                                   then return $ head c
+                                   else Nothing
 
-  , Option "m" ["mandatory"]
-      (ReqArg
-        (\arg opt -> return opt { optMandatory = head arg })
-        "char"
-      )
-      "Mandatory character for all words"
+-- parse information
+opts :: ParserInfo Opts
+opts = info (options <**> helper)
+         ( header "https://github.com/frankhjung/haskell-wordpuzzle"
+        <> fullDesc
+        <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
+        <> footer "Version: 0.3.0" )
 
-  , Option "l" ["letters"]
-      (ReqArg
-        (\arg opt -> return opt { optLetters = arg })
-        "string"
-      )
-      "String of letters to make words"
-
-  , Option "d" ["dictionary"]
-      (OptArg
-        ((\f opt -> return opt { optDictionary = Just f }) . fromMaybe "dictionary")
-        "FILE"
-      )
-      "Path of alternate dictionary"
-
-  , Option "h" ["help"]
-      (NoArg
-        (\_ -> do
-          putUsage
-          exitSuccess
-        )
-      )
-      "Show help"
-  ]
+-- print to screen all words matching criteria
+showWords :: Opts -> IO ()
+showWords (Opts size mandatory letters dictionary) = do
+  let checkWords = filterWords size mandatory letters
+  dictionaryWords <- readFile dictionary
+  mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
+  exitSuccess
 
 --
 -- MAIN
 --
 main :: IO ()
-main = do
-
-  -- get raw arguments
-  args <- getArgs
-
-  -- parse arguments, getting a list of option parameters
-  let (parameters, nonOptions, errors) = getOpt RequireOrder options args
-
-  -- add defaults to option parameters not parsed
-  opts <- foldl (>>=) (return startOptions) parameters
-
-  -- map options to local variables
-  let Options { optHelp = _
-              , optSize = size
-              , optMandatory = mandatory
-              , optLetters = letters
-              , optDictionary = dictionary
-              } = opts
-
-  -- check for parameter errors, if none then solve wordpuzzle
-  if not (isAlpha mandatory) || not (null errors) || not (null nonOptions) || null letters
-    then
-      putUsage >> exitFailure
-    else do
-      let checkWords = filterWords size mandatory letters
-      dictionaryWords <- readFile (fromJust dictionary)
-      mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
-      exitSuccess
-
--- usage message
-putUsage :: IO ()
-putUsage = hPutStrLn stderr (usageInfo "wordpuzzle [options]" options)
+main = execParser opts >>= showWords

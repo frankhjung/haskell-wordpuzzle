@@ -1,5 +1,5 @@
 name:               wordpuzzle
-version:            0.1.0
+version:            0.3.0
 synopsis:           9 letter word puzzle solver
 description:        Solve a common 9 letter word puzzle. Will list all words matching the 9 letter criteria.
 homepage:           https://github.com/frankhjung/haskell-wordpuzzle/blob/master/README.md
@@ -31,6 +31,7 @@ executable wordpuzzle
   ghc-options:      -Wall
                     -threaded
   build-depends:    base
+                  , optparse-applicative >= 0.13.2.0
                   , wordpuzzle
 
 test-suite test
@@ -50,6 +51,6 @@ benchmark benchmark
   hs-source-dirs:   bench
   main-is:          Main.hs
   build-depends:    base >= 4.7 && < 5
-                  , criterion
+                  , criterion >= 1.1.4.0
                   , wordpuzzle
 
