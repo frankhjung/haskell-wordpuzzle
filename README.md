@@ -28,6 +28,19 @@ A brief outline of what this program does is:
 
 ## How to run
 
+Get command line help:
+
+```bash
+stack exec -- wordpuzzle --help
+
+wordpuzzle [options]
+  -s int     --size=int           Minimum word size
+  -m char    --mandatory=char     Mandatory character for all words
+  -l string  --letters=string     String of letters to make words
+  -d[FILE]   --dictionary[=FILE]  Path of alternate dictionary
+  -h         --help               Show help
+```
+
 When specifying a dictionary use (default is "dictionary"):
 
 ```bash
@@ -40,13 +53,21 @@ To show words by size use:
 stack exec -- wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
+
+## Command Line Parsers
+
+Apart from solving a simple word puzzle this project also explores the following
+command line parsers:
+
+* [System.Environment getArgs](https://hackage.haskell.org/package/base/docs/System-Environment.html)
+* [System.Console GetOpt](https://hackage.haskell.org/package/base/docs/System-Console-GetOpt.html)
+* [optparse-applicative](https://hackage.haskell.org/package/optparse-applicative)
+
+Each is preserved in a separate Git [branch](https://github.com/frankhjung/haskell-wordpuzzle/branches).
+
+
 ## Documentation
 
 Documentation is built using [Haddock](https://www.haskell.org/haddock/):
 
 ![Example: wordpuzzle library](doc/wordpuzzle.png)
-
-## ToDo
-
-Try [Options.Applicative](https://github.com/pcapriotti/optparse-applicative).
-
