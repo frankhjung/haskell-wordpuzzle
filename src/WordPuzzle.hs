@@ -11,10 +11,10 @@
 -}
 
 module WordPuzzle ( delete
-                  , isInValid
                   , isValid
                   , isPlural
                   , filterWords
+                  , filterWords'
                   ) where
 
 -- * Helper Functions
@@ -34,10 +34,6 @@ isValid (x:xs) ys = if x `elem` ys
                       then isValid xs (x `delete` ys)
                       else isValid xs ys
 
--- | Opposite of 'isValid'.
-isInValid :: String -> String -> Bool
-isInValid x y = not (isValid x y)
-
 -- | Check if word is a plural.
 --
 -- (1) False if word does not end in 's'
@@ -52,7 +48,7 @@ isPlural a
 
 -- * Filter Words Matching Criteria
 
--- | Only include words that match these rules:
+-- | Only include words that match these rules: (excludes plurals)
 --
 -- (1) must be greater than the minimum word length
 -- 2. must contain mandatory character
@@ -62,8 +58,20 @@ isPlural a
 --
 filterWords :: Int -> Char -> String -> String -> Bool
 filterWords s m xs ys
-  | s > length ys   = False
-  | m `notElem` ys  = False
-  | isInValid xs ys = False
-  | isPlural ys     = False
-  | otherwise       = True
+  | not (filterWords' s m xs ys) = False
+  | isPlural ys                  = False
+  | otherwise                    = True
+
+-- | Only include words that match these rules: (include plurals)
+--
+-- (1) must be greater than the minimum word length
+-- 2. must contain mandatory character
+-- 3. must contain only valid characters
+-- 4. must not exceed valid character frequency
+--
+filterWords' :: Int -> Char -> String -> String -> Bool
+filterWords' s m xs ys
+  | s > length ys       = False
+  | m `notElem` ys      = False
+  | not (isValid xs ys) = False
+  | otherwise           = True

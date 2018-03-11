@@ -1,6 +1,6 @@
 module Main(main) where
 
-import           WordPuzzle          (filterWords)
+import           WordPuzzle          (filterWords, filterWords')
 
 import           Data.Char           (isAlpha)
 import           Data.Semigroup      ((<>))
@@ -13,6 +13,7 @@ data Opts = Opts
               , _mandatory  :: Char
               , _letters    :: String
               , _dictionary :: FilePath
+              , _plurals    :: Bool
               } deriving Show
 
 -- structure for parser
@@ -42,6 +43,10 @@ options = Opts
      <> showDefault
      <> value "dictionary"
      <> metavar "FILENAME" )
+  <*> switch
+      ( long "plurals"
+     <> short 'p'
+     <> help "Include plural words" )
 
 -- custom reader of char rather than string
 alpha :: ReadM Char
@@ -59,11 +64,14 @@ opts = info (options <**> helper)
 
 -- print to screen all words matching criteria
 showWords :: Opts -> IO ()
-showWords (Opts size mandatory letters dictionary) = do
-  let checkWords = filterWords size mandatory letters
+showWords (Opts size mandatory letters dictionary plurals) = do
+  let checkWords = if plurals
+                     then filterWords' size mandatory letters
+                     else filterWords size mandatory letters
   dictionaryWords <- readFile dictionary
   mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
   exitSuccess
+
 
 --
 -- MAIN

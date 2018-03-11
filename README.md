@@ -33,12 +33,12 @@ A brief outline of what this program does is:
 Get command line help:
 
 ```bash
-stack exec -- wordpuzzle --help
+wordpuzzle --help
 
 https://github.com/frankhjung/haskell-wordpuzzle
 
 Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
-                  [-d|--dictionary FILENAME]
+                  [-d|--dictionary FILENAME] [-p|--plurals]
   Solve word puzzles like those at nineletterword.tompaton.com
 
 Available options:
@@ -46,21 +46,33 @@ Available options:
   -m,--mandatory CHAR      Mandatory character for all words
   -l,--letters STRING      String of letters to make words
   -d,--dictionary FILENAME Alternate dictionary (default: "dictionary")
+  -p,--plurals             Include plural words
   -h,--help                Show this help text
 
 Version: 0.3.0
 ```
 
+Or call without command line arguments:
+
+```bash
+wordpuzzle 
+Missing: (-m|--mandatory CHAR) (-l|--letters STRING)
+
+Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
+                  [-d|--dictionary FILENAME] [-p|--plurals]
+  Solve word puzzles like those at nineletterword.tompaton.com
+```
+
 When specifying a dictionary use (default is "dictionary"):
 
 ```bash
-stack exec -- wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary
+wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary
 ```
 
 To show words by size use:
 
 ```bash
-stack exec -- wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
+wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
 
