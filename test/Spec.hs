@@ -1,5 +1,5 @@
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
-import           WordPuzzle (delete, filterWords, isInValid, isPlural, isValid)
+import           WordPuzzle (delete, filterWords, isPlural, isValid)
 
 main :: IO ()
 main = hspec $ do
