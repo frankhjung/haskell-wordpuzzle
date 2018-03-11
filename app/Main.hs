@@ -14,7 +14,7 @@ data Opts = Opts
               , _letters    :: String
               , _dictionary :: FilePath
               , _plurals    :: Bool
-              } deriving Show
+              }
 
 -- structure for parser
 options :: Parser Opts

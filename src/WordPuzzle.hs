@@ -20,6 +20,8 @@ module WordPuzzle ( delete
 -- * Helper Functions
 
 -- | Delete first occurrence of the character in a list.
+--
+-- c.f. http://hackage.haskell.org/package/base/docs/Data-List.html#v:delete
 delete :: Char -> String -> String
 delete _ []     = []
 delete x (y:ys) = if x == y
