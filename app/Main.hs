@@ -4,7 +4,12 @@ import           WordPuzzle          (filterWords, filterWords')
 
 import           Data.Char           (isAlpha)
 import           Data.Semigroup      ((<>))
-import           Options.Applicative
+import           Options.Applicative (Parser, ParserInfo, ReadM, auto,
+                                      execParser, footer, fullDesc, header,
+                                      help, helper, info, long, maybeReader,
+                                      metavar, option, progDesc, short,
+                                      showDefault, strOption, switch, value,
+                                      (<**>))
 import           System.Exit         (exitSuccess)
 
 -- command line options
@@ -51,8 +56,8 @@ options = Opts
 -- custom reader of char rather than string
 alpha :: ReadM Char
 alpha = maybeReader $ \c -> if length c == 1 && isAlpha (head c)
-                                   then return $ head c
-                                   else Nothing
+                              then return $ head c
+                              else Nothing
 
 -- parse information
 opts :: ParserInfo Opts

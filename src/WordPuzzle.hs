@@ -45,7 +45,7 @@ isValid (x:xs) ys = if x `elem` ys
 isPlural :: String -> Bool
 isPlural a
   | last a /= 's'          = False  -- last character not an 's'
-  | last ( init a ) == 's' = False  -- last two characters not "ss"
+  | last ( init a ) == 's' = False  -- word does not end in "ss"
   | otherwise              = True
 
 -- * Filter Words Matching Criteria
