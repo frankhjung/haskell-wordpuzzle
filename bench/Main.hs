@@ -7,7 +7,8 @@ filterWords' = filterWords 4 'c'
 
 main :: IO ()
 main = defaultMain
-  [ bgroup "isValid"
+  [
+    bgroup "isValid"
     [
       bench "foobar" $ nf isValid "foobar"
     ],
