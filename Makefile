@@ -8,22 +8,22 @@ build:	check
 	@stack build
 
 .PHONY: all
-all:	style lint build test bench doc
+all:	style lint build test bench doc tags
 
 .PHONY: style
 style:
-	@stylish-haskell -c .stylish-haskell.yaml -i ${SRCS}
+	@stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
 
 .PHONY: lint
 lint:
-	@hlint --color ${SRCS}
+	@hlint --color $(SRCS)
 
 .PHONY: check
 check:	lint style
 
 .PHONY: exec
 exec:
-	@stack exec -- ${TARGET} -s 4 -m c -l adevcrsoi
+	@stack exec -- $(TARGET) -s 4 -m c -l adevcrsoi
 
 .PHONY: dictionary
 dictionary:
@@ -43,13 +43,16 @@ test:
 bench:
 	@stack bench
 
+tags:	$(SRCS)
+	@hasktags --ctags $(SRCS)
+
 .PHONY: doc
 doc:
 	@stack haddock
 
 .PHONY: install
 install:
-	@stack install --local-bin-path $(HOME)/bin ${TARGET}
+	@stack install --local-bin-path $(HOME)/bin $(TARGET)
 
 .PHONY: clean
 clean:

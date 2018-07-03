@@ -21,3 +21,4 @@ dist-*
 *.prof
 .stack-work/
 *.swp
+tags
