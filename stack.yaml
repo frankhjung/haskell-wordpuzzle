@@ -1,5 +1,7 @@
 # http://docs.haskellstack.org/en/stable/yaml_configuration/
 
+allow-newer: false
+
 # Resolver compiler version
 resolver: lts-11.17
 

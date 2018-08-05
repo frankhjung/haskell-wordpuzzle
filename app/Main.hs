@@ -77,7 +77,6 @@ showWords (Opts size mandatory letters dictionary plurals) = do
   mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
   exitSuccess
 
-
 --
 -- MAIN
 --

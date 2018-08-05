@@ -1,29 +1,41 @@
 #!/usr/bin/env make
 
-TARGET = wordpuzzle
-SRCS = $(wildcard *.hs */*.hs)
+TARGET	:= wordpuzzle
+SUBS	:= $(wildcard */)
+SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-.PHONY: build
-build:	check
-	@stack build
+ARGS	?= -s 4 -m c -l adevcrsoi
 
-.PHONY: all
-all:	style lint build test bench doc tags
+all:	check build test bench doc
 
-.PHONY: style
-style:
+check:	lint style tags
+
+style:	$(SRCS)
 	@stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
 
-.PHONY: lint
-lint:
+lint:	$(SRCS)
 	@hlint --color $(SRCS)
 
-.PHONY: check
-check:	lint style
+tags:	$(SRCS)
+	@hasktags --ctags --extendedctag $(SRCS)
 
-.PHONY: exec
-exec:
-	@stack exec -- $(TARGET) -s 4 -m c -l adevcrsoi
+build:	$(SRCS)
+	@stack build
+
+test:	build
+	@stack test
+
+bench:	build
+	@stack bench
+
+exec:	build
+	@stack exec -- $(TARGET) $(ARGS)
+
+docs:	build
+	@stack haddock
+
+install: build
+	@stack install --local-bin-path $(HOME)/bin $(TARGET)
 
 .PHONY: dictionary
 dictionary:
@@ -35,24 +47,9 @@ else
 	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
 endif
 
-.PHONY: test
-test:
-	@stack test
-
-.PHONY: bench
-bench:
-	@stack bench
-
-tags:	$(SRCS)
-	@hasktags --ctags $(SRCS)
-
-.PHONY: doc
-doc:
-	@stack haddock
-
-.PHONY: install
-install:
-	@stack install --local-bin-path $(HOME)/bin $(TARGET)
+.PHONY: ghci
+ghci:
+	@stack ghci --ghci-options -Wno-type-defaults
 
 .PHONY: clean
 clean:
@@ -61,7 +58,3 @@ clean:
 .PHONY: cleanall
 cleanall: clean
 	@$(RM) -rf .stack-work/
-
-.PHONY: ghci
-ghci:
-	@stack ghci --ghci-options -Wno-type-defaults

@@ -1,7 +1,7 @@
 name:               wordpuzzle
-version:            0.3.0
+version:            0.4.0
 synopsis:           9 letter word puzzle solver
-description:        Solve a common 9 letter word puzzle. Will list all words matching the 9 letter criteria.
+description:        Solve a common 9 letter word puzzle. This will list all words matching the 9 letters and must include a mandatory character. Plurals are optional.
 homepage:           https://github.com/frankhjung/haskell-wordpuzzle/blob/master/README.md
 license:            BSD3
 license-file:       LICENSE
@@ -22,7 +22,7 @@ library
   hs-source-dirs:   src
   exposed-modules:  WordPuzzle
   ghc-options:      -Wall
-  build-depends:    base >= 4.7
+  build-depends:    base >= 4.7 && <= 5.0
 
 executable wordpuzzle
   default-language: Haskell2010
@@ -30,16 +30,16 @@ executable wordpuzzle
   main-is:          Main.hs
   ghc-options:      -Wall
                     -threaded
-  build-depends:    base
-                  , optparse-applicative >= 0.13.2.0
+  build-depends:    base >= 4.7 && <= 5.0
+                  , optparse-applicative >= 0.14.2 && < 0.15
                   , wordpuzzle
 
 test-suite test
   default-language: Haskell2010
-  type:             exitcode-stdio-1.0
   hs-source-dirs:   test
   main-is:          Spec.hs
-  build-depends:    base
+  type:             exitcode-stdio-1.0
+  build-depends:    base >= 4.7 && <= 5.0
                   , hspec
                   , wordpuzzle
   ghc-options:      -Wall
@@ -47,10 +47,10 @@ test-suite test
 
 benchmark benchmark
   default-language: Haskell2010
-  type:             exitcode-stdio-1.0
   hs-source-dirs:   bench
   main-is:          Main.hs
-  build-depends:    base >= 4.7
-                  , criterion >= 1.1.4.0
+  type:             exitcode-stdio-1.0
+  build-depends:    base >= 4.7 && <= 5.0
+                  , criterion >= 1.3.0 && < 1.4
                   , wordpuzzle
 

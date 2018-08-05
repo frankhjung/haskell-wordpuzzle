@@ -10,14 +10,14 @@
   Supporting functions for solving letter word puzzles.
 -}
 
-module WordPuzzle ( delete
+module WordPuzzle (
+                  -- * Supporting Functions
+                    delete
                   , isValid
                   , isPlural
                   , filterWords
                   , filterWords'
                   ) where
-
--- * Helper Functions
 
 -- | Delete first occurrence of the character in a list.
 --
@@ -29,6 +29,7 @@ delete x (y:ys) = if x == y
                     else y : delete x ys
 
 -- | Check if a word contains only characters from a list.
+-- See also Data.List intersection function, '\\'
 isValid :: String -> String -> Bool
 isValid _  []     = True
 isValid [] _      = False
