@@ -8,13 +8,10 @@ filterWords' = filterWords 4 'c'
 main :: IO ()
 main = defaultMain
   [
-    bgroup "isValid"
+    bgroup "WordPuzzle"
     [
-      bench "foobar" $ nf isValid "foobar"
-    ],
-    bgroup "filterWords"
-    [
-      bench "filterWords" $ nf filterWords' "adevcrsoi"
+      bench "isValid" $ nf isValid "foobar"
+    , bench "filterWords" $ nf filterWords' "adevcrsoi"
     ]
   ]
 

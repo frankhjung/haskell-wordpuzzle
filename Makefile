@@ -35,7 +35,7 @@ docs:	build
 	@stack haddock
 
 install: build
-	@stack install --local-bin-path $(HOME)/bin $(TARGET)
+	@stack install --local-bin-path $(HOME)/bin
 
 .PHONY: dictionary
 dictionary:
