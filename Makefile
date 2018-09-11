@@ -6,8 +6,14 @@ SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
 ARGS	?= -s 4 -m c -l adevcrsoi
 
+
+.PHONY: default
+default:	check build test
+
+.PHONY: all
 all:	check build test bench doc
 
+.PHONY: check
 check:	lint style tags
 
 style:	$(SRCS)

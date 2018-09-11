@@ -1,3 +1,5 @@
+module Main(main) where
+
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
 import           WordPuzzle (delete, filterWords, isPlural, isValid)
 
