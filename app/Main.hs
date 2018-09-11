@@ -65,7 +65,7 @@ opts = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
-        <> footer "Version: 0.3.0" )
+        <> footer "Version: 0.4.1" )
 
 -- print to screen all words matching criteria
 showWords :: Opts -> IO ()

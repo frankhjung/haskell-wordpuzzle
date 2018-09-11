@@ -6,7 +6,6 @@ SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
 ARGS	?= -s 4 -m c -l adevcrsoi
 
-
 .PHONY: default
 default:	check build test
 
@@ -28,19 +27,19 @@ tags:	$(SRCS)
 build:	$(SRCS)
 	@stack build
 
-test:	build
+test:
 	@stack test
 
-bench:	build
+bench:
 	@stack bench
 
-exec:	build
-	@stack exec -- $(TARGET) $(ARGS)
+exec:
+	stack exec -- $(TARGET) $(ARGS)
 
-docs:	build
+docs:
 	@stack haddock
 
-install: build
+install:
 	@stack install --local-bin-path $(HOME)/bin
 
 .PHONY: dictionary
