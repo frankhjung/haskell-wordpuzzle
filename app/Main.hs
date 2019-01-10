@@ -74,7 +74,7 @@ showWords (Opts size mandatory letters dictionary plurals) = do
                      then filterWords' size mandatory letters
                      else filterWords size mandatory letters
   dictionaryWords <- readFile dictionary
-  mapM_ putStrLn $ filter checkWords (lines dictionaryWords)
+  mapM_ putStrLn $ filter checkWords $ lines dictionaryWords
   exitSuccess
 
 --

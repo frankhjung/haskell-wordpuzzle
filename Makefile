@@ -13,7 +13,10 @@ default:	check build test
 all:	check build test bench doc
 
 .PHONY: check
-check:	lint style tags
+check:	tags style lint
+
+tags:	$(SRCS)
+	@hasktags --ctags --extendedctag $(SRCS)
 
 style:	$(SRCS)
 	@stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
@@ -21,24 +24,26 @@ style:	$(SRCS)
 lint:	$(SRCS)
 	@hlint --color $(SRCS)
 
-tags:	$(SRCS)
-	@hasktags --ctags --extendedctag $(SRCS)
-
 build:	$(SRCS)
 	@stack build
 
+.PHONY: test
 test:
-	@stack test
+	@stack test --coverage
 
+.PHONY: bench
 bench:
 	@stack bench
 
+.PHONY: exec
 exec:
-	stack exec -- $(TARGET) $(ARGS)
+	stack exec -- $(TARGET) $(ARGS) +RTS -s
 
-docs:
+.PHONY: doc
+doc:
 	@stack haddock
 
+.PHONY: install
 install:
 	@stack install --local-bin-path $(HOME)/bin
 
@@ -52,12 +57,20 @@ else
 	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
 endif
 
+.PHONY: setup
+setup:
+	-stack setup
+	-stack build --dependencies-only --test --no-run-tests
+	-stack query
+	-stack ls dependencies
+
 .PHONY: ghci
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
 
 .PHONY: clean
 clean:
+	@cabal clean
 	@stack clean
 
 .PHONY: cleanall
