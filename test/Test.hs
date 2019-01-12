@@ -1,7 +1,8 @@
 module Main(main) where
 
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
-import           WordPuzzle (delete, filterWords, isPlural, isValid)
+import           WordPuzzle (delete, filterWords, filterWords', isPlural,
+                             isValid)
 
 main :: IO ()
 main = hspec $ do
@@ -20,19 +21,42 @@ main = hspec $ do
   describe "filterWords" $ do
     context "when word is too short" $
       it "returns false" $
-        filterWords 3 'h' "hello" "he" `shouldBe` False
+        filterWords 3 'h' "hellos" "he"    `shouldBe` False
     context "when word does not contain mandatory character" $
       it "returns false" $
-        filterWords 3 'h' "hello" "fello" `shouldBe` False
+        filterWords 3 'h' "hellos" "fello" `shouldBe` False
     context "when word does not contain a valid character" $
       it "returns false" $
-        filterWords 3 'h' "hello" "hallo" `shouldBe` False
+        filterWords 3 'h' "hellos" "hallo" `shouldBe` False
     context "when word contains characters exceeding expected frequency" $
       it "returns false" $
-        filterWords 3 'h' "hello" "hollo" `shouldBe` False
+        filterWords 3 'h' "hellos" "hollo" `shouldBe` False
     context "when word is valid" $
       it "returns true" $
-        filterWords 4 'h' "hello" "hello" `shouldBe` True
+        filterWords 4 'h' "hellos" "hello" `shouldBe` True
+    context "when word is plural" $
+      it "returns false" $
+        filterWords 4 'h' "hellos" "hells" `shouldBe` False
+
+  describe "filterWords'" $ do
+    context "when word is too short" $
+      it "returns false" $
+        filterWords' 3 'h' "hellos" "he"    `shouldBe` False
+    context "when word does not contain mandatory character" $
+      it "returns false" $
+        filterWords' 3 'h' "hellos" "fello" `shouldBe` False
+    context "when word does not contain a valid character" $
+      it "returns false" $
+        filterWords' 3 'h' "hellos" "hallo" `shouldBe` False
+    context "when word contains characters exceeding expected frequency" $
+      it "returns false" $
+        filterWords' 3 'h' "hellos" "hollo" `shouldBe` False
+    context "when word is valid" $
+      it "returns true" $
+        filterWords' 4 'h' "hellos" "hello" `shouldBe` True
+    context "when word is plural" $
+      it "returns false" $
+        filterWords' 4 'h' "hellos" "hells" `shouldBe` True
 
   describe "isValid" $ do
     context "when word containing characters" $
@@ -58,4 +82,3 @@ main = hspec $ do
     context "when word ends in 's'" $
       it "returns true" $
         isPlural "foobars" `shouldBe` True
-

@@ -12,7 +12,8 @@
 
 module WordPuzzle (
                   -- * Supporting Functions
-                    delete
+                    checkWords
+                  , delete
                   , isValid
                   , isPlural
                   , filterWords
@@ -49,7 +50,15 @@ isPlural a
   | last ( init a ) == 's' = False  -- word does not end in "ss"
   | otherwise              = True
 
+
 -- * Filter Words Matching Criteria
+
+-- | Choose strategy to filter words.
+--
+checkWords :: Bool -> Int -> Char -> String -> (String -> Bool)
+checkWords plurals size mandatory letters
+    | plurals   = filterWords' size mandatory letters
+    | otherwise = filterWords size mandatory letters
 
 -- | Only include words that match these rules: (excludes plurals)
 --

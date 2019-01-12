@@ -1,6 +1,6 @@
 module Main(main) where
 
-import           WordPuzzle          (filterWords, filterWords')
+import           WordPuzzle          (checkWords)
 
 import           Data.Char           (isAlpha)
 import           Data.Semigroup      ((<>))
@@ -70,11 +70,8 @@ opts = info (options <**> helper)
 -- print to screen all words matching criteria
 showWords :: Opts -> IO ()
 showWords (Opts size mandatory letters dictionary plurals) = do
-  let checkWords = if plurals
-                     then filterWords' size mandatory letters
-                     else filterWords size mandatory letters
   dictionaryWords <- readFile dictionary
-  mapM_ putStrLn $ filter checkWords $ lines dictionaryWords
+  mapM_ putStrLn $ filter (checkWords plurals size mandatory letters) $ lines dictionaryWords
   exitSuccess
 
 --
