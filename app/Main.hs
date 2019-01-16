@@ -1,16 +1,20 @@
 module Main(main) where
 
-import           WordPuzzle          (checkWords)
+import           WordPuzzle            (isPlural, isValid)
 
-import           Data.Char           (isAlpha)
-import           Data.Semigroup      ((<>))
-import           Options.Applicative (Parser, ParserInfo, ReadM, auto,
-                                      execParser, footer, fullDesc, header,
-                                      help, helper, info, long, maybeReader,
-                                      metavar, option, progDesc, short,
-                                      showDefault, strOption, switch, value,
-                                      (<**>))
-import           System.Exit         (exitSuccess)
+import qualified Data.ByteString.Char8 as Char8 (elem, length, unpack)
+import           Data.Char             (isAlpha)
+import           Data.Semigroup        ((<>))
+import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
+                                        execParser, footer, fullDesc, header,
+                                        help, helper, info, long, maybeReader,
+                                        metavar, option, progDesc, short,
+                                        showDefault, strOption, switch, value,
+                                        (<**>))
+import           System.IO             (IOMode (ReadMode), withFile)
+import qualified System.IO.Streams     as Streams (connect, filter,
+                                                   handleToInputStream, lines,
+                                                   stdout, unlines)
 
 -- command line options
 data Opts = Opts
@@ -55,7 +59,7 @@ options = Opts
 
 -- custom reader of char rather than string
 alpha :: ReadM Char
-alpha = maybeReader $ \c -> if length c == 1 && isAlpha (head c)
+alpha = maybeReader $ \c -> if Prelude.length c == 1 && isAlpha (head c)
                               then return $ head c
                               else Nothing
 
@@ -65,17 +69,29 @@ opts = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
-        <> footer "Version: 0.4.1" )
+        <> footer "Version: 0.4.3" )
 
--- print to screen all words matching criteria
-showWords :: Opts -> IO ()
-showWords (Opts size mandatory letters dictionary plurals) = do
-  dictionaryWords <- readFile dictionary
-  mapM_ putStrLn $ filter (checkWords plurals size mandatory letters) $ lines dictionaryWords
-  exitSuccess
+-- Print words to stdout where:
+--
+-- 1. must be greater than the minimum word length
+-- 2. must contain mandatory character
+-- 3. must contain only valid characters
+-- 4. must not exceed valid character frequency
+-- 5. (optional) exclude plurals
+showValidWords :: Opts -> IO ()
+showValidWords (Opts size mandatory letters dictionary plurals) =
+  withFile dictionary ReadMode $ \handle -> do
+    inWords <- Streams.handleToInputStream handle >>=
+                Streams.lines >>=
+                Streams.filter (\w -> size <= Char8.length w) >>=
+                Streams.filter (Char8.elem mandatory) >>=
+                Streams.filter (isValid letters . Char8.unpack) >>=
+                Streams.filter (\w -> plurals || isPlural (Char8.unpack w))
+    outWords <- Streams.unlines Streams.stdout
+    Streams.connect inWords outWords
 
 --
 -- MAIN
 --
 main :: IO ()
-main = execParser opts >>= showWords
+main = execParser opts >>= showValidWords

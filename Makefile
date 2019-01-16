@@ -33,7 +33,7 @@ test:
 
 .PHONY: bench
 bench:
-	@stack bench
+	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
 .PHONY: exec
 exec:
@@ -70,7 +70,6 @@ ghci:
 
 .PHONY: clean
 clean:
-	@cabal clean
 	@stack clean
 
 .PHONY: cleanall
