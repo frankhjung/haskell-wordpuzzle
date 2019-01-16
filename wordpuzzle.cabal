@@ -1,5 +1,5 @@
 name:               wordpuzzle
-version:            0.5.0
+version:            0.5.1
 synopsis:           9 letter word puzzle solver
 description:        Solve a common 9 letter word puzzle. This will list all words matching the 9 letters and must include a mandatory character. Plurals are optional.
 homepage:           https://github.com/frankhjung/haskell-wordpuzzle/blob/master/README.md
@@ -7,7 +7,7 @@ license:            BSD3
 license-file:       LICENSE
 author:             Frank H Jung
 maintainer:         frankhjung@linux.com
-copyright:          Copyright © 2017 Frank H Jung
+copyright:          Copyright © 2017-2019 Frank H Jung
 category:           education
 build-type:         Simple
 extra-source-files: README.md

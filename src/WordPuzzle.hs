@@ -1,7 +1,7 @@
 {-|
   Module      : wordpuzzle
   Description : Word Puzzle supporting functions.
-  Copyright   : © Frank Jung, 2018
+  Copyright   : © Frank Jung, 2017-2019
   License     : GPL-3
   Maintainer  : frankhjung@linux.com
   Stability   : stable

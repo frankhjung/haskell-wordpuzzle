@@ -59,9 +59,10 @@ options = Opts
 
 -- custom reader of char rather than string
 alpha :: ReadM Char
-alpha = maybeReader $ \c -> if Prelude.length c == 1 && isAlpha (head c)
-                              then return $ head c
-                              else Nothing
+alpha = maybeReader $ \c ->
+  if Prelude.length c == 1 && isAlpha (head c)
+    then return $ head c
+    else Nothing
 
 -- parse information
 opts :: ParserInfo Opts
@@ -69,7 +70,7 @@ opts = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
-        <> footer "Version: 0.4.3" )
+        <> footer "Version: 0.5.1" )
 
 -- Print words to stdout where:
 --
