@@ -37,7 +37,6 @@ Get command line help:
 
 ```bash
 $ wordpuzzle --help
-
 https://github.com/frankhjung/haskell-wordpuzzle
 
 Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
@@ -52,7 +51,7 @@ Available options:
   -p,--plurals             Include plural words
   -h,--help                Show this help text
 
-Version: 0.5.1
+Version: 0.5.2
 ```
 
 Or call without command line arguments:
@@ -88,9 +87,9 @@ wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 Using [HSpec](https://hspec.github.io/):
 
 ```text
-wordpuzzle-0.5.1: test (suite: test)
+wordpuzzle-0.5.2: test (suite: test)
 
-Progress 1/2: wordpuzzle-0.5.1
+Progress 1/2: wordpuzzle-0.5.2
 remove
   when character is in list
     returns list less that character
@@ -115,10 +114,10 @@ isPlural
   when word ends in 's'
     returns true
 
-Finished in 0.0008 seconds
+Finished in 0.0011 seconds
 10 examples, 0 failures
 
-wordpuzzle-0.5.1: Test suite test passed
+wordpuzzle-0.5.2: Test suite test passed
 ```
 
 
@@ -129,32 +128,32 @@ wordpuzzle-0.5.1: Test suite test passed
 Running Criterion benchmarks:
 
 ```text
-wordpuzzle-0.5.1: benchmarks
+wordpuzzle-0.5.2: benchmarks
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/isPlural
-time                 40.51 ns   (40.36 ns .. 40.67 ns)
+time                 40.48 ns   (40.32 ns .. 40.75 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 40.46 ns   (40.31 ns .. 40.82 ns)
-std dev              697.6 ps   (423.4 ps .. 1.386 ns)
-variance introduced by outliers: 23% (moderately inflated)
+mean                 40.39 ns   (40.26 ns .. 40.71 ns)
+std dev              589.9 ps   (302.3 ps .. 1.147 ns)
+variance introduced by outliers: 18% (moderately inflated)
 
 benchmarking WordPuzzle/isValid
-time                 10.84 ns   (10.80 ns .. 10.90 ns)
+time                 10.83 ns   (10.79 ns .. 10.88 ns)
                      1.000 R²   (0.999 R² .. 1.000 R²)
-mean                 10.84 ns   (10.78 ns .. 11.02 ns)
-std dev              314.4 ps   (113.6 ps .. 630.1 ps)
-variance introduced by outliers: 48% (moderately inflated)
+mean                 10.81 ns   (10.78 ns .. 10.87 ns)
+std dev              144.7 ps   (113.4 ps .. 204.0 ps)
+variance introduced by outliers: 16% (moderately inflated)
 
 benchmarking WordPuzzle/remove
-time                 10.88 ns   (10.85 ns .. 10.91 ns)
-                     1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 10.85 ns   (10.82 ns .. 10.90 ns)
-std dev              129.4 ps   (90.80 ps .. 183.9 ps)
-variance introduced by outliers: 13% (moderately inflated)
+time                 11.59 ns   (11.06 ns .. 12.36 ns)
+                     0.985 R²   (0.975 R² .. 0.999 R²)
+mean                 11.29 ns   (11.03 ns .. 11.85 ns)
+std dev              1.170 ns   (640.2 ps .. 1.854 ns)
+variance introduced by outliers: 93% (severely inflated)
 
 Benchmark benchmark: FINISH
-Completed 22 action(s).
+Completed 2 action(s).
 ```
 
 ### Execution Summary
@@ -163,30 +162,29 @@ Using the dictionary sited above, the run time performance for the example:
 
 ```text
 $ wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary +RTS -s 1>/dev/null
-
-     260,425,528 bytes allocated in the heap
-         232,680 bytes copied during GC
-         120,096 bytes maximum residency (5 sample(s))
-          28,304 bytes maximum slop
+     260,426,480 bytes allocated in the heap
+         232,128 bytes copied during GC
+         120,128 bytes maximum residency (5 sample(s))
+          28,088 bytes maximum slop
                3 MB total memory in use (0 MB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0       241 colls,     0 par    0.002s   0.002s     0.0000s    0.0001s
-  Gen  1         5 colls,     0 par    0.000s   0.000s     0.0000s    0.0001s
+  Gen  0       241 colls,     0 par    0.002s   0.002s     0.0000s    0.0003s
+  Gen  1         5 colls,     0 par    0.000s   0.000s     0.0000s    0.0002s
 
   TASKS: 4 (1 bound, 3 peak workers (3 total), using -N1)
 
   SPARKS: 0 (0 converted, 0 overflowed, 0 dud, 0 GC'd, 0 fizzled)
 
   INIT    time    0.001s  (  0.001s elapsed)
-  MUT     time    0.166s  (  0.166s elapsed)
+  MUT     time    0.172s  (  0.171s elapsed)
   GC      time    0.002s  (  0.002s elapsed)
-  EXIT    time    0.001s  (  0.002s elapsed)
-  Total   time    0.169s  (  0.170s elapsed)
+  EXIT    time    0.001s  (  0.006s elapsed)
+  Total   time    0.176s  (  0.181s elapsed)
 
-  Alloc rate    1,570,307,266 bytes per MUT second
+  Alloc rate    1,517,316,875 bytes per MUT second
 
-  Productivity  98.2% of total user, 98.3% of total elapsed
+  Productivity  98.0% of total user, 98.2% of total elapsed
 
 gc_alloc_block_sync: 0
 whitehole_spin: 0

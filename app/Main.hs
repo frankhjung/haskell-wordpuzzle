@@ -1,3 +1,5 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Main(main) where
 
 import           WordPuzzle            (isPlural, isValid)
@@ -11,6 +13,7 @@ import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
                                         metavar, option, progDesc, short,
                                         showDefault, strOption, switch, value,
                                         (<**>))
+import           System.Exit           (exitSuccess)
 import           System.IO             (IOMode (ReadMode), withFile)
 import qualified System.IO.Streams     as Streams (connect, filter,
                                                    handleToInputStream, lines,
@@ -18,11 +21,11 @@ import qualified System.IO.Streams     as Streams (connect, filter,
 
 -- command line options
 data Opts = Opts
-              { _size       :: Int
-              , _mandatory  :: Char
-              , _letters    :: String
-              , _dictionary :: FilePath
-              , _plurals    :: Bool
+              { size       :: Int
+              , mandatory  :: Char
+              , letters    :: String
+              , dictionary :: FilePath
+              , plurals    :: Bool
               }
 
 -- structure for parser
@@ -64,14 +67,17 @@ alpha = maybeReader $ \c ->
     then return $ head c
     else Nothing
 
--- parse information
-opts :: ParserInfo Opts
-opts = info (options <**> helper)
+-- parse arguments
+optsParser :: ParserInfo Opts
+optsParser = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
-        <> footer "Version: 0.5.1" )
+        <> footer "Version: 0.5.2" )
 
+--
+-- MAIN
+--
 -- Print words to stdout where:
 --
 -- 1. must be greater than the minimum word length
@@ -79,20 +85,17 @@ opts = info (options <**> helper)
 -- 3. must contain only valid characters
 -- 4. must not exceed valid character frequency
 -- 5. (optional) exclude plurals
-showValidWords :: Opts -> IO ()
-showValidWords (Opts size mandatory letters dictionary plurals) =
-  withFile dictionary ReadMode $ \handle -> do
-    inWords <- Streams.handleToInputStream handle >>=
-                Streams.lines >>=
-                Streams.filter (\w -> size <= Char8.length w) >>=
-                Streams.filter (Char8.elem mandatory) >>=
-                Streams.filter (isValid letters . Char8.unpack) >>=
-                Streams.filter (\w -> plurals || isPlural (Char8.unpack w))
-    outWords <- Streams.unlines Streams.stdout
-    Streams.connect inWords outWords
-
---
--- MAIN
 --
 main :: IO ()
-main = execParser opts >>= showValidWords
+main = do
+  (opts :: Opts) <- execParser optsParser
+  withFile (dictionary opts) ReadMode $ \handle -> do
+    inWords <- Streams.handleToInputStream handle >>=
+                Streams.lines >>=
+                Streams.filter (\w -> size opts <= Char8.length w) >>=
+                Streams.filter (Char8.elem (mandatory opts)) >>=
+                Streams.filter (isValid (letters opts) . Char8.unpack) >>=
+                Streams.filter (\w -> plurals opts || not (isPlural (Char8.unpack w)))
+    outWords <- Streams.unlines Streams.stdout
+    Streams.connect inWords outWords
+  exitSuccess
