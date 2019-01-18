@@ -8,9 +8,9 @@ main = defaultMain
   [
     bgroup "WordPuzzle"
     [
-      bench "isPlural" $ nf isPlural "adevcrsoi"
-    , bench "isValid" $ nf isValid "foobar"
+      bench "isValid" $ nf isValid "foobar"
     , bench "remove" $ nf remove 'a'
+    , bench "isPlural" $ nf isPlural "adevcrsoi"
     ]
   ]
 

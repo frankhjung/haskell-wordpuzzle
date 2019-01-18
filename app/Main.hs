@@ -1,5 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
-
 module Main(main) where
 
 import           WordPuzzle            (isPlural, isValid)
@@ -21,11 +19,11 @@ import qualified System.IO.Streams     as Streams (connect, filter,
 
 -- command line options
 data Opts = Opts
-              { size       :: Int
-              , mandatory  :: Char
-              , letters    :: String
-              , dictionary :: FilePath
-              , plurals    :: Bool
+              { _size       :: Int
+              , _mandatory  :: Char
+              , _letters    :: String
+              , _dictionary :: FilePath
+              , _plurals    :: Bool
               }
 
 -- structure for parser
@@ -73,7 +71,7 @@ optsParser = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
-        <> footer "Version: 0.5.2" )
+        <> footer "Version: 0.5.3" )
 
 --
 -- MAIN
@@ -88,14 +86,14 @@ optsParser = info (options <**> helper)
 --
 main :: IO ()
 main = do
-  (opts :: Opts) <- execParser optsParser
-  withFile (dictionary opts) ReadMode $ \handle -> do
+  (Opts size mandatory letters dictionary plurals) <- execParser optsParser
+  withFile dictionary ReadMode $ \handle -> do
     inWords <- Streams.handleToInputStream handle >>=
                 Streams.lines >>=
-                Streams.filter (\w -> size opts <= Char8.length w) >>=
-                Streams.filter (Char8.elem (mandatory opts)) >>=
-                Streams.filter (isValid (letters opts) . Char8.unpack) >>=
-                Streams.filter (\w -> plurals opts || not (isPlural (Char8.unpack w)))
+                Streams.filter (\w -> size <= Char8.length w) >>=
+                Streams.filter (Char8.elem mandatory) >>=
+                Streams.filter (isValid letters . Char8.unpack) >>=
+                Streams.filter (\w -> plurals || not (isPlural (Char8.unpack w)))
     outWords <- Streams.unlines Streams.stdout
     Streams.connect inWords outWords
   exitSuccess

@@ -8,7 +8,7 @@
 --   the 9 letters and must include a mandatory character. Plurals are
 --   optional.
 @package wordpuzzle
-@version 0.5.2
+@version 0.5.3
 
 
 -- | Supporting functions for solving letter word puzzles.
