@@ -5,12 +5,14 @@ import           WordPuzzle            (isPlural, isValid)
 import qualified Data.ByteString.Char8 as Char8 (elem, length, unpack)
 import           Data.Char             (isAlpha)
 import           Data.Semigroup        ((<>))
+import           Data.Version          (showVersion)
 import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
                                         execParser, footer, fullDesc, header,
                                         help, helper, info, long, maybeReader,
                                         metavar, option, progDesc, short,
                                         showDefault, strOption, switch, value,
                                         (<**>))
+import           Paths_wordpuzzle      (version)
 import           System.Exit           (exitSuccess)
 import           System.IO             (IOMode (ReadMode), withFile)
 import qualified System.IO.Streams     as Streams (connect, filter,
@@ -65,13 +67,17 @@ alpha = maybeReader $ \c ->
     then return $ head c
     else Nothing
 
+-- read version from cabal configuration
+packageVersion :: String
+packageVersion = "Version: " ++ showVersion version
+
 -- parse arguments
 optsParser :: ParserInfo Opts
 optsParser = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
-        <> footer "Version: 0.5.3" )
+        <> footer packageVersion )
 
 --
 -- MAIN

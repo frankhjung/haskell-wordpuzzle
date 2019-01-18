@@ -11,7 +11,6 @@
 -}
 
 module WordPuzzle (
-                  -- * Supporting Functions
                     remove
                   , isValid
                   , isPlural
