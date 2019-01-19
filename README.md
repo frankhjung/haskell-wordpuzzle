@@ -26,7 +26,6 @@ A brief outline of what this program does is:
   * word is greater than or equal to minimum character length
   * word contain mandatory character
   * word contains other characters in correct frequencies
-  * [optional] reject plurals
 
 
 ## How to run
@@ -40,7 +39,7 @@ $ wordpuzzle --help
 https://github.com/frankhjung/haskell-wordpuzzle
 
 Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
-                  [-d|--dictionary FILENAME] [-p|--plurals]
+                  [-d|--dictionary FILENAME]
   Solve word puzzles like those at nineletterword.tompaton.com
 
 Available options:
@@ -48,20 +47,19 @@ Available options:
   -m,--mandatory CHAR      Mandatory character for all words
   -l,--letters STRING      String of letters to make words
   -d,--dictionary FILENAME Alternate dictionary (default: "dictionary")
-  -p,--plurals             Include plural words
   -h,--help                Show this help text
 
-Version: 0.5.4
+Version: 0.6.0
 ```
 
 Or call without command line arguments:
 
 ```bash
-wordpuzzle
+$ wordpuzzle
 Missing: (-m|--mandatory CHAR) (-l|--letters STRING)
 
 Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
-                  [-d|--dictionary FILENAME] [-p|--plurals]
+                  [-d|--dictionary FILENAME]
   Solve word puzzles like those at nineletterword.tompaton.com
 ```
 
@@ -87,9 +85,9 @@ wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 Using [HSpec](https://hspec.github.io/):
 
 ```text
-wordpuzzle-0.5.4: test (suite: test)
+wordpuzzle-0.6.0: test (suite: test)
 
-Progress 1/2: wordpuzzle-0.5.4
+Progress 1/2: wordpuzzle-0.6.0
 remove
   when character is in list
     returns list less that character
@@ -106,27 +104,20 @@ isValid
     returns false
   when word does not contain valid character frequency
     returns false
-isPlural
-  when word ends in 'ss'
-    returns false
-  when word does not end in 's'
-    returns false
-  when word ends in 's'
-    returns true
 
-Finished in 0.0015 seconds
-10 examples, 0 failures
+Finished in 0.0009 seconds
+7 examples, 0 failures
 
-wordpuzzle-0.5.4: Test suite test passed
+wordpuzzle-0.6.0: Test suite test passed
 Generating coverage report for wordpuzzle's test-suite "test"
-100% expressions used (43/43)
- 80% boolean coverage (4/5)
-      66% guards (2/3), 1 always True
+100% expressions used (30/30)
+100% boolean coverage (2/2)
+     100% guards (0/0)
      100% 'if' conditions (2/2)
      100% qualifiers (0/0)
-100% alternatives used (12/12)
+100% alternatives used (9/9)
 100% local declarations used (2/2)
-100% top-level declarations used (3/3)
+100% top-level declarations used (2/2)
 ```
 
 
@@ -137,32 +128,24 @@ Generating coverage report for wordpuzzle's test-suite "test"
 Running Criterion benchmarks:
 
 ```text
-wordpuzzle-0.5.4: benchmarks
+wordpuzzle-0.6.0: benchmarks
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/isValid
-time                 10.41 ns   (10.38 ns .. 10.45 ns)
+time                 10.40 ns   (10.36 ns .. 10.46 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 10.41 ns   (10.37 ns .. 10.49 ns)
-std dev              205.4 ps   (137.0 ps .. 295.4 ps)
-variance introduced by outliers: 30% (moderately inflated)
+mean                 10.38 ns   (10.34 ns .. 10.45 ns)
+std dev              182.1 ps   (114.2 ps .. 309.7 ps)
+variance introduced by outliers: 25% (moderately inflated)
 
 benchmarking WordPuzzle/remove
-time                 10.80 ns   (10.77 ns .. 10.83 ns)
+time                 10.81 ns   (10.77 ns .. 10.86 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 10.80 ns   (10.75 ns .. 10.95 ns)
-std dev              223.0 ps   (73.40 ps .. 442.4 ps)
-variance introduced by outliers: 32% (moderately inflated)
-
-benchmarking WordPuzzle/isPlural
-time                 40.83 ns   (40.76 ns .. 40.93 ns)
-                     1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 40.77 ns   (40.67 ns .. 40.94 ns)
-std dev              441.3 ps   (281.7 ps .. 732.2 ps)
-variance introduced by outliers: 11% (moderately inflated)
+mean                 10.81 ns   (10.76 ns .. 10.89 ns)
+std dev              195.2 ps   (144.8 ps .. 313.3 ps)
+variance introduced by outliers: 27% (moderately inflated)
 
 Benchmark benchmark: FINISH
-Completed 2 action(s).
 ```
 
 ### Execution Summary
@@ -171,29 +154,29 @@ Using the dictionary sited above, the run time performance for the example:
 
 ```text
 $ wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary +RTS -s 1>/dev/null
-     260,470,560 bytes allocated in the heap
-         238,600 bytes copied during GC
-         120,160 bytes maximum residency (5 sample(s))
-          28,088 bytes maximum slop
+     309,244,536 bytes allocated in the heap
+         247,720 bytes copied during GC
+         123,920 bytes maximum residency (6 sample(s))
+          28,080 bytes maximum slop
                3 MB total memory in use (0 MB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0       241 colls,     0 par    0.002s   0.002s     0.0000s    0.0001s
-  Gen  1         5 colls,     0 par    0.000s   0.000s     0.0000s    0.0001s
+  Gen  0       288 colls,     0 par    0.003s   0.002s     0.0000s    0.0001s
+  Gen  1         6 colls,     0 par    0.000s   0.000s     0.0000s    0.0002s
 
   TASKS: 4 (1 bound, 3 peak workers (3 total), using -N1)
 
   SPARKS: 0 (0 converted, 0 overflowed, 0 dud, 0 GC'd, 0 fizzled)
 
   INIT    time    0.001s  (  0.001s elapsed)
-  MUT     time    0.173s  (  0.173s elapsed)
-  GC      time    0.002s  (  0.002s elapsed)
-  EXIT    time    0.001s  (  0.005s elapsed)
-  Total   time    0.177s  (  0.181s elapsed)
+  MUT     time    0.110s  (  0.110s elapsed)
+  GC      time    0.003s  (  0.003s elapsed)
+  EXIT    time    0.001s  (  0.006s elapsed)
+  Total   time    0.115s  (  0.121s elapsed)
 
-  Alloc rate    1,506,208,939 bytes per MUT second
+  Alloc rate    2,798,815,699 bytes per MUT second
 
-  Productivity  98.3% of total user, 98.4% of total elapsed
+  Productivity  96.5% of total user, 96.9% of total elapsed
 
 gc_alloc_block_sync: 0
 whitehole_spin: 0

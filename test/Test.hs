@@ -1,7 +1,9 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main(main) where
 
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
-import           WordPuzzle (isPlural, isValid, remove)
+import           WordPuzzle (isValid, remove)
 
 main :: IO ()
 main = hspec $ do
@@ -30,14 +32,3 @@ main = hspec $ do
     context "when word does not contain valid character frequency" $
       it "returns false" $
         isValid "foobar" "baarof" `shouldBe` False
-
-  describe "isPlural" $ do
-    context "when word ends in 'ss'" $
-      it "returns false" $
-        isPlural "foobass" `shouldBe` False
-    context "when word does not end in 's'" $
-      it "returns false" $
-        isPlural "foobar" `shouldBe` False
-    context "when word ends in 's'" $
-      it "returns true" $
-        isPlural "foobars" `shouldBe` True

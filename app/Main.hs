@@ -1,8 +1,8 @@
 module Main(main) where
 
-import           WordPuzzle            (isPlural, isValid)
+import           WordPuzzle            (isValid)
 
-import qualified Data.ByteString.Char8 as Char8 (elem, length, unpack)
+import qualified Data.ByteString.Char8 as Char8 (elem, length)
 import           Data.Char             (isAlpha)
 import           Data.Semigroup        ((<>))
 import           Data.Version          (showVersion)
@@ -10,8 +10,7 @@ import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
                                         execParser, footer, fullDesc, header,
                                         help, helper, info, long, maybeReader,
                                         metavar, option, progDesc, short,
-                                        showDefault, strOption, switch, value,
-                                        (<**>))
+                                        showDefault, strOption, value, (<**>))
 import           Paths_wordpuzzle      (version)
 import           System.Exit           (exitSuccess)
 import           System.IO             (IOMode (ReadMode), withFile)
@@ -19,16 +18,15 @@ import qualified System.IO.Streams     as Streams (connect, filter,
                                                    handleToInputStream, lines,
                                                    stdout, unlines)
 
--- command line options
+-- valid command line options
 data Opts = Opts
               { _size       :: Int
               , _mandatory  :: Char
               , _letters    :: String
               , _dictionary :: FilePath
-              , _plurals    :: Bool
               }
 
--- structure for parser
+-- applicative structure for parser options
 options :: Parser Opts
 options = Opts
   <$> option auto
@@ -55,10 +53,6 @@ options = Opts
      <> showDefault
      <> value "dictionary"
      <> metavar "FILENAME" )
-  <*> switch
-      ( long "plurals"
-     <> short 'p'
-     <> help "Include plural words" )
 
 -- custom reader of char rather than string
 alpha :: ReadM Char
@@ -88,18 +82,17 @@ optsParser = info (options <**> helper)
 -- 2. must contain mandatory character
 -- 3. must contain only valid characters
 -- 4. must not exceed valid character frequency
--- 5. (optional) exclude plurals
---
+
 main :: IO ()
 main = do
-  (Opts size mandatory letters dictionary plurals) <- execParser optsParser
+  (Opts size mandatory letters dictionary) <- execParser optsParser
   withFile dictionary ReadMode $ \handle -> do
     inWords <- Streams.handleToInputStream handle >>=
                 Streams.lines >>=
                 Streams.filter (\w -> size <= Char8.length w) >>=
                 Streams.filter (Char8.elem mandatory) >>=
-                Streams.filter (isValid letters . Char8.unpack) >>=
-                Streams.filter (\w -> plurals || not (isPlural (Char8.unpack w)))
+                Streams.filter (isValid letters)
     outWords <- Streams.unlines Streams.stdout
     Streams.connect inWords outWords
   exitSuccess
+
