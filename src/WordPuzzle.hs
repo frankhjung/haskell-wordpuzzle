@@ -16,22 +16,22 @@ module WordPuzzle ( remove
                   , isValid
                   ) where
 
-import qualified Data.ByteString.Char8 as C (ByteString, cons, elem, empty,
-                                             head, tail, uncons)
+import qualified Data.ByteString.Char8 as Char8 (ByteString, cons, elem, empty,
+                                                 head, tail, uncons)
 
 -- | Pattern for empty ByteString.
-pattern Empty :: C.ByteString
-pattern Empty <- (C.uncons -> Nothing)
+pattern Empty :: Char8.ByteString
+pattern Empty <- (Char8.uncons -> Nothing)
 
 -- | Remove first occurrence of a character from a word.
-remove :: Char -> C.ByteString -> C.ByteString
-remove _ Empty = C.empty
+remove :: Char -> Char8.ByteString -> Char8.ByteString
+remove _ Empty = Char8.empty
 remove x ys = if x == h
                 then t
-                else h `C.cons` remove x t
+                else h `Char8.cons` remove x t
               where
-                h = C.head ys
-                t = C.tail ys
+                h = Char8.head ys
+                t = Char8.tail ys
 
 -- | Check if a word contains only characters from a list.
 --
@@ -40,10 +40,10 @@ remove x ys = if x == h
 --
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
-isValid :: String -> C.ByteString -> Bool
+isValid :: String -> Char8.ByteString -> Bool
 isValid _  Empty  = True
 isValid [] _      = False
-isValid (x:xs) ys = if x `C.elem` ys
+isValid (x:xs) ys = if x `Char8.elem` ys
                       then isValid xs (x `remove` ys)
                       else isValid xs ys
 

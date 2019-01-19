@@ -7,7 +7,7 @@
 --   Solve a common 9 letter word puzzle. This will list all words matching
 --   the 9 letters and must include a mandatory character.
 @package wordpuzzle
-@version 0.6.0
+@version 0.6.1
 
 
 -- | Supporting functions for solving letter word puzzles.

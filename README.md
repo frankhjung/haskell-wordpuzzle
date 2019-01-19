@@ -49,7 +49,7 @@ Available options:
   -d,--dictionary FILENAME Alternate dictionary (default: "dictionary")
   -h,--help                Show this help text
 
-Version: 0.6.0
+Version: 0.6.1
 ```
 
 Or call without command line arguments:
@@ -85,9 +85,9 @@ wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 Using [HSpec](https://hspec.github.io/):
 
 ```text
-wordpuzzle-0.6.0: test (suite: test)
+wordpuzzle-0.6.1: test (suite: test)
 
-Progress 1/2: wordpuzzle-0.6.0
+Progress 1/2: wordpuzzle-0.6.1
 remove
   when character is in list
     returns list less that character
@@ -105,10 +105,10 @@ isValid
   when word does not contain valid character frequency
     returns false
 
-Finished in 0.0009 seconds
+Finished in 0.0010 seconds
 7 examples, 0 failures
 
-wordpuzzle-0.6.0: Test suite test passed
+wordpuzzle-0.6.1: Test suite test passed
 Generating coverage report for wordpuzzle's test-suite "test"
 100% expressions used (30/30)
 100% boolean coverage (2/2)
@@ -128,22 +128,22 @@ Generating coverage report for wordpuzzle's test-suite "test"
 Running Criterion benchmarks:
 
 ```text
-wordpuzzle-0.6.0: benchmarks
+wordpuzzle-0.6.1: benchmarks
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/isValid
-time                 10.40 ns   (10.36 ns .. 10.46 ns)
-                     1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 10.38 ns   (10.34 ns .. 10.45 ns)
-std dev              182.1 ps   (114.2 ps .. 309.7 ps)
-variance introduced by outliers: 25% (moderately inflated)
+time                 10.36 ns   (10.31 ns .. 10.42 ns)
+                     1.000 R²   (0.999 R² .. 1.000 R²)
+mean                 10.38 ns   (10.32 ns .. 10.51 ns)
+std dev              278.6 ps   (146.5 ps .. 477.4 ps)
+variance introduced by outliers: 45% (moderately inflated)
 
 benchmarking WordPuzzle/remove
-time                 10.81 ns   (10.77 ns .. 10.86 ns)
+time                 10.79 ns   (10.75 ns .. 10.83 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 10.81 ns   (10.76 ns .. 10.89 ns)
-std dev              195.2 ps   (144.8 ps .. 313.3 ps)
-variance introduced by outliers: 27% (moderately inflated)
+mean                 10.78 ns   (10.75 ns .. 10.82 ns)
+std dev              120.7 ps   (87.04 ps .. 178.6 ps)
+variance introduced by outliers: 12% (moderately inflated)
 
 Benchmark benchmark: FINISH
 ```
@@ -155,28 +155,28 @@ Using the dictionary sited above, the run time performance for the example:
 ```text
 $ wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary +RTS -s 1>/dev/null
      309,244,536 bytes allocated in the heap
-         247,720 bytes copied during GC
-         123,920 bytes maximum residency (6 sample(s))
-          28,080 bytes maximum slop
+         247,576 bytes copied during GC
+         123,928 bytes maximum residency (6 sample(s))
+          28,072 bytes maximum slop
                3 MB total memory in use (0 MB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0       288 colls,     0 par    0.003s   0.002s     0.0000s    0.0001s
-  Gen  1         6 colls,     0 par    0.000s   0.000s     0.0000s    0.0002s
+  Gen  0       288 colls,     0 par    0.002s   0.002s     0.0000s    0.0001s
+  Gen  1         6 colls,     0 par    0.000s   0.000s     0.0000s    0.0001s
 
   TASKS: 4 (1 bound, 3 peak workers (3 total), using -N1)
 
   SPARKS: 0 (0 converted, 0 overflowed, 0 dud, 0 GC'd, 0 fizzled)
 
   INIT    time    0.001s  (  0.001s elapsed)
-  MUT     time    0.110s  (  0.110s elapsed)
-  GC      time    0.003s  (  0.003s elapsed)
-  EXIT    time    0.001s  (  0.006s elapsed)
-  Total   time    0.115s  (  0.121s elapsed)
+  MUT     time    0.110s  (  0.109s elapsed)
+  GC      time    0.003s  (  0.002s elapsed)
+  EXIT    time    0.001s  (  0.008s elapsed)
+  Total   time    0.114s  (  0.121s elapsed)
 
-  Alloc rate    2,798,815,699 bytes per MUT second
+  Alloc rate    2,820,925,034 bytes per MUT second
 
-  Productivity  96.5% of total user, 96.9% of total elapsed
+  Productivity  96.6% of total user, 97.0% of total elapsed
 
 gc_alloc_block_sync: 0
 whitehole_spin: 0
