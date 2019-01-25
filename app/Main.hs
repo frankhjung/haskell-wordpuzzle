@@ -63,7 +63,7 @@ alpha = maybeReader $ \c ->
 
 -- read version from cabal configuration
 packageVersion :: String
-packageVersion = "Version: " ++ showVersion version
+packageVersion = "Version: " <> showVersion version
 
 -- parse arguments
 optsParser :: ParserInfo Opts

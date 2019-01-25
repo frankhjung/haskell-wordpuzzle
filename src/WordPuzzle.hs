@@ -44,6 +44,6 @@ isValid :: String -> Char8.ByteString -> Bool
 isValid _  Empty  = True
 isValid [] _      = False
 isValid (x:xs) ys = if x `Char8.elem` ys
-                      then isValid xs (x `remove` ys)
+                      then isValid xs (remove x ys)
                       else isValid xs ys
 
