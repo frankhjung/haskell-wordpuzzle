@@ -47,8 +47,8 @@ doc:
 install:
 	@stack install --local-bin-path $(HOME)/bin
 	-cp -pr .stack-work/benchmark.html doc/
-	-cp -pr .stack-work/install/x86_64-linux-tinfo6/lts-11.17/8.2.2/hpc doc/
-	-cp -pr .stack-work/dist/x86_64-linux-tinfo6/Cabal-2.0.1.0/doc/html doc/
+	-cp -pr $(shell find .stack-work/install -type d -name hpc) doc/
+	-cp -pr $(shell find .stack-work/dist -type d -name html) doc/
 
 .PHONY: dictionary
 dictionary:
@@ -74,6 +74,7 @@ ghci:
 .PHONY: clean
 clean:
 	@stack clean
+	@$(RM) -rf $(TARGET).tix
 
 .PHONY: cleanall
 cleanall: clean

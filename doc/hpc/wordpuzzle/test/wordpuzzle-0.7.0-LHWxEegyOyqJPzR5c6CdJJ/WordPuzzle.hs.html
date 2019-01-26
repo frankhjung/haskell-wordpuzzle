@@ -63,7 +63,7 @@ span.spaces    { background: white }
 <span class="lineno">   44 </span><span class="decl"><span class="istickedoff">isValid _  Empty  = True</span>
 <span class="lineno">   45 </span><span class="spaces"></span><span class="istickedoff">isValid [] _      = False</span>
 <span class="lineno">   46 </span><span class="spaces"></span><span class="istickedoff">isValid (x:xs) ys = if x `Char8.elem` ys</span>
-<span class="lineno">   47 </span><span class="spaces">                      </span><span class="istickedoff">then isValid xs (x `remove` ys)</span>
+<span class="lineno">   47 </span><span class="spaces">                      </span><span class="istickedoff">then isValid xs (remove x ys)</span>
 <span class="lineno">   48 </span><span class="spaces">                      </span><span class="istickedoff">else isValid xs ys</span></span>
 <span class="lineno">   49 </span>
 
