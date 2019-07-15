@@ -3,7 +3,6 @@ module Main(main) where
 import           WordPuzzle            (isValid)
 
 import qualified Data.ByteString.Char8 as Char8 (elem, length)
-import           Data.Char             (isAlpha)
 import           Data.Semigroup        ((<>))
 import           Data.Version          (showVersion)
 import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
@@ -54,12 +53,14 @@ options = Opts
      <> value "dictionary"
      <> metavar "FILENAME" )
 
+-- get first character of a string
+firstLetter :: String -> Maybe Char
+firstLetter (c:_) = Just c
+firstLetter _     = Nothing
+
 -- custom reader of char rather than string
 alpha :: ReadM Char
-alpha = maybeReader $ \c ->
-  if Prelude.length c == 1 && isAlpha (head c)
-    then return $ head c
-    else Nothing
+alpha = maybeReader firstLetter
 
 -- read version from cabal configuration
 packageVersion :: String

@@ -203,6 +203,19 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
+Project is using [LTS Haskell 12.26 (ghc-8.4.4)](https://www.stackage.org/lts-12.26)
+
+
+## Dependencies Graph
+
+To produce a package dependencies graph, run:
+
+```bash
+stack dot --external | dot -Tpng -o doc/dependencies.png
+```
+
+![Dependencies Graph](doc/dependencies.png)
+
 
 ## Documentation
 
