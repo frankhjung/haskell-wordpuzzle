@@ -22,10 +22,11 @@ all:
   stage: all
   script:
     - make clean setup
-    - make check build
+    - make check
+    - make build
     - make test
-    - make bench
     - make doc
+    - make bench
   artifacts:
     paths:
       - .stack-work/benchmark.html

@@ -15,16 +15,16 @@ all:	check build test bench doc install
 
 check:	tags style lint
 
-tags:	$(SRCS)
+tags:
 	@hasktags --ctags --extendedctag $(SRCS)
 
-style:	$(SRCS)
+style:
 	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
 
-lint:	$(SRCS)
+lint:
 	@hlint --color $(SRCS)
 
-build:	$(SRCS)
+build:
 	@stack build --pedantic --no-test --ghc-options='-O2'
 
 test:
