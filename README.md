@@ -11,6 +11,16 @@ Here we are using a subset of the British dictionary from the
 [wbritish](https://packages.debian.org/sid/text/wbritish) package.
 
 
+## Documentation
+
+See GitLab pages documentation
+[here](https://frankhjung1.gitlab.io/haskell-wordpuzzle/) which includes:
+
+* [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/html/wordpuzzle/index.html)
+* [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
+* [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/hpc_index.html)
+
+
 ## Method
 
 This program is used to list all words from this popular puzzle.
@@ -217,7 +227,7 @@ stack dot --external | dot -Tpng -o doc/dependencies.png
 ![Dependencies Graph](doc/dependencies.png)
 
 
-## Documentation
+## References
 
 Documentation is built using [Haddock](https://www.haskell.org/haddock/).
 

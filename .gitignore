@@ -19,6 +19,7 @@ dist-*
 *.log
 *.o
 *.prof
+public
 .stack-work/
 *.swp
 tags

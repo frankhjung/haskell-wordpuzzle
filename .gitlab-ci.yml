@@ -1,46 +1,40 @@
-image:
-  name: haskell:8.4.4
-  entrypoint: [""]
-
-before_script:
-  - apt-get update -qq && apt-get install -y -qq hasktags hlint stylish-haskell
-
-stages:
-  - all
-
-variables:
-  RTSOPTS: "+RTS -N1"
-  STACK_ROOT: "${CI_PROJECT_DIR}/.stack"
-
 cache:
   key: wordpuzzle-cache
   paths:
+    - public
     - .stack
     - .stack-work
 
 build:
+  image:
+    name: haskell:8.4.4
+    entrypoint: [""]
   stage: build
+  variables:
+    RTSOPTS: "+RTS -N1"
+    STACK_ROOT: "${CI_PROJECT_DIR}/.stack"
   script:
-    - make clean setup
-    - make check
-    - make build
-    - make test
-    - make doc
-    - make bench
+    - stack setup
+    - stack build --pedantic --no-test --ghc-options='-O2'
+    - stack test --coverage
+    - stack haddock
+    - stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+    - rm -rf public
+    - cp -pr doc/ public/
+    - cp -p .stack-work/benchmark.html public/
+    - cp -pr $(find .stack-work/install -type d -name hpc) public/
+    - cp -pr $(find .stack-work/dist -type d -name html) public/
   artifacts:
     paths:
-      - .stack-work/benchmark.html
-      - .stack-work/dist
-      - .stack-work/install
+      - .stack-work/install/x86_64-linux/lts-12.26/8.4.4/bin/wordpuzzle
 
 pages:
+  image: maven:3.6.0-jdk-8-slim
   stage: deploy
   script:
-    - mv .stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/doc/html/ public
-    - mv .stack-work/benchmark.html public/
+    - echo Publishing pages ...
   artifacts:
     paths:
       - public
-      - .stack-work/install/x86_64-linux/lts-12.26/8.4.4/bin/wordpuzzle
   only:
     - master

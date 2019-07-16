@@ -1,0 +1,26 @@
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- script: |
+    curl -sSL https://get.haskellstack.org/ | sh
+    stack setup
+  displayName: dependencies
+
+- script: |
+    stack build --pedantic --no-test --ghc-options='-O2'
+  displayName: build
+
+- script: |
+    stack test --coverage
+  displayName: test
+
+- script: |
+    stack exec -- wordpuzzle --help
+  displayName: run
