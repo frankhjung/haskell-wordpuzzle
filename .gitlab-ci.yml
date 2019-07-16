@@ -18,8 +18,8 @@ cache:
     - .stack
     - .stack-work
 
-all:
-  stage: all
+build:
+  stage: build
   script:
     - make clean setup
     - make check
@@ -32,3 +32,15 @@ all:
       - .stack-work/benchmark.html
       - .stack-work/dist
       - .stack-work/install
+
+pages:
+  stage: deploy
+  script:
+    - mv .stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/doc/html/ public
+    - mv .stack-work/benchmark.html public/
+  artifacts:
+    paths:
+      - public
+      - .stack-work/install/x86_64-linux/lts-12.26/8.4.4/bin/wordpuzzle
+  only:
+    - master
