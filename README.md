@@ -13,17 +13,16 @@ Here we are using a subset of the British dictionary from the
 
 ## Documentation
 
-See GitLab pages documentation
-[here](https://frankhjung1.gitlab.io/haskell-wordpuzzle/) which includes:
-
-* [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/html/wordpuzzle/index.html)
-* [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
-* [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/wordpuzzle/test/hpc_index.html)
+* [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
+* [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
+  * [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/html/wordpuzzle/index.html)
+  * [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
+  * [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/wordpuzzle/test/hpc_index.html)
 
 
 ## Pipelines
 
-* [GitHub (Azure)](https://dev.azure.com/frankhjung/haskell/) [![Build Status](https://dev.azure.com/frankhjung/haskell/_apis/build/status/frankhjung.haskell-wordpuzzle?branchName=master)](https://dev.azure.com/frankhjung/haskell/_build/latest?definitionId=12&branchName=master)
+* [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
 * [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
 
 
@@ -65,7 +64,7 @@ Available options:
   -d,--dictionary FILENAME Alternate dictionary (default: "dictionary")
   -h,--help                Show this help text
 
-Version: 0.6.1
+Version: 0.7.3
 ```
 
 Or call without command line arguments:
@@ -101,9 +100,9 @@ wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 Using [HSpec](https://hspec.github.io/):
 
 ```text
-wordpuzzle-0.6.1: test (suite: test)
+wordpuzzle-0.7.3: test (suite: test)
 
-Progress 1/2: wordpuzzle-0.6.1
+Progress 1/2: wordpuzzle-0.7.3
 remove
   when character is in list
     returns list less that character
@@ -121,19 +120,10 @@ isValid
   when word does not contain valid character frequency
     returns false
 
-Finished in 0.0010 seconds
+Finished in 0.0008 seconds
 7 examples, 0 failures
 
-wordpuzzle-0.6.1: Test suite test passed
-Generating coverage report for wordpuzzle's test-suite "test"
-100% expressions used (30/30)
-100% boolean coverage (2/2)
-     100% guards (0/0)
-     100% 'if' conditions (2/2)
-     100% qualifiers (0/0)
-100% alternatives used (9/9)
-100% local declarations used (2/2)
-100% top-level declarations used (2/2)
+wordpuzzle-0.7.3: Test suite test passed
 ```
 
 
@@ -144,22 +134,22 @@ Generating coverage report for wordpuzzle's test-suite "test"
 Running Criterion benchmarks:
 
 ```text
-wordpuzzle-0.6.1: benchmarks
+wordpuzzle-0.7.3: benchmarks
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/isValid
-time                 10.36 ns   (10.31 ns .. 10.42 ns)
-                     1.000 R²   (0.999 R² .. 1.000 R²)
-mean                 10.38 ns   (10.32 ns .. 10.51 ns)
-std dev              278.6 ps   (146.5 ps .. 477.4 ps)
-variance introduced by outliers: 45% (moderately inflated)
+time                 17.31 ns   (16.96 ns .. 17.72 ns)
+                     0.998 R²   (0.996 R² .. 1.000 R²)
+mean                 17.11 ns   (16.99 ns .. 17.35 ns)
+std dev              533.9 ps   (360.2 ps .. 862.8 ps)
+variance introduced by outliers: 51% (severely inflated)
 
 benchmarking WordPuzzle/remove
-time                 10.79 ns   (10.75 ns .. 10.83 ns)
-                     1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 10.78 ns   (10.75 ns .. 10.82 ns)
-std dev              120.7 ps   (87.04 ps .. 178.6 ps)
-variance introduced by outliers: 12% (moderately inflated)
+time                 18.28 ns   (17.75 ns .. 18.96 ns)
+                     0.992 R²   (0.989 R² .. 0.997 R²)
+mean                 17.94 ns   (17.57 ns .. 18.47 ns)
+std dev              1.533 ns   (1.110 ns .. 2.259 ns)
+variance introduced by outliers: 89% (severely inflated)
 
 Benchmark benchmark: FINISH
 ```

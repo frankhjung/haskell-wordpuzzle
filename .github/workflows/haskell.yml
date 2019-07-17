@@ -1,0 +1,55 @@
+name: haskell wordpuzzle
+
+on:
+  push:
+    branches:
+      - master
+  check_run:
+    types: [rerequested, requested_action]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: checkout
+      uses: actions/checkout@v1.0.0
+      with:
+        ref: refs/heads/master
+        fetch-depth: 1
+
+    - name: stack
+      run: stack setup
+
+    - name: build
+      run: stack build
+
+    - name: test
+      run: stack test
+
+    - name: documentation
+      run: |
+        stack test --coverage
+        stack haddock --fast
+
+    - name: bench
+      run: stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+
+    - name: copy
+      run: |
+        mkdir -p public
+        cp -pr doc/ public/
+        cp -p .stack-work/benchmark.html public/
+        cp -pr .stack-work/install/x86_64-linux/*/*/hpc/* public/
+        cp -pr .stack-work/dist/x86_64-linux/Cabal-*/doc/html/wordpuzzle/* public/
+
+    - name: publish
+      uses: crazy-max/ghaction-github-pages@v0.4.0
+      if: success()
+      with:
+        build_dir: public
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}

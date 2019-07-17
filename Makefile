@@ -11,7 +11,7 @@ ARGS	?= -s 4 -m c -l adevcrsoi
 .PHONY: default
 default:	check build test
 
-all:	check build test doc bench install
+all:	check build test doc bench
 
 check:	tags style lint
 
@@ -25,10 +25,10 @@ lint:
 	@hlint --color $(SRCS)
 
 build:
-	@stack build --pedantic --no-test --ghc-options='-O2'
+	@stack build --pedantic --no-test
 
 test:
-	@stack test --coverage
+	@stack test
 
 exec:
 	@stack exec -- $(TARGET) $(ARGS) +RTS -s
@@ -37,6 +37,7 @@ bench:
 	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
 doc:
+	@stack test --coverage
 	@stack haddock
 
 install:

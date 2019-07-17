@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE ViewPatterns    #-}
 {-|
-  Module      : wordpuzzle
+  Module      : WordPuzzle
   Description : Word Puzzle supporting functions.
   Copyright   : © Frank Jung, 2017-2019
   License     : GPL-3
@@ -24,7 +24,9 @@ pattern Empty :: Char8.ByteString
 pattern Empty <- (Char8.uncons -> Nothing)
 
 -- | Remove first occurrence of a character from a word.
-remove :: Char -> Char8.ByteString -> Char8.ByteString
+remove :: Char              -- ^ character to remove
+       -> Char8.ByteString  -- ^ string to remove character from
+       -> Char8.ByteString  -- ^ result string with one instance of character removed
 remove _ Empty = Char8.empty
 remove x ys = if x == h
                 then t
@@ -40,7 +42,9 @@ remove x ys = if x == h
 --
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
-isValid :: String -> Char8.ByteString -> Bool
+isValid :: String           -- ^ valid letters
+        -> Char8.ByteString -- ^ dictionary word to check
+        -> Bool             -- ^ true if dictionary word matches letters
 isValid _  Empty  = True
 isValid [] _      = False
 isValid (x:xs) ys = if x `Char8.elem` ys
