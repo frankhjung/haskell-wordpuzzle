@@ -11,7 +11,7 @@ ARGS	?= -s 4 -m c -l adevcrsoi
 .PHONY: default
 default:	check build test
 
-all:	check build test doc install bench
+all:	check build test doc bench install
 
 check:	tags style lint
 

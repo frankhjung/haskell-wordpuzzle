@@ -21,6 +21,12 @@ See GitLab pages documentation
 * [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/wordpuzzle/test/hpc_index.html)
 
 
+## Pipelines
+
+* [GitHub (Azure)](https://dev.azure.com/frankhjung/haskell/) [![Build Status](https://dev.azure.com/frankhjung/haskell/_apis/build/status/frankhjung.haskell-wordpuzzle?branchName=master)](https://dev.azure.com/frankhjung/haskell/_build/latest?definitionId=12&branchName=master)
+* [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
+
+
 ## Method
 
 This program is used to list all words from this popular puzzle.
