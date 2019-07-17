@@ -18,7 +18,7 @@ See GitLab pages documentation
 
 * [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/html/wordpuzzle/index.html)
 * [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
-* [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/hpc_index.html)
+* [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/wordpuzzle/test/hpc_index.html)
 
 
 ## Method
