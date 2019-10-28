@@ -17,7 +17,7 @@ module WordPuzzle ( remove
                   ) where
 
 import qualified Data.ByteString.Char8 as Char8 (ByteString, cons, elem, empty,
-                                                 head, tail, uncons)
+                                                 uncons)
 
 -- | Pattern for empty ByteString.
 pattern Empty :: Char8.ByteString
@@ -29,11 +29,10 @@ remove :: Char              -- ^ character to remove
        -> Char8.ByteString  -- ^ result string with one instance of character removed
 remove _ Empty = Char8.empty
 remove x ys = if x == h
-                then t
-                else h `Char8.cons` remove x t
+                then ts
+                else h `Char8.cons` remove x ts
               where
-                h = Char8.head ys
-                t = Char8.tail ys
+                Just (h, ts) = Char8.uncons ys
 
 -- | Check if a word contains only characters from a list.
 --
