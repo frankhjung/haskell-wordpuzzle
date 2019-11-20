@@ -135,22 +135,22 @@ Completed 2 action(s).
 Running Criterion benchmarks:
 
 ```text
-wordpuzzle-0.7.3: benchmarks
+wordpuzzle-0.7.4: benchmarks
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/isValid
-time                 17.31 ns   (16.96 ns .. 17.72 ns)
-                     0.998 R²   (0.996 R² .. 1.000 R²)
-mean                 17.11 ns   (16.99 ns .. 17.35 ns)
-std dev              533.9 ps   (360.2 ps .. 862.8 ps)
-variance introduced by outliers: 51% (severely inflated)
+time                 16.44 ns   (16.29 ns .. 16.69 ns)
+                     0.999 R²   (0.998 R² .. 1.000 R²)
+mean                 16.45 ns   (16.34 ns .. 16.62 ns)
+std dev              451.0 ps   (296.9 ps .. 741.2 ps)
+variance introduced by outliers: 45% (moderately inflated)
 
 benchmarking WordPuzzle/remove
-time                 18.28 ns   (17.75 ns .. 18.96 ns)
-                     0.992 R²   (0.989 R² .. 0.997 R²)
-mean                 17.94 ns   (17.57 ns .. 18.47 ns)
-std dev              1.533 ns   (1.110 ns .. 2.259 ns)
-variance introduced by outliers: 89% (severely inflated)
+time                 16.38 ns   (16.31 ns .. 16.49 ns)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 16.43 ns   (16.34 ns .. 16.53 ns)
+std dev              326.4 ps   (267.6 ps .. 401.9 ps)
+variance introduced by outliers: 30% (moderately inflated)
 
 Benchmark benchmark: FINISH
 ```
@@ -161,29 +161,29 @@ Using the dictionary sited above, the run time performance for the example:
 
 ```text
 $ wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary +RTS -s 1>/dev/null
-     309,244,536 bytes allocated in the heap
-         247,576 bytes copied during GC
-         123,928 bytes maximum residency (6 sample(s))
-          28,072 bytes maximum slop
+     250,717,968 bytes allocated in the heap
+         202,096 bytes copied during GC
+         119,944 bytes maximum residency (5 sample(s))
+          27,816 bytes maximum slop
                3 MB total memory in use (0 MB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0       288 colls,     0 par    0.002s   0.002s     0.0000s    0.0001s
-  Gen  1         6 colls,     0 par    0.000s   0.000s     0.0000s    0.0001s
+  Gen  0       231 colls,     0 par    0.004s   0.004s     0.0000s    0.0007s
+  Gen  1         5 colls,     0 par    0.001s   0.001s     0.0003s    0.0004s
 
   TASKS: 4 (1 bound, 3 peak workers (3 total), using -N1)
 
   SPARKS: 0 (0 converted, 0 overflowed, 0 dud, 0 GC'd, 0 fizzled)
 
-  INIT    time    0.001s  (  0.001s elapsed)
-  MUT     time    0.110s  (  0.109s elapsed)
-  GC      time    0.003s  (  0.002s elapsed)
-  EXIT    time    0.001s  (  0.008s elapsed)
-  Total   time    0.114s  (  0.121s elapsed)
+  INIT    time    0.001s  (  0.007s elapsed)
+  MUT     time    0.122s  (  0.134s elapsed)
+  GC      time    0.005s  (  0.005s elapsed)
+  EXIT    time    0.001s  (  0.004s elapsed)
+  Total   time    0.129s  (  0.150s elapsed)
 
-  Alloc rate    2,820,925,034 bytes per MUT second
+  Alloc rate    2,053,382,211 bytes per MUT second
 
-  Productivity  96.6% of total user, 97.0% of total elapsed
+  Productivity  95.5% of total user, 91.8% of total elapsed
 
 gc_alloc_block_sync: 0
 whitehole_spin: 0
