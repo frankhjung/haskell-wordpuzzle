@@ -80,9 +80,10 @@ optsParser = info (options <**> helper)
 -- Print words to stdout where:
 --
 -- 1. must be greater than the minimum word length
--- 2. must contain mandatory character
--- 3. must contain only valid characters
--- 4. must not exceed valid character frequency
+-- 2. must be no more than 9 characters long
+-- 3. must contain mandatory character
+-- 4. must contain only valid characters
+-- 5. must not exceed valid character frequency
 
 main :: IO ()
 main = do
@@ -91,6 +92,7 @@ main = do
     inWords <- Streams.handleToInputStream handle >>=
                 Streams.lines >>=
                 Streams.filter (\w -> size <= Char8.length w) >>=
+                Streams.filter (\w -> Char8.length w <= 9) >>=
                 Streams.filter (Char8.elem mandatory) >>=
                 Streams.filter (isValid letters)
     outWords <- Streams.unlines Streams.stdout

@@ -64,7 +64,7 @@ Available options:
   -d,--dictionary FILENAME Alternate dictionary (default: "dictionary")
   -h,--help                Show this help text
 
-Version: 0.7.3
+Version: 0.7.4
 ```
 
 Or call without command line arguments:
@@ -100,9 +100,9 @@ wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 Using [HSpec](https://hspec.github.io/):
 
 ```text
-wordpuzzle-0.7.3: test (suite: test)
-
-Progress 1/2: wordpuzzle-0.7.3
+wordpuzzle-0.7.4: test (suite: test)
+            
+Progress 1/2: wordpuzzle-0.7.4
 remove
   when character is in list
     returns list less that character
@@ -120,10 +120,11 @@ isValid
   when word does not contain valid character frequency
     returns false
 
-Finished in 0.0008 seconds
+Finished in 0.0014 seconds
 7 examples, 0 failures
-
-wordpuzzle-0.7.3: Test suite test passed
+                              
+wordpuzzle-0.7.4: Test suite test passed
+Completed 2 action(s).
 ```
 
 
