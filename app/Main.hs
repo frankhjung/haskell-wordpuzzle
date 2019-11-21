@@ -2,7 +2,7 @@ module Main(main) where
 
 import           WordPuzzle            (isValid)
 
-import qualified Data.ByteString.Char8 as Char8 (elem, length)
+import           Data.ByteString.Char8 (elem, length)
 import           Data.Semigroup        ((<>))
 import           Data.Version          (showVersion)
 import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
@@ -11,7 +11,7 @@ import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
                                         metavar, option, progDesc, short,
                                         showDefault, strOption, value, (<**>))
 import           Paths_wordpuzzle      (version)
-import           System.Exit           (exitSuccess)
+import           Prelude               hiding (elem, length)
 import           System.IO             (IOMode (ReadMode), withFile)
 import qualified System.IO.Streams     as Streams (connect, filter,
                                                    handleToInputStream, lines,
@@ -91,11 +91,10 @@ main = do
   withFile dictionary ReadMode $ \handle -> do
     inWords <- Streams.handleToInputStream handle >>=
                 Streams.lines >>=
-                Streams.filter (\w -> size <= Char8.length w) >>=
-                Streams.filter (\w -> Char8.length w <= 9) >>=
-                Streams.filter (Char8.elem mandatory) >>=
+                Streams.filter (\w -> size <= length w) >>=
+                Streams.filter (\w -> length w <= 9) >>=
+                Streams.filter (elem mandatory) >>=
                 Streams.filter (isValid letters)
     outWords <- Streams.unlines Streams.stdout
     Streams.connect inWords outWords
-  exitSuccess
 

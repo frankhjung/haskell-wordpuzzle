@@ -64,7 +64,7 @@ Available options:
   -d,--dictionary FILENAME Alternate dictionary (default: "dictionary")
   -h,--help                Show this help text
 
-Version: 0.7.4
+Version: 0.7.5
 ```
 
 Or call without command line arguments:
@@ -100,9 +100,9 @@ wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 Using [HSpec](https://hspec.github.io/):
 
 ```text
-wordpuzzle-0.7.4: test (suite: test)
+wordpuzzle-0.7.5: test (suite: test)
             
-Progress 1/2: wordpuzzle-0.7.4
+Progress 1/2: wordpuzzle-0.7.5
 remove
   when character is in list
     returns list less that character
@@ -120,10 +120,10 @@ isValid
   when word does not contain valid character frequency
     returns false
 
-Finished in 0.0014 seconds
+Finished in 0.0008 seconds
 7 examples, 0 failures
                               
-wordpuzzle-0.7.4: Test suite test passed
+wordpuzzle-0.7.5: Test suite test passed
 Completed 2 action(s).
 ```
 
@@ -135,24 +135,24 @@ Completed 2 action(s).
 Running Criterion benchmarks:
 
 ```text
-wordpuzzle-0.7.4: benchmarks
-Running 1 benchmarks...
+wordpuzzle-0.7.5: benchmarks
+Running 1 benchmarks...       
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/isValid
-time                 16.44 ns   (16.29 ns .. 16.69 ns)
-                     0.999 R²   (0.998 R² .. 1.000 R²)
-mean                 16.45 ns   (16.34 ns .. 16.62 ns)
-std dev              451.0 ps   (296.9 ps .. 741.2 ps)
-variance introduced by outliers: 45% (moderately inflated)
-
+time                 15.69 ns   (15.57 ns .. 15.81 ns)
+                     1.000 R²   (0.999 R² .. 1.000 R²)
+mean                 15.63 ns   (15.56 ns .. 15.74 ns)
+std dev              299.7 ps   (237.7 ps .. 389.1 ps)
+variance introduced by outliers: 28% (moderately inflated)
+                              
 benchmarking WordPuzzle/remove
-time                 16.38 ns   (16.31 ns .. 16.49 ns)
-                     1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 16.43 ns   (16.34 ns .. 16.53 ns)
-std dev              326.4 ps   (267.6 ps .. 401.9 ps)
-variance introduced by outliers: 30% (moderately inflated)
-
-Benchmark benchmark: FINISH
+time                 16.54 ns   (15.82 ns .. 17.51 ns)
+                     0.984 R²   (0.969 R² .. 0.999 R²)
+mean                 16.26 ns   (15.94 ns .. 16.95 ns)
+std dev              1.518 ns   (819.1 ps .. 2.507 ns)
+variance introduced by outliers: 91% (severely inflated)
+                              
+Benchmark benchmark: FINISH   
 ```
 
 ### Execution Summary

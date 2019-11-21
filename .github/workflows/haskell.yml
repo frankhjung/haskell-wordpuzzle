@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - 'feature/**'
   check_run:
     types: [rerequested, requested_action]
 

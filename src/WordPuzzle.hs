@@ -16,23 +16,21 @@ module WordPuzzle ( remove
                   , isValid
                   ) where
 
-import qualified Data.ByteString.Char8 as Char8 (ByteString, cons, elem, empty,
-                                                 uncons)
+import           Data.Bool             (bool)
+import           Data.ByteString.Char8 (ByteString, cons, elem, empty, uncons)
+import           Prelude               hiding (elem)
 
 -- | Pattern for empty ByteString.
-pattern Empty :: Char8.ByteString
-pattern Empty <- (Char8.uncons -> Nothing)
+pattern Empty :: ByteString
+pattern Empty <- (uncons -> Nothing)
 
 -- | Remove first occurrence of a character from a word.
-remove :: Char              -- ^ character to remove
-       -> Char8.ByteString  -- ^ string to remove character from
-       -> Char8.ByteString  -- ^ result string with one instance of character removed
-remove _ Empty = Char8.empty
-remove x ys = if x == h
-                then ts
-                else h `Char8.cons` remove x ts
-              where
-                Just (h, ts) = Char8.uncons ys
+remove :: Char        -- ^ character to remove
+       -> ByteString  -- ^ string to remove character from
+       -> ByteString  -- ^ result string with one instance of character removed
+remove _ Empty = empty
+remove x ys = let Just (h, ts) = uncons ys
+              in bool (h `cons` remove x ts) ts (x == h)
 
 -- | Check if a word contains only characters from a list.
 --
@@ -41,12 +39,10 @@ remove x ys = if x == h
 --
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
-isValid :: String           -- ^ valid letters
-        -> Char8.ByteString -- ^ dictionary word to check
-        -> Bool             -- ^ true if dictionary word matches letters
+isValid :: String     -- ^ valid letters
+        -> ByteString -- ^ dictionary word to check
+        -> Bool       -- ^ true if dictionary word matches letters
 isValid _  Empty  = True
 isValid [] _      = False
-isValid (x:xs) ys = if x `Char8.elem` ys
-                      then isValid xs (remove x ys)
-                      else isValid xs ys
+isValid (x:xs) ys = bool (isValid xs ys) (isValid xs (remove x ys)) (x `elem` ys)
 
