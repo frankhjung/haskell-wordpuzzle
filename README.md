@@ -58,13 +58,13 @@ Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
   Solve word puzzles like those at nineletterword.tompaton.com
 
 Available options:
-  -s,--size INT            Minimum word size (default: 4)
+  -s,--size INT            Minimum word size (value from 1..9) (default: 4)
   -m,--mandatory CHAR      Mandatory character for all words
-  -l,--letters STRING      String of letters to make words
-  -d,--dictionary FILENAME Alternate dictionary (default: "dictionary")
+  -l,--letters STRING      Nine letters to make words
+  -d,--dictionary FILENAME Dictionary to read words from (default: "dictionary")
   -h,--help                Show this help text
 
-Version: 0.7.5
+Version: 0.7.6
 ```
 
 Or call without command line arguments:
@@ -83,7 +83,7 @@ Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
 When specifying a dictionary use (default is "dictionary"):
 
 ```bash
-wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary
+wordpuzzle -m c -l adevcrsoi -ddictionary
 ```
 
 ### Sort Words by Size
@@ -91,7 +91,7 @@ wordpuzzle -s 4 -m c -l adevcrsoi -ddictionary
 To show words by size use:
 
 ```bash
-wordpuzzle -s 4 -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
+wordpuzzle -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
 

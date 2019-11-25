@@ -2,16 +2,16 @@ module Main(main) where
 
 import           WordPuzzle            (isValid)
 
-import           Data.ByteString.Char8 (elem, length)
+import qualified Data.ByteString.Char8 as Char8 (elem, length)
+import           Data.Char             (isLetter, toLower)
 import           Data.Semigroup        ((<>))
 import           Data.Version          (showVersion)
-import           Options.Applicative   (Parser, ParserInfo, ReadM, auto,
+import           Options.Applicative   (Parser, ParserInfo, ReadM, eitherReader,
                                         execParser, footer, fullDesc, header,
-                                        help, helper, info, long, maybeReader,
-                                        metavar, option, progDesc, short,
-                                        showDefault, strOption, value, (<**>))
+                                        help, helper, info, long, metavar,
+                                        option, progDesc, short, showDefault,
+                                        strOption, value, (<**>))
 import           Paths_wordpuzzle      (version)
-import           Prelude               hiding (elem, length)
 import           System.IO             (IOMode (ReadMode), withFile)
 import qualified System.IO.Streams     as Streams (connect, filter,
                                                    handleToInputStream, lines,
@@ -28,39 +28,58 @@ data Opts = Opts
 -- applicative structure for parser options
 options :: Parser Opts
 options = Opts
-  <$> option auto
+  <$> option readerSize
       ( long "size"
      <> short 's'
-     <> help "Minimum word size"
+     <> help "Minimum word size (value from 1..9)"
      <> showDefault
      <> value 4
      <> metavar "INT" )
-  <*> option alpha
+  <*> option readerMandatory
       ( long "mandatory"
      <> short 'm'
      <> help "Mandatory character for all words"
      <> metavar "CHAR" )
-  <*> strOption
+  <*> option readerLetters
       ( long "letters"
      <> short 'l'
-     <> help "String of letters to make words"
+     <> help "Nine letters to make words"
      <> metavar "STRING" )
   <*> strOption
       ( long "dictionary"
      <> short 'd'
-     <> help "Alternate dictionary"
+     <> help "Dictionary to read words from"
      <> showDefault
      <> value "dictionary"
      <> metavar "FILENAME" )
 
--- get first character of a string
-firstLetter :: String -> Maybe Char
-firstLetter (c:_) = Just c
-firstLetter _     = Nothing
+-- read size in range [1..9]
+readerSize :: ReadM Int
+readerSize = eitherReader readSize
+  where
+    readSize [] = Left "expected a number in range [1..9]"
+    readSize ss = let s = read ss in
+                  if s `elem` [1..9]
+                  then Right s
+                  else Left $ "unexpected size: " ++ ss
 
--- custom reader of char rather than string
-alpha :: ReadM Char
-alpha = maybeReader firstLetter
+-- read an alphabetic character
+readerMandatory :: ReadM Char
+readerMandatory = eitherReader readMandatory
+  where
+    readMandatory [] = Left "expected 1 letter"
+    readMandatory cs@(c:_) = if isLetter c
+                             then Right $ toLower c
+                             else Left $ "unexpected letter: " ++ cs
+
+-- read an alphabetic string
+readerLetters :: ReadM String
+readerLetters = eitherReader readLetters
+  where
+    readLetters [] = Left "expected 9 letters"
+    readLetters ls = if (9 == length ls) && all isLetter ls
+                     then Right $ fmap toLower ls
+                     else Left $ "unexpected letters: " ++ ls
 
 -- read version from cabal configuration
 packageVersion :: String
@@ -91,9 +110,9 @@ main = do
   withFile dictionary ReadMode $ \handle -> do
     inWords <- Streams.handleToInputStream handle >>=
                 Streams.lines >>=
-                Streams.filter (\w -> size <= length w) >>=
-                Streams.filter (\w -> length w <= 9) >>=
-                Streams.filter (elem mandatory) >>=
+                Streams.filter (\w -> size <= Char8.length w) >>=
+                Streams.filter (\w -> Char8.length w <= 9) >>=
+                Streams.filter (Char8.elem mandatory) >>=
                 Streams.filter (isValid letters)
     outWords <- Streams.unlines Streams.stdout
     Streams.connect inWords outWords
