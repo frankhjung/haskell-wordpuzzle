@@ -20,10 +20,10 @@ main = hspec $ do
         remove 'c' "def" `shouldBe` "def"
 
   describe "isValid" $ do
-    context "when word containing characters" $
+    context "when word contains valid characters" $
       it "returns true" $
         isValid "foobar" "barfoo" `shouldBe` True
-    context "when word containing a valid subset of characters" $
+    context "when word contains a valid subset of characters" $
       it "returns true" $
         isValid "foobar" "rof" `shouldBe` True
     context "when word does not contain valid characters" $
