@@ -5,4 +5,4 @@ system-ghc: false
 allow-newer: false
 extra-deps: []
 arch: x86_64
-resolver: lts-12.26
+resolver: lts-13.19

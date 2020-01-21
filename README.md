@@ -101,7 +101,7 @@ Using [HSpec](https://hspec.github.io/):
 
 ```text
 wordpuzzle-0.7.5: test (suite: test)
-            
+
 Progress 1/2: wordpuzzle-0.7.5
 remove
   when character is in list
@@ -122,7 +122,7 @@ isValid
 
 Finished in 0.0008 seconds
 7 examples, 0 failures
-                              
+
 wordpuzzle-0.7.5: Test suite test passed
 Completed 2 action(s).
 ```
@@ -136,7 +136,7 @@ Running Criterion benchmarks:
 
 ```text
 wordpuzzle-0.7.5: benchmarks
-Running 1 benchmarks...       
+Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/isValid
 time                 15.69 ns   (15.57 ns .. 15.81 ns)
@@ -144,15 +144,15 @@ time                 15.69 ns   (15.57 ns .. 15.81 ns)
 mean                 15.63 ns   (15.56 ns .. 15.74 ns)
 std dev              299.7 ps   (237.7 ps .. 389.1 ps)
 variance introduced by outliers: 28% (moderately inflated)
-                              
+
 benchmarking WordPuzzle/remove
 time                 16.54 ns   (15.82 ns .. 17.51 ns)
                      0.984 R²   (0.969 R² .. 0.999 R²)
 mean                 16.26 ns   (15.94 ns .. 16.95 ns)
 std dev              1.518 ns   (819.1 ps .. 2.507 ns)
 variance introduced by outliers: 91% (severely inflated)
-                              
-Benchmark benchmark: FINISH   
+
+Benchmark benchmark: FINISH
 ```
 
 ### Execution Summary
@@ -210,7 +210,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Project is using [LTS Haskell 12.26 (ghc-8.4.4)](https://www.stackage.org/lts-12.26)
+Version 0.7.6 of this project is using [LTS Haskell 12.26 (ghc-8.4.4)](https://www.stackage.org/lts-12.26)
 
 
 ## Dependencies Graph
