@@ -11,7 +11,7 @@ ARGS	?= -s 4 -m c -l adevcrsoi
 .PHONY: default
 default:	check build test
 
-all:	check build test doc bench
+all:	check build test bench doc exec
 
 check:	tags style lint
 
@@ -69,4 +69,5 @@ clean:
 	@$(RM) -rf $(TARGET).tix
 
 cleanall: clean
+	@stack clean --full
 	@$(RM) -rf .stack-work/ $(TARGET)
