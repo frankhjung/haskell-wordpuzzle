@@ -32,3 +32,4 @@ main = hspec $ do
     context "when word does not contain valid character frequency" $
       it "returns false" $
         isValid "foobar" "baarof" `shouldBe` False
+

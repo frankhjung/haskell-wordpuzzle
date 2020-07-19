@@ -66,7 +66,7 @@ ghci:
 
 clean:
 	@stack clean
-	@$(RM) -rf $(TARGET).tix
+	@$(RM) -rf $(TARGET).tix .hdevtools.sock
 
 cleanall: clean
 	@stack clean --full
