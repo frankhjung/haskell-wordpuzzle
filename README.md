@@ -14,10 +14,12 @@ Here we are using a subset of the British dictionary from the
 ## Documentation
 
 * [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
+  * [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
+  * [test coverage](https://frankhjung.github.io/haskell-wordpuzzle/hpc/index.html)
 * [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
-  * [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/html/wordpuzzle/index.html)
+  * [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
   * [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
-  * [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/wordpuzzle/test/hpc_index.html)
+  * [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/index.html)
 
 
 ## Pipelines

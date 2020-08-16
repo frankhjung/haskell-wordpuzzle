@@ -12,4 +12,3 @@ main = defaultMain
     , bench "remove" $ nf remove 'a'
     ]
   ]
-

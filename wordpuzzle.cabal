@@ -54,7 +54,6 @@ benchmark benchmark
   main-is:          Bench.hs
   type:             exitcode-stdio-1.0
   build-depends:    base
-                  , bytestring
                   , criterion
                   , wordpuzzle
 

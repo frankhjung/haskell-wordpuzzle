@@ -1,3 +1,5 @@
+---
+
 name: haskell wordpuzzle
 
 on:
@@ -12,45 +14,44 @@ jobs:
 
   build:
 
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+
     runs-on: ubuntu-latest
 
     steps:
 
-    - name: checkout
-      uses: actions/checkout@v1.0.0
-      with:
-        ref: refs/heads/master
-        fetch-depth: 1
+      - name: checkout
+        uses: actions/checkout@v1.0.0
+        with:
+          ref: refs/heads/master
+          fetch-depth: 1
 
-    - name: stack
-      run: stack setup
+      - name: stack
+        run: stack setup
 
-    - name: build
-      run: stack build
+      - name: build
+        run: stack build --pedantic --no-test
 
-    - name: test
-      run: stack test
+      - name: test
+        run: stack test --coverage
 
-    - name: documentation
-      run: |
-        stack test --coverage
-        stack haddock --fast
+      - name: documentation
+        run:
+          stack haddock --no-rerun-tests --no-reconfigure
 
-    - name: bench
-      run: stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+      - name: bench
+        run: stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
-    - name: copy
-      run: |
-        mkdir -p public
-        cp -pr doc/ public/
-        cp -p .stack-work/benchmark.html public/
-        cp -pr .stack-work/install/x86_64-linux/*/*/hpc/* public/
-        cp -pr .stack-work/dist/x86_64-linux/Cabal-*/doc/html/wordpuzzle/* public/
+      - name: copy
+        run: |
+          mv $(stack path --local-doc-root) public/
+          cp -fpr .stack-work/install/x86_64-linux/*/*/hpc/. public/hpc
+          cp -fp .stack-work/benchmark.html public/
 
-    - name: publish
-      uses: crazy-max/ghaction-github-pages@v0.4.0
-      if: success()
-      with:
-        build_dir: public
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+      - name: publish
+        uses: crazy-max/ghaction-github-pages@v0.4.0
+        if: success()
+        with:
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
