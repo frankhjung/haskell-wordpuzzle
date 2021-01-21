@@ -116,4 +116,3 @@ main = do
                 Streams.filter (isValid letters)
     outWords <- Streams.unlines Streams.stdout
     Streams.connect inWords outWords
-

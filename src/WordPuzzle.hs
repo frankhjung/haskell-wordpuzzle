@@ -45,4 +45,3 @@ isValid :: String     -- ^ valid letters
 isValid _  Empty  = True
 isValid [] _      = False
 isValid (x:xs) ys = bool (isValid xs ys) (isValid xs (remove x ys)) (x `elem` ys)
-

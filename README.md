@@ -235,4 +235,3 @@ Included in this repository is generated documentation for the current version.
 * [haddock function documentation](./doc/html/wordpuzzle/index.html)
 * [criterion performance benchmarks](./doc/benchmark.html)
 * [test coverage](./doc/hpc/wordpuzzle/test/hpc_index.html)
-
