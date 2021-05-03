@@ -35,7 +35,13 @@ jobs:
           key: $GITHUB_REF
 
       - name: stack
-        run: stack setup
+        run: |
+          stack setup
+          stack update
+          stack path
+          stack query
+          stack ls dependencies
+          cabal check
 
       - name: build
         run: stack build --pedantic --no-test
@@ -53,8 +59,8 @@ jobs:
       - name: copy
         run: |
           mv $(stack path --local-doc-root) public/
-          # cp -fpr .stack-work/install/x86_64-linux/*/*/hpc/. public/hpc
-          cp -fp .stack-work/benchmark.html public/
+          mv $(stack path --local-hpc-root) public/hpc
+          mv .stack-work/benchmark.html public/
 
       - name: publish
         uses: crazy-max/ghaction-github-pages@v0.4.0

@@ -8,7 +8,6 @@ SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
 ARGS	?= -s 4 -m c -l adevcrsoi
 
-
 default: check build test
 
 all:	check build test bench doc exec
@@ -26,6 +25,7 @@ style:
 lint:
 	@echo lint ...
 	@hlint --color $(SRCS)
+	@cabal check
 
 build:
 	@echo build ...
@@ -59,18 +59,19 @@ else
 endif
 
 setup:
-	-stack setup
-	-stack build --dependencies-only --test --no-run-tests
-	-stack query
-	-stack ls dependencies
+	stack setup
+	stack update
+	stack path
+	stack query
+	stack ls dependencies
 
 ghci:
-	@stack ghci --ghci-options -Wno-type-defaults
+	stack ghci --ghci-options -Wno-type-defaults
 
 clean:
-	@stack clean
-	@$(RM) -rf $(TARGET).tix .hdevtools.sock
+	stack clean
+	$(RM) -rf $(TARGET).tix .hdevtools.sock
 
 cleanall: clean
-	@stack clean --full
-	@$(RM) -rf .stack-work/ $(TARGET)
+	stack clean --full
+	$(RM) -rf .stack-work/ $(TARGET)
