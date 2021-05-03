@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - master
-      - 'feature/**'
+      - 'feature*'
   check_run:
     types: [rerequested, requested_action]
 
@@ -59,7 +59,7 @@ jobs:
       - name: copy
         run: |
           mv $(stack path --local-doc-root) public/
-          mv $(stack path --local-hpc-root) public/hpc
+          mv $(stack path --local-hpc-root) public/
           mv .stack-work/benchmark.html public/
 
       - name: publish
