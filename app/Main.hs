@@ -1,21 +1,16 @@
 module Main(main) where
 
-import           WordPuzzle            (isValid)
+import           WordPuzzle          (WordPuzzle (..), solve)
 
-import qualified Data.ByteString.Char8 as Char8 (elem, length)
-import           Data.Char             (isLetter, toLower)
-import           Data.Semigroup        ((<>))
-import           Data.Version          (showVersion)
-import           Options.Applicative   (Parser, ParserInfo, ReadM, eitherReader,
-                                        execParser, footer, fullDesc, header,
-                                        help, helper, info, long, metavar,
-                                        option, progDesc, short, showDefault,
-                                        strOption, value, (<**>))
-import           Paths_wordpuzzle      (version)
-import           System.IO             (IOMode (ReadMode), withFile)
-import qualified System.IO.Streams     as Streams (connect, filter,
-                                                   handleToInputStream, lines,
-                                                   stdout, unlines)
+import           Data.Char           (isLetter, toLower)
+import           Data.Semigroup      ((<>))
+import           Data.Version        (showVersion)
+import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
+                                      execParser, footer, fullDesc, header,
+                                      help, helper, info, long, metavar, option,
+                                      progDesc, short, showDefault, strOption,
+                                      value, (<**>))
+import           Paths_wordpuzzle    (version)
 
 -- valid command line options
 data Opts = Opts
@@ -23,7 +18,7 @@ data Opts = Opts
               , _mandatory  :: Char
               , _letters    :: String
               , _dictionary :: FilePath
-              }
+              } deriving (Show)
 
 -- applicative structure for parser options
 options :: Parser Opts
@@ -105,14 +100,6 @@ optsParser = info (options <**> helper)
 -- 5. must not exceed valid character frequency
 
 main :: IO ()
-main = do
-  (Opts size mandatory letters dictionary) <- execParser optsParser
-  withFile dictionary ReadMode $ \handle -> do
-    inWords <- Streams.handleToInputStream handle >>=
-                Streams.lines >>=
-                Streams.filter (\w -> size <= Char8.length w) >>=
-                Streams.filter (\w -> Char8.length w <= 9) >>=
-                Streams.filter (Char8.elem mandatory) >>=
-                Streams.filter (isValid letters)
-    outWords <- Streams.unlines Streams.stdout
-    Streams.connect inWords outWords
+main = execParser optsParser >>=
+        \opts ->
+          solve (WordPuzzle (_size opts) (_mandatory opts) (_letters opts) (_dictionary opts))

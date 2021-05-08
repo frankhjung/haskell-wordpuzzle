@@ -25,8 +25,6 @@ executable wordpuzzle
   ghc-options:      -Wall -threaded
   other-modules:    Paths_wordpuzzle
   build-depends:    base >= 4.12 && < 4.13
-                  , bytestring >= 0.10.8 && < 0.10.9
-                  , io-streams >= 1.5 && < 1.6 
                   , optparse-applicative >= 0.14 && < 0.15
                   , wordpuzzle
 
@@ -36,7 +34,8 @@ library
   exposed-modules:  WordPuzzle
   ghc-options:      -Wall
   build-depends:    base >= 4.12 && < 4.13
-                  , bytestring >= 0.10.8 && <= 0.10.9
+                  , bytestring >= 0.10.8 && < 0.10.9
+                  , io-streams >= 1.5 && < 1.6 
 
 test-suite test
   default-language: Haskell2010
