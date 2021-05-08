@@ -1,6 +1,6 @@
 module Main(main) where
 
-import           WordPuzzle          (WordPuzzle (..), solve)
+import           WordPuzzle          (makeWordPuzzle, solve)
 
 import           Data.Char           (isLetter, toLower)
 import           Data.Semigroup      ((<>))
@@ -91,15 +91,10 @@ optsParser = info (options <**> helper)
 --
 -- MAIN
 --
--- Print words to stdout where:
---
--- 1. must be greater than the minimum word length
--- 2. must be no more than 9 characters long
--- 3. must contain mandatory character
--- 4. must contain only valid characters
--- 5. must not exceed valid character frequency
-
 main :: IO ()
-main = execParser optsParser >>=
-        \opts ->
-          solve (WordPuzzle (_size opts) (_mandatory opts) (_letters opts) (_dictionary opts))
+main = do
+  opts <- execParser optsParser
+  let wp = makeWordPuzzle (_size opts) (_mandatory opts) (_letters opts) (_dictionary opts)
+  case wp of
+    Left err   -> print err
+    Right game -> solve game

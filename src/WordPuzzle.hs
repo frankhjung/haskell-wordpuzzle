@@ -12,23 +12,26 @@
   Supporting functions for solving letter word puzzles.
 -}
 
-module WordPuzzle ( WordPuzzle(..)
+module WordPuzzle ( WordPuzzle
                   , solve
                   , isValid
+                  , makeWordPuzzle
                   , remove
+                  , ValidationError(..)
                   ) where
 
 import           Data.Bool             (bool)
-import           Data.ByteString.Char8 (ByteString, cons, elem, empty, uncons)
-import qualified Data.ByteString.Char8 as Char8 (elem, length)
-import           Prelude               hiding (elem)
+import           Data.ByteString.Char8 (ByteString, cons, elem, empty, length,
+                                        uncons)
+import           Data.Char             (isLower)
+import           Data.Ix               (inRange)
+import           Prelude               hiding (elem, length)
 import           System.IO             (IOMode (ReadMode), withFile)
 import qualified System.IO.Streams     as Streams (connect, filter,
                                                    handleToInputStream, lines,
                                                    stdout, unlines)
 
 -- | Represent parameters required for the puzzle.
--- TODO create a smart constructor to validate game values.
 data WordPuzzle = WordPuzzle
                   {
                     size       :: Int
@@ -37,15 +40,36 @@ data WordPuzzle = WordPuzzle
                   , dictionary :: FilePath
                   } deriving (Show)
 
+-- | Invalid parameter errors.
+data ValidationError = InvalidSize Int | InvalidMandatory Char | InvalidLetters String
+                          deriving (Show, Eq)
+
+
+-- | Smart constructor for WordPuzzle.
+makeWordPuzzle :: Int -> Char -> String -> FilePath -> Either ValidationError WordPuzzle
+makeWordPuzzle s m ls d
+  | not (inRange (1,9) s) = Left (InvalidSize s)
+  | not (all isLower ls)  = Left (InvalidLetters ls)
+  | m `notElem` ls        = Left (InvalidMandatory m)
+  | otherwise             = Right (WordPuzzle s m ls d)
+
 -- | Solve puzzle.
+--
+-- Print words to stdout where:
+--
+-- 1. must be greater than the minimum word length
+-- 2. must be no more than 9 characters long
+-- 3. must contain mandatory character
+-- 4. must contain only valid characters
+-- 5. must not exceed valid character frequency
 solve :: WordPuzzle -> IO ()
 solve puzzle =
   withFile (dictionary puzzle) ReadMode $ \handle -> do
     inWords <- Streams.handleToInputStream handle >>=
                 Streams.lines >>=
-                Streams.filter (\w -> size puzzle <= Char8.length w) >>=
-                Streams.filter (\w -> Char8.length w <= 9) >>=
-                Streams.filter (Char8.elem (mandatory puzzle)) >>=
+                Streams.filter (\w -> size puzzle <= length w) >>=
+                Streams.filter (\w -> length w <= 9) >>=
+                Streams.filter (elem (mandatory puzzle)) >>=
                 Streams.filter (isValid (letters puzzle))
     outWords <- Streams.unlines Streams.stdout
     Streams.connect inWords outWords
