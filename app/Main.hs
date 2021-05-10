@@ -3,6 +3,7 @@ module Main(main) where
 import           WordPuzzle          (makeWordPuzzle, solve)
 
 import           Data.Char           (isLetter, toLower)
+import           Data.Either         (either)
 import           Data.Semigroup      ((<>))
 import           Data.Version        (showVersion)
 import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
@@ -95,6 +96,4 @@ main :: IO ()
 main = do
   opts <- execParser optsParser
   let wp = makeWordPuzzle (_size opts) (_mandatory opts) (_letters opts) (_dictionary opts)
-  case wp of
-    Left err   -> print err
-    Right game -> solve game
+  either print solve wp -- print error or show matching words
