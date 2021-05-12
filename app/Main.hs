@@ -2,7 +2,8 @@ module Main(main) where
 
 import           WordPuzzle          (makeWordPuzzle, solve)
 
-import           Data.Char           (isLetter, toLower)
+import           Control.Monad       (liftM2)
+import           Data.Char           (isLetter, isLower)
 import           Data.Either         (either)
 import           Data.Semigroup      ((<>))
 import           Data.Version        (showVersion)
@@ -49,11 +50,13 @@ options = Opts
      <> value "dictionary"
      <> metavar "FILENAME" )
 
+-- TODO - remove duplicate validation
+
 -- read size in range [1..9]
 readerSize :: ReadM Int
 readerSize = eitherReader readSize
   where
-    readSize [] = Left "expected a number in range [1..9]"
+    readSize [] = Left "expected a number in range from 1 to 9"
     readSize ss = let s = read ss in
                   if s `elem` [1..9]
                   then Right s
@@ -63,19 +66,20 @@ readerSize = eitherReader readSize
 readerMandatory :: ReadM Char
 readerMandatory = eitherReader readMandatory
   where
-    readMandatory [] = Left "expected 1 letter"
-    readMandatory cs@(c:_) = if isLetter c
-                             then Right $ toLower c
+    readMandatory [] = Left "expected 1 lowercase letter"
+    readMandatory cs@(c:_) = if isLetter c && isLower c
+                             then Right c
                              else Left $ "unexpected letter: " ++ cs
 
 -- read an alphabetic string
 readerLetters :: ReadM String
 readerLetters = eitherReader readLetters
   where
-    readLetters [] = Left "expected 9 letters"
-    readLetters ls = if (9 == length ls) && all isLetter ls
-                     then Right $ fmap toLower ls
+    readLetters [] = Left "expected 9 lowercase letters"
+    readLetters ls = if (9 == length ls) && isAllLowerCaseLetters ls
+                     then Right ls
                      else Left $ "unexpected letters: " ++ ls
+    isAllLowerCaseLetters = all (liftM2 (&&) isLetter isLower)
 
 -- read version from cabal configuration
 packageVersion :: String

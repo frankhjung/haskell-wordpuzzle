@@ -44,8 +44,16 @@ data WordPuzzle = WordPuzzle
 data ValidationError = InvalidSize Int | InvalidMandatory Char | InvalidLetters String
                           deriving (Show, Eq)
 
+-- | Check if size is in the valid range from 1 to 9.
+-- TODO - remove duplication of validation
+-- isValidSize :: Char -> Either String Char
+-- isValidSize s = if not (inRange (1,9) s) = Left (InvalidSize s)
+-- if s `elem` [1..9]
+--                   then Right s
+--                   else Left $ "unexpected size: " ++ ss
 
 -- | Smart constructor for WordPuzzle.
+-- TODO - remove duplication of validation
 makeWordPuzzle :: Int -> Char -> String -> FilePath -> Either ValidationError WordPuzzle
 makeWordPuzzle s m ls d
   | not (inRange (1,9) s) = Left (InvalidSize s)
