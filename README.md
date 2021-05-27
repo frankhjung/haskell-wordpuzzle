@@ -10,6 +10,9 @@ Solve 9 letter word puzzles like:
 Here we are using a subset of the British dictionary from the
 [wbritish](https://packages.debian.org/sid/text/wbritish) package.
 
+## TODO
+
+* Can we use [Control.Monad.Validate](https://hackage.haskell.org/package/monad-validate-1.2.0.0/docs/Control-Monad-Validate.html)?
 
 ## Documentation
 
@@ -22,12 +25,10 @@ Here we are using a subset of the British dictionary from the
   * [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
   * [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/index.html)
 
-
 ## Pipelines
 
 * [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
 * [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
-
 
 ## Method
 
@@ -44,7 +45,6 @@ A brief outline of what this program does is:
   * word is greater than or equal to minimum character length
   * word contain mandatory character
   * word contains other characters in correct frequencies
-
 
 ## How to run
 
@@ -97,7 +97,6 @@ To show words by size use:
 wordpuzzle -m c -l adevcrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
-
 ## Unit Tests
 
 Using [HSpec](https://hspec.github.io/):
@@ -129,7 +128,6 @@ Finished in 0.0008 seconds
 wordpuzzle-0.7.5: Test suite test passed
 Completed 2 action(s).
 ```
-
 
 ## Performance
 
@@ -194,7 +192,6 @@ gen[0].sync: 0
 gen[1].sync: 0
 ```
 
-
 ## Command Line Parsers
 
 Apart from solving a simple word puzzle this project also explores the following
@@ -206,7 +203,6 @@ command line parsers:
 
 Each is preserved in a separate Git [branch](https://github.com/frankhjung/haskell-wordpuzzle/branches).
 
-
 ## Package Version
 
 The version is dynamically included from the
@@ -214,7 +210,6 @@ The version is dynamically included from the
 configuration file.
 
 Version 0.7.6 of this project is using [LTS Haskell 12.26 (ghc-8.4.4)](https://www.stackage.org/lts-12.26)
-
 
 ## Dependencies Graph
 
@@ -226,7 +221,6 @@ stack dot --external | dot -Tpng -o doc/dependencies.png
 
 ![Dependencies Graph](doc/dependencies.png)
 
-
 ## References
 
 Documentation is built using [Haddock](https://www.haskell.org/haddock/).
@@ -236,3 +230,12 @@ Included in this repository is generated documentation for the current version.
 * [haddock function documentation](./doc/html/wordpuzzle/index.html)
 * [criterion performance benchmarks](./doc/benchmark.html)
 * [test coverage](./doc/hpc/wordpuzzle/test/hpc_index.html)
+
+## Other Implementations
+
+* [Haskell](https://gitlab.com/frankhjung1/haskell-wordpuzzle)
+* [Java](https://gitlab.com/frankhjung1/java-wordpuzzle)
+* [Kotlin](https://gitlab.com/frankhjung1/kotlin-wordpuzzle)
+* [Go](https://gitlab.com/frankhjung1/go-wordpuzzle)
+* [Python](https://gitlab.com/frankhjung1/python-wordpuzzle)
+
