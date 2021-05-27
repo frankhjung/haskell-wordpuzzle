@@ -1,29 +1,27 @@
 module Main(main) where
 
-import           WordPuzzle            (isValid)
+import           WordPuzzle          (ValidationError (..), checkLetters,
+                                      checkMandatory, checkSize, makeWordPuzzle,
+                                      solve)
 
-import qualified Data.ByteString.Char8 as Char8 (elem, length)
-import           Data.Char             (isLetter, toLower)
-import           Data.Semigroup        ((<>))
-import           Data.Version          (showVersion)
-import           Options.Applicative   (Parser, ParserInfo, ReadM, eitherReader,
-                                        execParser, footer, fullDesc, header,
-                                        help, helper, info, long, metavar,
-                                        option, progDesc, short, showDefault,
-                                        strOption, value, (<**>))
-import           Paths_wordpuzzle      (version)
-import           System.IO             (IOMode (ReadMode), withFile)
-import qualified System.IO.Streams     as Streams (connect, filter,
-                                                   handleToInputStream, lines,
-                                                   stdout, unlines)
+import           Data.Either         (either)
+import           Data.Semigroup      ((<>))
+import           Data.Version        (showVersion)
+import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
+                                      execParser, footer, fullDesc, header,
+                                      help, helper, info, long, metavar, option,
+                                      progDesc, short, showDefault, strOption,
+                                      value, (<**>))
+import           Paths_wordpuzzle    (version)
+import           Text.Read           (readMaybe)
 
 -- valid command line options
 data Opts = Opts
-              { _size       :: Int
-              , _mandatory  :: Char
-              , _letters    :: String
-              , _dictionary :: FilePath
-              }
+              { size       :: Int
+              , mandatory  :: Char
+              , letters    :: String
+              , dictionary :: FilePath
+              } deriving (Show)
 
 -- applicative structure for parser options
 options :: Parser Opts
@@ -48,38 +46,22 @@ options = Opts
   <*> strOption
       ( long "dictionary"
      <> short 'd'
-     <> help "Dictionary to read words from"
+     <> help "Dictionary to search for words"
      <> showDefault
      <> value "dictionary"
      <> metavar "FILENAME" )
 
--- read size in range [1..9]
+-- read size in range from 1 to 9
 readerSize :: ReadM Int
-readerSize = eitherReader readSize
-  where
-    readSize [] = Left "expected a number in range [1..9]"
-    readSize ss = let s = read ss in
-                  if s `elem` [1..9]
-                  then Right s
-                  else Left $ "unexpected size: " ++ ss
+readerSize = eitherReader readSizeOption
 
 -- read an alphabetic character
 readerMandatory :: ReadM Char
-readerMandatory = eitherReader readMandatory
-  where
-    readMandatory [] = Left "expected 1 letter"
-    readMandatory cs@(c:_) = if isLetter c
-                             then Right $ toLower c
-                             else Left $ "unexpected letter: " ++ cs
+readerMandatory = eitherReader checkMandatory
 
 -- read an alphabetic string
 readerLetters :: ReadM String
-readerLetters = eitherReader readLetters
-  where
-    readLetters [] = Left "expected 9 letters"
-    readLetters ls = if (9 == length ls) && all isLetter ls
-                     then Right $ fmap toLower ls
-                     else Left $ "unexpected letters: " ++ ls
+readerLetters = eitherReader checkLetters
 
 -- read version from cabal configuration
 packageVersion :: String
@@ -93,26 +75,20 @@ optsParser = info (options <**> helper)
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
         <> footer packageVersion )
 
+-- | Process size read from a command line option.
+readSizeOption :: String            -- ^ string value to check as a valid size
+               -> Either String Int -- ^ Left unexpected size or Right size
+readSizeOption ss =
+  let s = (readMaybe ss :: Maybe Int) in
+  case s of
+    Just i  -> checkSize i
+    Nothing -> Left (show (UnexpectedValue ss))
+
 --
 -- MAIN
 --
--- Print words to stdout where:
---
--- 1. must be greater than the minimum word length
--- 2. must be no more than 9 characters long
--- 3. must contain mandatory character
--- 4. must contain only valid characters
--- 5. must not exceed valid character frequency
-
 main :: IO ()
 main = do
-  (Opts size mandatory letters dictionary) <- execParser optsParser
-  withFile dictionary ReadMode $ \handle -> do
-    inWords <- Streams.handleToInputStream handle >>=
-                Streams.lines >>=
-                Streams.filter (\w -> size <= Char8.length w) >>=
-                Streams.filter (\w -> Char8.length w <= 9) >>=
-                Streams.filter (Char8.elem mandatory) >>=
-                Streams.filter (isValid letters)
-    outWords <- Streams.unlines Streams.stdout
-    Streams.connect inWords outWords
+  opts <- execParser optsParser
+  let wp = makeWordPuzzle (size opts) (mandatory opts) (letters opts) (dictionary opts)
+  either print solve wp -- print error or show matching words
