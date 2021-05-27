@@ -1,9 +1,9 @@
 module Main(main) where
 
-import           WordPuzzle          (makeWordPuzzle, solve)
+import           WordPuzzle          (ValidationError (..), checkLetters,
+                                      checkMandatory, checkSize, makeWordPuzzle,
+                                      solve)
 
-import           Control.Monad       (liftM2)
-import           Data.Char           (isLetter, isLower)
 import           Data.Either         (either)
 import           Data.Semigroup      ((<>))
 import           Data.Version        (showVersion)
@@ -13,13 +13,14 @@ import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       progDesc, short, showDefault, strOption,
                                       value, (<**>))
 import           Paths_wordpuzzle    (version)
+import           Text.Read           (readMaybe)
 
 -- valid command line options
 data Opts = Opts
-              { _size       :: Int
-              , _mandatory  :: Char
-              , _letters    :: String
-              , _dictionary :: FilePath
+              { size       :: Int
+              , mandatory  :: Char
+              , letters    :: String
+              , dictionary :: FilePath
               } deriving (Show)
 
 -- applicative structure for parser options
@@ -45,41 +46,22 @@ options = Opts
   <*> strOption
       ( long "dictionary"
      <> short 'd'
-     <> help "Dictionary to read words from"
+     <> help "Dictionary to search for words"
      <> showDefault
      <> value "dictionary"
      <> metavar "FILENAME" )
 
--- TODO - remove duplicate validation
-
--- read size in range [1..9]
+-- read size in range from 1 to 9
 readerSize :: ReadM Int
-readerSize = eitherReader readSize
-  where
-    readSize [] = Left "expected a number in range from 1 to 9"
-    readSize ss = let s = read ss in
-                  if s `elem` [1..9]
-                  then Right s
-                  else Left $ "unexpected size: " ++ ss
+readerSize = eitherReader readSizeOption
 
 -- read an alphabetic character
 readerMandatory :: ReadM Char
-readerMandatory = eitherReader readMandatory
-  where
-    readMandatory [] = Left "expected 1 lowercase letter"
-    readMandatory cs@(c:_) = if isLetter c && isLower c
-                             then Right c
-                             else Left $ "unexpected letter: " ++ cs
+readerMandatory = eitherReader checkMandatory
 
 -- read an alphabetic string
 readerLetters :: ReadM String
-readerLetters = eitherReader readLetters
-  where
-    readLetters [] = Left "expected 9 lowercase letters"
-    readLetters ls = if (9 == length ls) && isAllLowerCaseLetters ls
-                     then Right ls
-                     else Left $ "unexpected letters: " ++ ls
-    isAllLowerCaseLetters = all (liftM2 (&&) isLetter isLower)
+readerLetters = eitherReader checkLetters
 
 -- read version from cabal configuration
 packageVersion :: String
@@ -93,11 +75,20 @@ optsParser = info (options <**> helper)
         <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
         <> footer packageVersion )
 
+-- | Process size read from a command line option.
+readSizeOption :: String            -- ^ string value to check as a valid size
+               -> Either String Int -- ^ Left unexpected size or Right size
+readSizeOption ss =
+  let s = (readMaybe ss :: Maybe Int) in
+  case s of
+    Just i  -> checkSize i
+    Nothing -> Left (show (UnexpectedValue ss))
+
 --
 -- MAIN
 --
 main :: IO ()
 main = do
   opts <- execParser optsParser
-  let wp = makeWordPuzzle (_size opts) (_mandatory opts) (_letters opts) (_dictionary opts)
+  let wp = makeWordPuzzle (size opts) (mandatory opts) (letters opts) (dictionary opts)
   either print solve wp -- print error or show matching words
