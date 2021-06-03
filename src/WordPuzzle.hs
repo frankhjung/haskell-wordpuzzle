@@ -167,7 +167,5 @@ removeLetter :: Char         -- ^ character to remove
               -> ByteString  -- ^ string to remove character from
               -> ByteString  -- ^ result after character removed
 removeLetter _ Empty = empty
-removeLetter x ys
-  | x == h    = ts
-  | otherwise = h `cons` removeLetter x ts
+removeLetter x ys = if x == h then ts else h `cons` removeLetter x ts
   where Just (h, ts) = uncons ys
