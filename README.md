@@ -48,6 +48,20 @@ A brief outline of what this program does is:
 
 ## How to run
 
+### Using Make
+
+For example to call word puzzle solver from `make`:
+
+```bash
+make ARGS="-s 4 -m c -l adevcrsoi -d/usr/share/dict/words -h" exec
+```
+
+Or run using default dictionary:
+
+```bash
+make exec
+```
+
 ### Help
 
 Get command line help:

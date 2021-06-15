@@ -4,8 +4,6 @@ import           WordPuzzle          (ValidationError (..), checkLetters,
                                       checkMandatory, checkSize, makeWordPuzzle,
                                       solve)
 
-import           Data.Either         (either)
-import           Data.Semigroup      ((<>))
 import           Data.Version        (showVersion)
 import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       execParser, footer, fullDesc, header,
