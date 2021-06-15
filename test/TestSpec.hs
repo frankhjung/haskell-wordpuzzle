@@ -9,14 +9,6 @@ import           WordPuzzle (ValidationError (..), checkLetters, checkMandatory,
 main :: IO ()
 main = hspec $ do
 
-  -- describe "setSizeFromString" $ do
-  --   context "size not an integer" $
-  --     it "returns Left" $
-  --       setSizeFromString "size" `shouldBe` Left (show (UnexpectedValue "size"))
-  --   context "size valid integer" $
-  --     it "returns Right" $
-  --       setSizeFromString "4" `shouldBe` Right 4
-
   describe "checkSize" $ do
     context "size outside range" $
       it "returns Left" $

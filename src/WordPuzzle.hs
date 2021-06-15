@@ -1,10 +1,7 @@
-{-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ViewPatterns    #-}
-
 {-|
   Module      : WordPuzzle
   Description : Word Puzzle supporting functions.
-  Copyright   : © Frank Jung, 2017-2019
+  Copyright   : © Frank Jung, 2017-2021
   License     : GPL-3
   Maintainer  : frankhjung@linux.com
   Stability   : stable
@@ -25,7 +22,6 @@
   TODO Validation returns a List of errors:
 
   > validateXyz :: a -> Validation [Error] a
-
 -}
 
 module WordPuzzle ( WordPuzzle
@@ -34,21 +30,16 @@ module WordPuzzle ( WordPuzzle
                   , checkLetters
                   , checkMandatory
                   , isWord
+                  , isMandatory
                   , removeLetter
                   , solve
                   , ValidationError(..)
                   ) where
 
-import           Data.ByteString.Char8 (ByteString, cons, elem, empty, length,
-                                        uncons)
-import           Data.Char             (isLower)
-import           Data.Ix               (inRange)
-import           Prelude               hiding (elem, length)
-import qualified Prelude               (elem, length)
-import           System.IO             (IOMode (ReadMode), withFile)
-import qualified System.IO.Streams     as Streams (connect, filter,
-                                                   handleToInputStream, lines,
-                                                   stdout, unlines)
+import           Data.Char                  (isLower)
+import           Data.Functor.Contravariant (Predicate (..), getPredicate)
+import           Data.Ix                    (inRange)
+import           Data.List                  ((\\))
 
 -- | Represent parameters required for the puzzle.
 data WordPuzzle = WordPuzzle
@@ -86,7 +77,7 @@ checkSize s = if isSize s
 
 -- | Is mandatory letter valid?
 isMandatory :: Char -> String -> Bool
-isMandatory = Prelude.elem
+isMandatory = elem
 
 -- | Check that mandatory letter.
 -- TODO Can we use 'isMandatory' here? It will require an extra parameter,
@@ -95,13 +86,13 @@ checkMandatory :: String              -- ^ mandatory character to check
                 -> Either String Char -- ^ valid mandatory letter
 checkMandatory [] = Left (show (UnexpectedValue ""))
 checkMandatory ms@(m:_)
-  | 1 /= Prelude.length ms  = Left (show (UnexpectedValue ms))
-  | not (isLower m)         = Left (show (InvalidMandatory m))
-  | otherwise               = Right m
+  | 1 /= length ms    = Left (show (UnexpectedValue ms))
+  | not (isLower m)   = Left (show (InvalidMandatory m))
+  | otherwise         = Right m
 
 -- | Are letters valid?
 isLetters :: String -> Bool
-isLetters ls = 9 == Prelude.length ls && all isLower ls
+isLetters ls = 9 == length ls && all isLower ls
 
 -- | Check that letters are lowercase alphabetic characters.
 checkLetters :: String                -- ^ characters to check
@@ -115,34 +106,30 @@ checkLetters ls = if isLetters ls
 makeWordPuzzle :: Int -> Char -> String -> FilePath -> Either ValidationError WordPuzzle
 makeWordPuzzle s m ls d
   | not (isSize s)          = Left (InvalidSize s)
-  | not (isLetters ls)      = Left (InvalidLetters ls)
   | not (isMandatory m ls)  = Left (InvalidMandatory m)
+  | not (isLetters ls)      = Left (InvalidLetters ls)
   | otherwise               = Right (WordPuzzle s m ls d)
 
--- | Solve puzzle.
--- TODO - return list rather than IO ()
+-- | Solve word puzzle.
 --
--- Print words to stdout where:
---
+-- Print words to stdout.
+solve :: WordPuzzle -> IO ()
+solve puzzle = do
+  dict <- readFile (dictionary puzzle)
+  mapM_ putStrLn $ solve' puzzle (lines dict)
+
+-- | Solve word puzzle given a dictionary of words.
 -- 1. must be greater than the minimum word length
 -- 2. must be no more than 9 characters long
 -- 3. must contain mandatory character
 -- 4. must contain only valid characters
 -- 5. must not exceed valid character frequency
-solve :: WordPuzzle -> IO ()
-solve puzzle =
-  withFile (dictionary puzzle) ReadMode $ \handle -> do
-    inWords <- Streams.handleToInputStream handle >>=
-                Streams.lines >>=
-                Streams.filter (inRange (size puzzle, 9) . length) >>=
-                Streams.filter (elem (mandatory puzzle)) >>=
-                Streams.filter (isWord (letters puzzle))
-    outWords <- Streams.unlines Streams.stdout
-    Streams.connect inWords outWords
-
--- | Pattern for an empty ByteString.
-pattern Empty :: ByteString
-pattern Empty <- (uncons -> Nothing)
+solve' :: WordPuzzle -> [String] -> [String]
+solve' puzzle = filter (getPredicate (pS <> pM <> pL))
+  where
+    pS = Predicate (inRange (size puzzle, 9) . length)
+    pM = Predicate (isMandatory (mandatory puzzle))
+    pL = Predicate (isWord (letters puzzle))
 
 -- | Check if a word contains only characters from a list.
 --
@@ -152,9 +139,9 @@ pattern Empty <- (uncons -> Nothing)
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
 isWord :: String      -- ^ valid letters
-        -> ByteString -- ^ dictionary word to check
+        -> String     -- ^ dictionary word to check
         -> Bool       -- ^ true if dictionary word matches letters
-isWord _  Empty  = True
+isWord _  []     = True
 isWord [] _      = False
 isWord (x:xs) ys = if x `elem` ys
                    then isWord xs (removeLetter x ys)
@@ -163,9 +150,7 @@ isWord (x:xs) ys = if x `elem` ys
 -- | Remove first occurrence of a character from a word.
 --
 -- Used by 'isWord' to remove an element that is guaranteed to be present.
-removeLetter :: Char         -- ^ character to remove
-              -> ByteString  -- ^ string to remove character from
-              -> ByteString  -- ^ result after character removed
-removeLetter _ Empty = empty
-removeLetter x ys = if x == h then ts else h `cons` removeLetter x ts
-  where Just (h, ts) = uncons ys
+removeLetter :: Char     -- ^ character to remove
+              -> String  -- ^ string to remove character from
+              -> String  -- ^ result after character removed
+removeLetter x ys = ys \\ [x]
