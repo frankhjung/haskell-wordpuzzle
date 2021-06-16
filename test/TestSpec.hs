@@ -4,7 +4,7 @@ module Main(main) where
 
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
 import           WordPuzzle (ValidationError (..), checkLetters, checkMandatory,
-                             checkSize, isWord, removeLetter)
+                             checkSize, isWord)
 
 main :: IO ()
 main = hspec $ do
@@ -47,17 +47,6 @@ main = hspec $ do
     context "too many letters" $
       it "returns Left" $
         checkLetters "abcdefghij" `shouldBe` Left (show (InvalidLetters "abcdefghij"))
-
-  describe "removeLetter" $ do
-    context "when character is in list" $
-      it "returns list less that character" $
-        removeLetter 'c' "cde" `shouldBe` "de"
-    context "when character is in list twice" $
-      it "returns list less one instance of that character" $
-        removeLetter 'c' "cce" `shouldBe` "ce"
-    context "when character is not in list" $
-      it "returns original list" $
-        removeLetter 'c' "def" `shouldBe` "def"
 
   describe "isWord" $ do
     context "when word contains valid characters" $

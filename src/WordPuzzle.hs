@@ -30,8 +30,6 @@ module WordPuzzle ( WordPuzzle
                   , checkLetters
                   , checkMandatory
                   , isWord
-                  , isMandatory
-                  , removeLetter
                   , solve
                   , ValidationError(..)
                   ) where
@@ -80,7 +78,7 @@ isMandatory :: Char -> String -> Bool
 isMandatory = elem
 
 -- | Check that mandatory letter.
--- TODO Can we use 'isMandatory' here? It will require an extra parameter,
+-- TODO Can we use isMandatory here? It will require an extra parameter,
 -- which is not available by the parser.
 checkMandatory :: String              -- ^ mandatory character to check
                 -> Either String Char -- ^ valid mandatory letter
@@ -144,13 +142,5 @@ isWord :: String      -- ^ valid letters
 isWord _  []     = True
 isWord [] _      = False
 isWord (x:xs) ys = if x `elem` ys
-                   then isWord xs (removeLetter x ys)
+                   then isWord xs (ys \\ [x])
                    else isWord xs ys
-
--- | Remove first occurrence of a character from a word.
---
--- Used by 'isWord' to remove an element that is guaranteed to be present.
-removeLetter :: Char     -- ^ character to remove
-              -> String  -- ^ string to remove character from
-              -> String  -- ^ result after character removed
-removeLetter x ys = ys \\ [x]
