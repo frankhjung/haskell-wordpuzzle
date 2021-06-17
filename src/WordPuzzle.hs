@@ -101,6 +101,7 @@ checkLetters ls = if isLetters ls
 
 -- | Smart constructor for WordPuzzle.
 -- TODO re-write using accumulative validation
+-- See https://github.com/system-f/validation/blob/master/examples/src/Email.hs
 makeWordPuzzle :: Int -> Char -> String -> FilePath -> Either ValidationError WordPuzzle
 makeWordPuzzle s m ls d
   | not (isSize s)          = Left (InvalidSize s)
