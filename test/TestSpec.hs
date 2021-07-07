@@ -3,8 +3,8 @@
 module Main(main) where
 
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
-import           WordPuzzle (ValidationError (..), checkLetters, checkMandatory,
-                             checkSize, isWord)
+import           WordPuzzle (ValidationError (..), checkLetters, checkSize,
+                             hasLetters)
 
 main :: IO ()
 main = hspec $ do
@@ -20,20 +20,6 @@ main = hspec $ do
       it "returns Right" $
         checkSize 4 `shouldBe` Right 4
 
-  describe "checkMandatory" $ do
-    context "valid mandatory" $
-      it "1 lowercase mandatory" $
-        checkMandatory "a" `shouldBe` Right 'a'
-    context "uppercase mandatory" $
-      it "returns Left" $
-        checkMandatory "A" `shouldBe` Left (show (InvalidMandatory 'A'))
-    context "empty mandatory" $
-      it "returns Left" $
-        checkMandatory "" `shouldBe` Left (show (UnexpectedValue ""))
-    context "more than 1 mandatory" $
-      it "returns Left" $
-        checkMandatory "ab" `shouldBe` Left (show (UnexpectedValue "ab"))
-
   describe "checkLetters" $ do
     context "too few letters" $
       it "returns Left" $
@@ -48,17 +34,17 @@ main = hspec $ do
       it "returns Left" $
         checkLetters "abcdefghij" `shouldBe` Left (show (InvalidLetters "abcdefghij"))
 
-  describe "isWord" $ do
+  describe "hasLetters" $ do
     context "when word contains valid characters" $
       it "returns true" $
-        isWord "foobar" "barfoo" `shouldBe` True
+        hasLetters "foobar" "barfoo" `shouldBe` True
     context "when word contains a valid subset of characters" $
       it "returns true" $
-        isWord "foobar" "rof" `shouldBe` True
+        hasLetters "foobar" "rof" `shouldBe` True
     context "when word does not contain valid characters" $
       it "returns false" $
-        isWord "foobar" "bartez" `shouldBe` False
+        hasLetters "foobar" "bartez" `shouldBe` False
     context "when word does not contain valid character frequency" $
       it "returns false" $
-        isWord "foobar" "baarof" `shouldBe` False
+        hasLetters "foobar" "baarof" `shouldBe` False
 

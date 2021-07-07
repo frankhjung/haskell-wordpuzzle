@@ -6,7 +6,7 @@ TARGET	:= wordpuzzle
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-ARGS	?= -s 4 -m c -l adevcrsoi
+ARGS	?= -s 7 -l cadevrsoi
 
 default: check build test
 

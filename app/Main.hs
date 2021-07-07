@@ -1,8 +1,7 @@
 module Main(main) where
 
 import           WordPuzzle          (ValidationError (..), checkLetters,
-                                      checkMandatory, checkSize, makeWordPuzzle,
-                                      solve)
+                                      checkSize, makeWordPuzzle, solve)
 
 import           Data.Version        (showVersion)
 import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
@@ -16,7 +15,6 @@ import           Text.Read           (readMaybe)
 -- valid command line options
 data Opts = Opts
               { size       :: Int
-              , mandatory  :: Char
               , letters    :: String
               , dictionary :: FilePath
               } deriving (Show)
@@ -31,11 +29,6 @@ options = Opts
      <> showDefault
      <> value 4
      <> metavar "INT" )
-  <*> option readerMandatory
-      ( long "mandatory"
-     <> short 'm'
-     <> help "Mandatory character for all words"
-     <> metavar "CHAR" )
   <*> option readerLetters
       ( long "letters"
      <> short 'l'
@@ -52,10 +45,6 @@ options = Opts
 -- read size in range from 1 to 9
 readerSize :: ReadM Int
 readerSize = eitherReader readSizeOption
-
--- read an alphabetic character
-readerMandatory :: ReadM Char
-readerMandatory = eitherReader checkMandatory
 
 -- read an alphabetic string
 readerLetters :: ReadM String
@@ -88,5 +77,5 @@ readSizeOption ss =
 main :: IO ()
 main = do
   opts <- execParser optsParser
-  let wp = makeWordPuzzle (size opts) (mandatory opts) (letters opts) (dictionary opts)
+  let wp = makeWordPuzzle (size opts) (letters opts) (dictionary opts)
   either print solve wp -- print error or show matching words

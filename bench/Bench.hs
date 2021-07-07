@@ -1,13 +1,13 @@
 module Main(main) where
 
 import           Criterion.Main (bench, bgroup, defaultMain, nf)
-import           WordPuzzle     (isWord)
+import           WordPuzzle     (hasLetters)
 
 main :: IO ()
 main = defaultMain
   [
     bgroup "WordPuzzle"
     [
-      bench "isWord" $ nf isWord "foobar"
+      bench "hasLetters" $ nf hasLetters "foobar"
     ]
   ]

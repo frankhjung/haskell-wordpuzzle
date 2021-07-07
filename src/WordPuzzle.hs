@@ -28,8 +28,7 @@ module WordPuzzle ( WordPuzzle
                   , makeWordPuzzle
                   , checkSize
                   , checkLetters
-                  , checkMandatory
-                  , isWord
+                  , hasLetters
                   , solve
                   , ValidationError(..)
                   ) where
@@ -50,7 +49,6 @@ data WordPuzzle = WordPuzzle
 
 -- | Error given on invalid parameter.
 data ValidationError = InvalidSize Int          -- ^ bad size integer
-                       | InvalidMandatory Char  -- ^ bad mandatory character
                        | InvalidLetters String  -- ^ bad letters
                        | UnexpectedValue String -- ^ couldn't parse value
                           deriving (Eq)
@@ -58,7 +56,6 @@ data ValidationError = InvalidSize Int          -- ^ bad size integer
 -- | Show 'ValidationError' as string.
 instance Show ValidationError where
   show (InvalidSize n)      = "expected size in range [1..9], got " ++ show n
-  show (InvalidMandatory m) = "invalid mandatory character, got " ++ [m]
   show (InvalidLetters ls)  = "expected 9 lowercase letters, got " ++ ls
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
@@ -73,21 +70,6 @@ checkSize s = if isSize s
               then Right s
               else Left (show (InvalidSize s))
 
--- | Is mandatory letter valid?
-isMandatory :: Char -> String -> Bool
-isMandatory = elem
-
--- | Check that mandatory letter.
--- TODO Can we use isMandatory here? It will require an extra parameter,
--- which is not available by the parser.
-checkMandatory :: String              -- ^ mandatory character to check
-                -> Either String Char -- ^ valid mandatory letter
-checkMandatory [] = Left (show (UnexpectedValue ""))
-checkMandatory ms@(m:_)
-  | 1 /= length ms    = Left (show (UnexpectedValue ms))
-  | not (isLower m)   = Left (show (InvalidMandatory m))
-  | otherwise         = Right m
-
 -- | Are letters valid?
 isLetters :: String -> Bool
 isLetters ls = 9 == length ls && all isLower ls
@@ -99,15 +81,19 @@ checkLetters ls = if isLetters ls
                   then Right ls
                   else Left (show (InvalidLetters ls))
 
+-- | Does word contain the mandatory letter?
+hasMandatory :: Char -> String -> Bool
+hasMandatory = elem
+
 -- | Smart constructor for WordPuzzle.
 -- TODO re-write using accumulative validation
 -- See https://github.com/system-f/validation/blob/master/examples/src/Email.hs
-makeWordPuzzle :: Int -> Char -> String -> FilePath -> Either ValidationError WordPuzzle
-makeWordPuzzle s m ls d
+makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle
+makeWordPuzzle s ls d
   | not (isSize s)          = Left (InvalidSize s)
-  | not (isMandatory m ls)  = Left (InvalidMandatory m)
   | not (isLetters ls)      = Left (InvalidLetters ls)
   | otherwise               = Right (WordPuzzle s m ls d)
+  where m = head ls  -- valid as ls already checked
 
 -- | Solve word puzzle.
 --
@@ -127,21 +113,21 @@ solve' :: WordPuzzle -> [String] -> [String]
 solve' puzzle = filter (getPredicate (pS <> pM <> pL))
   where
     pS = Predicate (inRange (size puzzle, 9) . length)
-    pM = Predicate (isMandatory (mandatory puzzle))
-    pL = Predicate (isWord (letters puzzle))
+    pM = Predicate (hasMandatory (mandatory puzzle))
+    pL = Predicate (hasLetters (letters puzzle))
 
--- | Check if a word contains only characters from a list.
+-- | Check if a word contains only characters from a letters list.
 --
 -- * If all valid characters are removed from the word, and there are still
 -- characters left over, then the word is not valid.
 --
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
-isWord :: String      -- ^ valid letters
-        -> String     -- ^ dictionary word to check
-        -> Bool       -- ^ true if dictionary word matches letters
-isWord _  []     = True
-isWord [] _      = False
-isWord (x:xs) ys = if x `elem` ys
-                   then isWord xs (ys \\ [x])
-                   else isWord xs ys
+hasLetters :: String     -- ^ valid letters
+           -> String     -- ^ dictionary word to check
+           -> Bool       -- ^ true if dictionary word matches letters
+hasLetters _  []     = True
+hasLetters [] _      = False
+hasLetters (x:xs) ys = if x `elem` ys
+                   then hasLetters xs (ys \\ [x])
+                   else hasLetters xs ys
