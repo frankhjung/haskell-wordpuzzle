@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span><span>
+</span><a name="line-2"></a><span class="hs-pragma">{-# LANGUAGE OverloadedStrings          #-}</span><span>
+</span><a name="line-3"></a><span>
+</span><a name="line-4"></a><span class="hs-comment">-- | Core types and functions for the @io-streams@ library.</span><span>
+</span><a name="line-5"></a><span class="hs-comment">--</span><span>
+</span><a name="line-6"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">System.IO.Streams.Core</span><span>
+</span><a name="line-7"></a><span> </span><span class="hs-special">(</span><span> </span><span class="hs-comment">-- * Stream types</span><span>
+</span><a name="line-8"></a><span>   </span><a href="System.IO.Streams.Internal.html#InputStream"><span class="hs-identifier hs-type">InputStream</span></a><span>
+</span><a name="line-9"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#OutputStream"><span class="hs-identifier hs-type">OutputStream</span></a><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span>   </span><span class="hs-comment">-- * Creating streams</span><span>
+</span><a name="line-12"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#makeInputStream"><span class="hs-identifier hs-var">makeInputStream</span></a><span>
+</span><a name="line-13"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#makeOutputStream"><span class="hs-identifier hs-var">makeOutputStream</span></a><span>
+</span><a name="line-14"></a><span>
+</span><a name="line-15"></a><span>   </span><span class="hs-comment">-- * Primitive stream operations</span><span>
+</span><a name="line-16"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#read"><span class="hs-identifier hs-var">read</span></a><span>
+</span><a name="line-17"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#unRead"><span class="hs-identifier hs-var">unRead</span></a><span>
+</span><a name="line-18"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#peek"><span class="hs-identifier hs-var">peek</span></a><span>
+</span><a name="line-19"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#write"><span class="hs-identifier hs-var">write</span></a><span>
+</span><a name="line-20"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#writeTo"><span class="hs-identifier hs-var">writeTo</span></a><span>
+</span><a name="line-21"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#atEOF"><span class="hs-identifier hs-var">atEOF</span></a><span>
+</span><a name="line-22"></a><span>
+</span><a name="line-23"></a><span>   </span><span class="hs-comment">-- * Connecting streams together</span><span>
+</span><a name="line-24"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#connect"><span class="hs-identifier hs-var">connect</span></a><span>
+</span><a name="line-25"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#connectTo"><span class="hs-identifier hs-var">connectTo</span></a><span>
+</span><a name="line-26"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#supply"><span class="hs-identifier hs-var">supply</span></a><span>
+</span><a name="line-27"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#supplyTo"><span class="hs-identifier hs-var">supplyTo</span></a><span>
+</span><a name="line-28"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#appendInputStream"><span class="hs-identifier hs-var">appendInputStream</span></a><span>
+</span><a name="line-29"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#concatInputStreams"><span class="hs-identifier hs-var">concatInputStreams</span></a><span>
+</span><a name="line-30"></a><span>
+</span><a name="line-31"></a><span>   </span><span class="hs-comment">-- * Thread safety \/ concurrency</span><span>
+</span><a name="line-32"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#lockingInputStream"><span class="hs-identifier hs-var">lockingInputStream</span></a><span>
+</span><a name="line-33"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#lockingOutputStream"><span class="hs-identifier hs-var">lockingOutputStream</span></a><span>
+</span><a name="line-34"></a><span>
+</span><a name="line-35"></a><span>   </span><span class="hs-comment">-- * Utility streams</span><span>
+</span><a name="line-36"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#nullInput"><span class="hs-identifier hs-var">nullInput</span></a><span>
+</span><a name="line-37"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#nullOutput"><span class="hs-identifier hs-var">nullOutput</span></a><span>
+</span><a name="line-38"></a><span>
+</span><a name="line-39"></a><span>   </span><span class="hs-comment">-- * Generator monad</span><span>
+</span><a name="line-40"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#Generator"><span class="hs-identifier hs-type">Generator</span></a><span>
+</span><a name="line-41"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#fromGenerator"><span class="hs-identifier hs-var">fromGenerator</span></a><span>
+</span><a name="line-42"></a><span> </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.html#yield"><span class="hs-identifier hs-var">yield</span></a><span>
+</span><a name="line-43"></a><span> </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><span class="hs-comment">------------------------------------------------------------------------------</span><span>
+</span><a name="line-46"></a><span class="hs-keyword">import</span><span>           </span><span class="hs-identifier">Prelude</span><span>                    </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><a name="line-47"></a><span class="hs-keyword">import</span><span>           </span><a href="System.IO.Streams.Internal.html"><span class="hs-identifier">System.IO.Streams.Internal</span></a><span>
+</span><a name="line-48"></a></pre></body></html>

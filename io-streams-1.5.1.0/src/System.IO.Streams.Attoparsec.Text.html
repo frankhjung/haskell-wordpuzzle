@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">-- | This module provides support for parsing values from Text</span><span>
+</span><a name="line-2"></a><span class="hs-comment">-- 'InputStream's using @attoparsec@. /Since: 1.4.0.0./</span><span>
+</span><a name="line-3"></a><span>
+</span><a name="line-4"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">System.IO.Streams.Attoparsec.Text</span><span>
+</span><a name="line-5"></a><span>  </span><span class="hs-special">(</span><span> </span><span class="hs-comment">-- * Parsing</span><span>
+</span><a name="line-6"></a><span>    </span><a href="System.IO.Streams.Attoparsec.Text.html#parseFromStream"><span class="hs-identifier hs-var">parseFromStream</span></a><span>
+</span><a name="line-7"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Attoparsec.Text.html#parserToInputStream"><span class="hs-identifier hs-var">parserToInputStream</span></a><span>
+</span><a name="line-8"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.Attoparsec.html#ParseException"><span class="hs-identifier hs-type">ParseException</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><a name="line-9"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span class="hs-comment">------------------------------------------------------------------------------</span><span>
+</span><a name="line-12"></a><span class="hs-keyword">import</span><span>           </span><span class="hs-identifier">Data.Attoparsec.Text</span><span>                  </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Parser</span><span class="hs-special">)</span><span>
+</span><a name="line-13"></a><span class="hs-keyword">import</span><span>           </span><span class="hs-identifier">Data.Text</span><span>                             </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Text</span><span class="hs-special">)</span><span>
+</span><a name="line-14"></a><span class="hs-comment">------------------------------------------------------------------------------</span><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span>           </span><a href="System.IO.Streams.Internal.html"><span class="hs-identifier">System.IO.Streams.Internal</span></a><span>            </span><span class="hs-special">(</span><a href="System.IO.Streams.Internal.html#InputStream"><span class="hs-identifier hs-type">InputStream</span></a><span class="hs-special">)</span><span>
+</span><a name="line-16"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><a href="System.IO.Streams.Internal.html"><span class="hs-identifier">System.IO.Streams.Internal</span></a><span>            </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Streams</span><span>
+</span><a name="line-17"></a><span class="hs-keyword">import</span><span>           </span><a href="System.IO.Streams.Internal.Attoparsec.html"><span class="hs-identifier">System.IO.Streams.Internal.Attoparsec</span></a><span> </span><span class="hs-special">(</span><a href="System.IO.Streams.Internal.Attoparsec.html#ParseData"><span class="hs-identifier hs-type">ParseData</span></a><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.Attoparsec.html#ParseException"><span class="hs-identifier hs-type">ParseException</span></a><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="System.IO.Streams.Internal.Attoparsec.html#parseFromStreamInternal"><span class="hs-identifier hs-var">parseFromStreamInternal</span></a><span class="hs-special">)</span><span>
+</span><a name="line-18"></a><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span class="hs-comment">------------------------------------------------------------------------------</span><span>
+</span><a name="line-21"></a><span class="hs-comment">-- | Supplies an @attoparsec@ 'Parser' with an 'InputStream', returning the</span><span>
+</span><a name="line-22"></a><span class="hs-comment">-- final parsed value or throwing a 'ParseException' if parsing fails.</span><span>
+</span><a name="line-23"></a><span class="hs-comment">--</span><span>
+</span><a name="line-24"></a><span class="hs-comment">-- 'parseFromStream' consumes only as much input as necessary to satisfy the</span><span>
+</span><a name="line-25"></a><span class="hs-comment">-- 'Parser': any unconsumed input is pushed back onto the 'InputStream'.</span><span>
+</span><a name="line-26"></a><span class="hs-comment">--</span><span>
+</span><a name="line-27"></a><span class="hs-comment">-- If the 'Parser' exhausts the 'InputStream', the end-of-stream signal is sent</span><span>
+</span><a name="line-28"></a><span class="hs-comment">-- to attoparsec.</span><span>
+</span><a name="line-29"></a><span class="hs-comment">--</span><span>
+</span><a name="line-30"></a><span class="hs-comment">-- Example:</span><span>
+</span><a name="line-31"></a><span class="hs-comment">--</span><span>
+</span><a name="line-32"></a><span class="hs-comment">-- @</span><span>
+</span><a name="line-33"></a><span class="hs-comment">-- ghci&gt; import &quot;Data.Attoparsec.Text&quot;</span><span>
+</span><a name="line-34"></a><span class="hs-comment">-- ghci&gt; is &lt;- 'System.IO.Streams.fromList' [\&quot;12345xxx\&quot; :: 'Text']</span><span>
+</span><a name="line-35"></a><span class="hs-comment">-- ghci&gt; 'parseFromStream' ('Data.Attoparsec.Text.takeWhile' 'Data.Char.isDigit') is</span><span>
+</span><a name="line-36"></a><span class="hs-comment">-- \&quot;12345\&quot;</span><span>
+</span><a name="line-37"></a><span class="hs-comment">-- ghci&gt; 'System.IO.Streams.read' is</span><span>
+</span><a name="line-38"></a><span class="hs-comment">-- Just \&quot;xxx\&quot;</span><span>
+</span><a name="line-39"></a><span class="hs-comment">-- @</span><span>
+</span><a name="line-40"></a><span class="hs-identifier">parseFromStream</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Parser</span><span> </span><a href="#local-6989586621679058786"><span class="hs-identifier hs-type">r</span></a><span>
+</span><a name="line-41"></a><span>                </span><span class="hs-glyph">-&gt;</span><span> </span><a href="System.IO.Streams.Internal.html#InputStream"><span class="hs-identifier hs-type">InputStream</span></a><span> </span><span class="hs-identifier hs-type">Text</span><span>
+</span><a name="line-42"></a><span>                </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="#local-6989586621679058786"><span class="hs-identifier hs-type">r</span></a><span>
+</span><a name="line-43"></a><a name="parseFromStream"><a href="System.IO.Streams.Attoparsec.Text.html#parseFromStream"><span class="hs-identifier">parseFromStream</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="System.IO.Streams.Internal.Attoparsec.html#parseFromStreamInternal"><span class="hs-identifier hs-var">parseFromStreamInternal</span></a><span> </span><a href="System.IO.Streams.Internal.Attoparsec.html#parse"><span class="hs-identifier hs-var">parse</span></a><span> </span><a href="System.IO.Streams.Internal.Attoparsec.html#feed"><span class="hs-identifier hs-var">feed</span></a><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><span class="hs-comment">------------------------------------------------------------------------------</span><span>
+</span><a name="line-46"></a><span class="hs-comment">-- | Given a 'Parser' yielding values of type @'Maybe' r@, transforms an</span><span>
+</span><a name="line-47"></a><span class="hs-comment">-- 'InputStream' over byte strings to an 'InputStream' yielding values of type</span><span>
+</span><a name="line-48"></a><span class="hs-comment">-- @r@.</span><span>
+</span><a name="line-49"></a><span class="hs-comment">--</span><span>
+</span><a name="line-50"></a><span class="hs-comment">-- If the parser yields @Just x@, then @x@ will be passed along downstream, and</span><span>
+</span><a name="line-51"></a><span class="hs-comment">-- if the parser yields @Nothing@, that will be interpreted as end-of-stream.</span><span>
+</span><a name="line-52"></a><span class="hs-comment">--</span><span>
+</span><a name="line-53"></a><span class="hs-comment">-- Upon a parse error, 'parserToInputStream' will throw a 'ParseException'.</span><span>
+</span><a name="line-54"></a><span class="hs-comment">--</span><span>
+</span><a name="line-55"></a><span class="hs-comment">-- Example:</span><span>
+</span><a name="line-56"></a><span class="hs-comment">--</span><span>
+</span><a name="line-57"></a><span class="hs-comment">-- @</span><span>
+</span><a name="line-58"></a><span class="hs-comment">-- ghci&gt; import &quot;Control.Applicative&quot;</span><span>
+</span><a name="line-59"></a><span class="hs-comment">-- ghci&gt; import &quot;Data.Attoparsec.Text&quot;</span><span>
+</span><a name="line-60"></a><span class="hs-comment">-- ghci&gt; is &lt;- 'System.IO.Streams.fromList' [\&quot;1 2 3 4 5\&quot; :: 'Text']</span><span>
+</span><a name="line-61"></a><span class="hs-comment">-- ghci&gt; let parser = ('Data.Attoparsec.Text.endOfInput' &gt;&gt; 'Control.Applicative.pure' 'Nothing') \&lt;|\&gt; (Just \&lt;$\&gt; ('Data.Attoparsec.Text.skipWhile' 'Data.Attoparsec.Text.isSpace' *&gt; 'Data.Attoparsec.Text.decimal'))</span><span>
+</span><a name="line-62"></a><span class="hs-comment">-- ghci&gt; 'parserToInputStream' parser is &gt;&gt;= 'System.IO.Streams.toList'</span><span>
+</span><a name="line-63"></a><span class="hs-comment">-- [1,2,3,4,5]</span><span>
+</span><a name="line-64"></a><span class="hs-comment">-- ghci&gt; is' \&lt;- 'System.IO.Streams.fromList' [\&quot;1 2xx3 4 5\&quot; :: 'Text'] &gt;&gt;= 'parserToInputStream' parser</span><span>
+</span><a name="line-65"></a><span class="hs-comment">-- ghci&gt; 'read' is'</span><span>
+</span><a name="line-66"></a><span class="hs-comment">-- Just 1</span><span>
+</span><a name="line-67"></a><span class="hs-comment">-- ghci&gt; 'read' is'</span><span>
+</span><a name="line-68"></a><span class="hs-comment">-- Just 2</span><span>
+</span><a name="line-69"></a><span class="hs-comment">-- ghci&gt; 'read' is'</span><span>
+</span><a name="line-70"></a><span class="hs-comment">-- *** Exception: Parse exception: Failed reading: takeWhile1</span><span>
+</span><a name="line-71"></a><span class="hs-comment">-- @</span><span>
+</span><a name="line-72"></a><span class="hs-identifier">parserToInputStream</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Parser</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Maybe</span><span> </span><a href="#local-6989586621679058785"><span class="hs-identifier hs-type">r</span></a><span class="hs-special">)</span><span>
+</span><a name="line-73"></a><span>                    </span><span class="hs-glyph">-&gt;</span><span> </span><a href="System.IO.Streams.Internal.html#InputStream"><span class="hs-identifier hs-type">InputStream</span></a><span> </span><span class="hs-identifier hs-type">Text</span><span>
+</span><a name="line-74"></a><span>                    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><span class="hs-special">(</span><a href="System.IO.Streams.Internal.html#InputStream"><span class="hs-identifier hs-type">InputStream</span></a><span> </span><a href="#local-6989586621679058785"><span class="hs-identifier hs-type">r</span></a><span class="hs-special">)</span><span>
+</span><a name="line-75"></a><a name="parserToInputStream"><a href="System.IO.Streams.Attoparsec.Text.html#parserToInputStream"><span class="hs-identifier">parserToInputStream</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><a href="System.IO.Streams.Internal.html#makeInputStream"><span class="hs-identifier hs-var">Streams.makeInputStream</span></a><span> </span><span class="hs-operator hs-var">.</span><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><a href="System.IO.Streams.Attoparsec.Text.html#parseFromStream"><span class="hs-identifier hs-var">parseFromStream</span></a><span>
+</span><a name="line-76"></a><span class="hs-pragma">{-# INLINE</span><span> </span><span class="hs-pragma">parserToInputStream</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-77"></a></pre></body></html>
