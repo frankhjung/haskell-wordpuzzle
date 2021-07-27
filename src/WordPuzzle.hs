@@ -19,7 +19,7 @@
 
   > checkXyz :: a -> Either Error a
 
-  TODO Validation returns a List of errors:
+  TODO Update validation to return a List of errors:
 
   > validateXyz :: a -> Validation [Error] a
 -}
@@ -51,7 +51,6 @@ data WordPuzzle = WordPuzzle
 data ValidationError = InvalidSize Int          -- ^ bad size integer
                        | InvalidLetters String  -- ^ bad letters
                        | UnexpectedValue String -- ^ couldn't parse value
-                          deriving (Eq)
 
 -- | Show 'ValidationError' as string.
 instance Show ValidationError where
@@ -95,26 +94,23 @@ makeWordPuzzle s ls d
   | otherwise               = Right (WordPuzzle s m ls d)
   where m = head ls  -- valid as ls already checked
 
--- | Solve word puzzle.
---
--- Print words to stdout.
-solve :: WordPuzzle -> IO ()
-solve puzzle = do
-  dict <- readFile (dictionary puzzle)
-  mapM_ putStrLn $ solve' puzzle (lines dict)
-
 -- | Solve word puzzle given a dictionary of words.
 -- 1. must be greater than the minimum word length
 -- 2. must be no more than 9 characters long
 -- 3. must contain mandatory character
 -- 4. must contain only valid characters
 -- 5. must not exceed valid character frequency
-solve' :: WordPuzzle -> [String] -> [String]
-solve' puzzle = filter (getPredicate (pS <> pM <> pL))
+solve :: WordPuzzle -> IO ()
+solve wordpuzzle = do
+  dict <- readFile (dictionary wordpuzzle)
+  mapM_ putStrLn $ go wordpuzzle (lines dict)
   where
-    pS = Predicate (inRange (size puzzle, 9) . length)
-    pM = Predicate (hasMandatory (mandatory puzzle))
-    pL = Predicate (hasLetters (letters puzzle))
+    go :: WordPuzzle -> [String] -> [String]
+    go puzzle = filter (getPredicate (pS <> pM <> pL))
+      where
+        pS = Predicate (inRange (size puzzle, 9) . length)
+        pM = Predicate (hasMandatory (mandatory puzzle))
+        pL = Predicate (hasLetters (letters puzzle))
 
 -- | Check if a word contains only characters from a letters list.
 --
@@ -129,5 +125,5 @@ hasLetters :: String     -- ^ valid letters
 hasLetters _  []     = True
 hasLetters [] _      = False
 hasLetters (x:xs) ys = if x `elem` ys
-                   then hasLetters xs (ys \\ [x])
-                   else hasLetters xs ys
+                        then hasLetters xs (ys \\ [x])
+                        else hasLetters xs ys
