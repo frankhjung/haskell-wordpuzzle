@@ -17,8 +17,7 @@ build:
   stage: build
   script:
     - make setup clean check build test bench doc
-    - mv $(stack path --local-doc-root) public/
-    # cp -fpr .stack-work/install/x86_64-linux/*/*/hpc/. public/hpc
+    - mv $(stack path --local-doc-root)/wordpuzzle*/ public/
     - cp -fp .stack-work/benchmark.html public/
   artifacts:
     paths:
