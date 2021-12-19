@@ -70,6 +70,7 @@ ghci:
 
 clean:
 	stack clean
+	cabal new-clean
 	$(RM) -rf $(TARGET).tix .hdevtools.sock
 
 cleanall: clean
