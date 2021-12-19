@@ -47,4 +47,3 @@ main = hspec $ do
     context "when word does not contain valid character frequency" $
       it "returns false" $
         hasLetters "foobar" "baarof" `shouldBe` False
-
