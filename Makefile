@@ -43,11 +43,10 @@ bench:
 doc:
 	@stack haddock --no-rerun-tests --no-reconfigure
 
-install:
+install: bench doc
 	@stack install --local-bin-path $(HOME)/bin
-	-cp -pr .stack-work/benchmark.html doc/
-	-cp -pr $(shell find .stack-work/install -type d -name hpc) doc/
-	-cp -pr $(shell find .stack-work/dist -type d -name html) doc/
+	@cp -pr $(shell find .stack-work/dist -type d -name html) doc/
+	@cp .stack-work/benchmark.html doc/
 
 dictionary:
 ifneq ("$(wildcard /usr/share/dict/british-english-huge)","")
