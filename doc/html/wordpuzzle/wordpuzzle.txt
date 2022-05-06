@@ -7,7 +7,7 @@
 --   Solve a common 9 letter word puzzle. This will list all words matching
 --   the 9 letters and must include a mandatory character.
 @package wordpuzzle
-@version 1.1.0
+@version 2.1.0
 
 
 -- | Supporting functions for solving letter word puzzles.
@@ -26,7 +26,7 @@
 --   checkXyz :: a -&gt; Either Error a
 --   </pre>
 --   
---   TODO Validation returns a List of errors:
+--   TODO Update validation to return a List of errors:
 --   
 --   <pre>
 --   validateXyz :: a -&gt; Validation [Error] a
@@ -37,8 +37,9 @@ module WordPuzzle
 data WordPuzzle
 
 -- | Smart constructor for WordPuzzle. TODO re-write using accumulative
---   validation
-makeWordPuzzle :: Int -> Char -> String -> FilePath -> Either ValidationError WordPuzzle
+--   validation See
+--   <a>https://github.com/system-f/validation/blob/master/examples/src/Email.hs</a>
+makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle
 
 -- | Check that mandatory value is in the range from 1 to 9.
 checkSize :: Int -> Either String Int
@@ -46,11 +47,7 @@ checkSize :: Int -> Either String Int
 -- | Check that letters are lowercase alphabetic characters.
 checkLetters :: String -> Either String String
 
--- | Check that mandatory letter. TODO Can we use isMandatory here? It will
---   require an extra parameter, which is not available by the parser.
-checkMandatory :: String -> Either String Char
-
--- | Check if a word contains only characters from a list.
+-- | Check if a word contains only characters from a letters list.
 --   
 --   <ul>
 --   <li>If all valid characters are removed from the word, and there are
@@ -58,11 +55,12 @@ checkMandatory :: String -> Either String Char
 --   <li>If all valid characters are removed from the word, and the word is
 --   empty, then the word is valid.</li>
 --   </ul>
-isWord :: String -> String -> Bool
+hasLetters :: String -> String -> Bool
 
--- | Solve word puzzle.
---   
---   Print words to stdout.
+-- | Solve word puzzle given a dictionary of words. 1. must be greater than
+--   the minimum word length 2. must be no more than 9 characters long 3.
+--   must contain mandatory character 4. must contain only valid characters
+--   5. must not exceed valid character frequency
 solve :: WordPuzzle -> IO ()
 
 -- | Error given on invalid parameter.
@@ -71,14 +69,10 @@ data ValidationError
 -- | bad size integer
 InvalidSize :: Int -> ValidationError
 
--- | bad mandatory character
-InvalidMandatory :: Char -> ValidationError
-
 -- | bad letters
 InvalidLetters :: String -> ValidationError
 
 -- | couldn't parse value
 UnexpectedValue :: String -> ValidationError
-instance GHC.Classes.Eq WordPuzzle.ValidationError
 instance GHC.Show.Show WordPuzzle.WordPuzzle
 instance GHC.Show.Show WordPuzzle.ValidationError
