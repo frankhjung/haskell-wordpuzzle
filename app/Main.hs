@@ -1,5 +1,6 @@
 module Main(main) where
 
+import           Data.Char           (isLetter, toLower)
 import           Data.Version        (showVersion)
 import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       execParser, footer, fullDesc, header,
@@ -78,4 +79,3 @@ main = do
   opts <- execParser optsParser
   let wp = makeWordPuzzle (size opts) (letters opts) (dictionary opts)
   either print solve wp -- print error or show matching words
-
