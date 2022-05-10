@@ -29,7 +29,6 @@ module WordPuzzle ( WordPuzzle
                   , checkSize
                   , checkLetters
                   , hasLetters
-                  , solve
                   , ValidationError(..)
                   ) where
 
