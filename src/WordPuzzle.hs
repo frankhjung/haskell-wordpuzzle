@@ -59,10 +59,18 @@ instance Show ValidationError where
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
 -- | Is size valid?
+-- >>> isSize 9
+-- True
+-- >>> isSize 10
+-- False
 isSize :: Int -> Bool
 isSize = inRange (1,9)
 
 -- | Check that mandatory value is in the range from 1 to 9.
+-- >>> checkSize 10
+-- Left (InvalidSize 10)
+-- >>> checkSize 1
+-- Right 1
 checkSize :: Int                 -- ^ value to check
             -> Either String Int -- ^ Left unexpected size or Right size
 checkSize s = if isSize s
@@ -70,6 +78,10 @@ checkSize s = if isSize s
               else Left (show (InvalidSize s))
 
 -- | Are letters valid?
+-- >>> isLetters "abcdefghij"
+-- True
+-- >>> isLetters "abcDefghij"
+-- False
 isLetters :: String -> Bool
 isLetters ls = 9 == length ls && all isLower ls
 
