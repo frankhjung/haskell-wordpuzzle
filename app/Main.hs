@@ -77,5 +77,5 @@ readSizeOption ss =
 main :: IO ()
 main = do
   opts <- execParser optsParser
-  let wp = makeWordPuzzle (size opts) (letters opts) (dictionary opts)
+  let wp = makeWordPuzzle (_size opts) (_mandatory opts) (_letters opts) (_dictionary opts)
   either print solve wp -- print error or show matching words
