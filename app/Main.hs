@@ -1,8 +1,5 @@
 module Main(main) where
 
-import           WordPuzzle          (ValidationError (..), checkLetters,
-                                      checkSize, makeWordPuzzle, solve)
-
 import           Data.Version        (showVersion)
 import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       execParser, footer, fullDesc, header,
@@ -11,6 +8,8 @@ import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       value, (<**>))
 import           Paths_wordpuzzle    (version)
 import           Text.Read           (readMaybe)
+import           WordPuzzle          (ValidationError (..), checkLetters,
+                                      checkSize, makeWordPuzzle, solve)
 
 -- valid command line options
 data Opts = Opts
@@ -79,3 +78,4 @@ main = do
   opts <- execParser optsParser
   let wp = makeWordPuzzle (size opts) (letters opts) (dictionary opts)
   either print solve wp -- print error or show matching words
+

@@ -7,7 +7,7 @@ cabal.sandbox.config
 *.chs.h
 dictionary
 dist
-dist-*
+dist-newstyle
 *.dyn_hi
 *.dyn_o
 *.eventlog
