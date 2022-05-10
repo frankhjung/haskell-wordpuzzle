@@ -1,6 +1,7 @@
 module Main(main) where
 
-import           Data.Char           (isLetter, toLower)
+import           WordPuzzle          (ValidationError (..), checkLetters,
+                                      checkSize, makeWordPuzzle, solve)
 import           Data.Version        (showVersion)
 import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       execParser, footer, fullDesc, header,
@@ -9,8 +10,6 @@ import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       value, (<**>))
 import           Paths_wordpuzzle    (version)
 import           Text.Read           (readMaybe)
-import           WordPuzzle          (ValidationError (..), checkLetters,
-                                      checkSize, makeWordPuzzle, solve)
 
 -- valid command line options
 data Opts = Opts
