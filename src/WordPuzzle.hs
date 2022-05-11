@@ -59,16 +59,20 @@ instance Show ValidationError where
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
 -- | Is size valid?
+--
 -- >>> isSize 9
 -- True
+--
 -- >>> isSize 10
 -- False
 isSize :: Int -> Bool
 isSize = inRange (1,9)
 
 -- | Check that mandatory value is in the range from 1 to 9.
+--
 -- >>> checkSize 10
 -- Left (InvalidSize 10)
+--
 -- >>> checkSize 1
 -- Right 1
 checkSize :: Int                 -- ^ value to check
@@ -78,8 +82,10 @@ checkSize s = if isSize s
               else Left (show (InvalidSize s))
 
 -- | Are letters valid?
+--
 -- >>> isLetters "abcdefghij"
 -- True
+--
 -- >>> isLetters "abcDefghij"
 -- False
 isLetters :: String -> Bool
@@ -97,7 +103,9 @@ hasMandatory :: Char -> String -> Bool
 hasMandatory = elem
 
 -- | Smart constructor for WordPuzzle.
+--
 -- TODO re-write using accumulative validation
+--
 -- See https://github.com/system-f/validation/blob/master/examples/src/Email.hs
 makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle
 makeWordPuzzle s ls d
@@ -107,11 +115,14 @@ makeWordPuzzle s ls d
   where m = head ls  -- valid as ls already checked
 
 -- | Solve word puzzle given a dictionary of words.
--- 1. must be greater than the minimum word length
--- 2. must be no more than 9 characters long
--- 3. must contain mandatory character
--- 4. must contain only valid characters
--- 5. must not exceed valid character frequency
+--
+-- Where each word:
+--
+-- * must be greater than the minimum word length
+-- * must be no more than 9 characters long
+-- * must contain mandatory character
+-- * must contain only valid characters
+-- * must not exceed valid character frequency
 solve :: WordPuzzle -> IO ()
 solve wordpuzzle = do
   dict <- readFile (dictionary wordpuzzle)
