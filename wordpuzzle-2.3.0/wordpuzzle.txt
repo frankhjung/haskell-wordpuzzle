@@ -72,6 +72,8 @@ hasLetters :: String -> String -> Bool
 
 -- | Solve word puzzle given a dictionary of words.
 --   
+--   Where each word:
+--   
 --   <ul>
 --   <li>must be greater than the minimum word length</li>
 --   <li>must be no more than 9 characters long</li>
