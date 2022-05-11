@@ -36,13 +36,25 @@ module WordPuzzle
 -- | Represent parameters required for the puzzle.
 data WordPuzzle
 
--- | Smart constructor for WordPuzzle. TODO re-write using accumulative
---   validation See
+-- | Smart constructor for WordPuzzle.
+--   
+--   TODO re-write using accumulative validation
+--   
+--   See
 --   <a>https://github.com/system-f/validation/blob/master/examples/src/Email.hs</a>
 makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle
 
--- | Check that mandatory value is in the range from 1 to 9. &gt;&gt;&gt;
---   checkSize 10 Left (InvalidSize 10) &gt;&gt;&gt; checkSize 1 Right 1
+-- | Check that mandatory value is in the range from 1 to 9.
+--   
+--   <pre>
+--   &gt;&gt;&gt; checkSize 10
+--   Left (InvalidSize 10)
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; checkSize 1
+--   Right 1
+--   </pre>
 checkSize :: Int -> Either String Int
 
 -- | Check that letters are lowercase alphabetic characters.
@@ -58,10 +70,15 @@ checkLetters :: String -> Either String String
 --   </ul>
 hasLetters :: String -> String -> Bool
 
--- | Solve word puzzle given a dictionary of words. 1. must be greater than
---   the minimum word length 2. must be no more than 9 characters long 3.
---   must contain mandatory character 4. must contain only valid characters
---   5. must not exceed valid character frequency
+-- | Solve word puzzle given a dictionary of words.
+--   
+--   <ul>
+--   <li>must be greater than the minimum word length</li>
+--   <li>must be no more than 9 characters long</li>
+--   <li>must contain mandatory character</li>
+--   <li>must contain only valid characters</li>
+--   <li>must not exceed valid character frequency</li>
+--   </ul>
 solve :: WordPuzzle -> IO ()
 
 -- | Error given on invalid parameter.
