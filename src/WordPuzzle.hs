@@ -147,6 +147,4 @@ hasLetters :: String     -- ^ valid letters
            -> Bool       -- ^ true if dictionary word matches letters
 hasLetters _  []     = True
 hasLetters [] _      = False
-hasLetters (x:xs) ys = if x `elem` ys
-                        then hasLetters xs (ys \\ [x])
-                        else hasLetters xs ys
+hasLetters (x:xs) ys = hasLetters xs (ys \\ [x])
