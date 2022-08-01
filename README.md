@@ -53,7 +53,7 @@ A brief outline of what this program does is:
 For example to call word puzzle solver from `make`:
 
 ```bash
-make ARGS="-s 4 -m c -l adevcrsoi -d/usr/share/dict/words -h" exec
+make ARGS='-s 4 -m c -l adevcrsoi -d/usr/share/dict/words -h' exec
 ```
 
 Or run using default dictionary:
