@@ -32,6 +32,7 @@ build:
 	@stack build --verbosity info --pedantic --no-test
 
 test:
+	@echo test ...
 	@stack test
 
 exec:
