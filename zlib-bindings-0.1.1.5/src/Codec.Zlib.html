@@ -85,7 +85,7 @@
 </span><span id="line-85"></span><span class="hs-comment">-- * #define Z_VERSION_ERROR (-6)</span><span>
 </span><span id="line-86"></span><span>
 </span><span id="line-87"></span><span class="hs-keyword">data</span><span> </span><span id="ZlibException"><span class="annot"><a href="Codec.Zlib.html#ZlibException"><span class="hs-identifier hs-var">ZlibException</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ZlibException"><span class="annot"><a href="Codec.Zlib.html#ZlibException"><span class="hs-identifier hs-var">ZlibException</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
-</span><span id="line-88"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679052683"><span id="local-6989586621679052685"><span id="local-6989586621679052687"><span class="annot"><span class="annottext">Int -&gt; ZlibException -&gt; ShowS
+</span><span id="line-88"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679034746"><span id="local-6989586621679034748"><span id="local-6989586621679034750"><span class="annot"><span class="annottext">Int -&gt; ZlibException -&gt; ShowS
 [ZlibException] -&gt; ShowS
 ZlibException -&gt; String
 (Int -&gt; ZlibException -&gt; ShowS)
@@ -101,54 +101,56 @@ $cshow :: ZlibException -&gt; String
 showsPrec :: Int -&gt; ZlibException -&gt; ShowS
 $cshowsPrec :: Int -&gt; ZlibException -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Typeable</span></span><span class="hs-special">)</span><span>
-</span><span id="line-89"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679052674"><span id="local-6989586621679052676"><span id="local-6989586621679052678"><span class="annot"><span class="hs-identifier hs-type">Exception</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#ZlibException"><span class="hs-identifier hs-type">ZlibException</span></a></span></span></span></span><span>
+</span><span id="line-89"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679034737"><span id="local-6989586621679034739"><span id="local-6989586621679034741"><span class="annot"><span class="hs-identifier hs-type">Exception</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#ZlibException"><span class="hs-identifier hs-type">ZlibException</span></a></span></span></span></span><span>
 </span><span id="line-90"></span><span>
 </span><span id="line-91"></span><span class="hs-comment">-- | Some constants for the error codes, used internally</span><span>
 </span><span id="line-92"></span><span class="annot"><a href="Codec.Zlib.html#zNeedDict"><span class="hs-identifier hs-type">zNeedDict</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CInt</span></span><span>
 </span><span id="line-93"></span><span id="zNeedDict"><span class="annot"><span class="annottext">zNeedDict :: CInt
-</span><a href="Codec.Zlib.html#zNeedDict"><span class="hs-identifier hs-var hs-var">zNeedDict</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-number">2</span></span><span>
+</span><a href="Codec.Zlib.html#zNeedDict"><span class="hs-identifier hs-var hs-var">zNeedDict</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CInt
+</span><span class="hs-number">2</span></span><span>
 </span><span id="line-94"></span><span>
 </span><span id="line-95"></span><span class="annot"><a href="Codec.Zlib.html#zBufError"><span class="hs-identifier hs-type">zBufError</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CInt</span></span><span>
 </span><span id="line-96"></span><span id="zBufError"><span class="annot"><span class="annottext">zBufError :: CInt
-</span><a href="Codec.Zlib.html#zBufError"><span class="hs-identifier hs-var hs-var">zBufError</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">-</span><span class="annot"><span class="hs-number">5</span></span><span>
+</span><a href="Codec.Zlib.html#zBufError"><span class="hs-identifier hs-var hs-var">zBufError</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">-</span><span class="annot"><span class="annottext">CInt
+</span><span class="hs-number">5</span></span><span>
 </span><span id="line-97"></span><span>
 </span><span id="line-98"></span><span class="hs-comment">-- | Initialize an inflation process with the given 'WindowBits'. You will need</span><span>
 </span><span id="line-99"></span><span class="hs-comment">-- to call 'feedInflate' to feed compressed data to this and</span><span>
 </span><span id="line-100"></span><span class="hs-comment">-- 'finishInflate' to extract the final chunk of decompressed data.</span><span>
 </span><span id="line-101"></span><span class="annot"><a href="Codec.Zlib.html#initInflate"><span class="hs-identifier hs-type">initInflate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">WindowBits</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-type">Inflate</span></a></span><span>
 </span><span id="line-102"></span><span id="initInflate"><span class="annot"><span class="annottext">initInflate :: WindowBits -&gt; IO Inflate
-</span><a href="Codec.Zlib.html#initInflate"><span class="hs-identifier hs-var hs-var">initInflate</span></a></span></span><span> </span><span id="local-6989586621679052670"><span class="annot"><span class="annottext">w :: WindowBits
-</span><a href="#local-6989586621679052670"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-103"></span><span>    </span><span id="local-6989586621679052669"><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052669"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
+</span><a href="Codec.Zlib.html#initInflate"><span class="hs-identifier hs-var hs-var">initInflate</span></a></span></span><span> </span><span id="local-6989586621679034733"><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034733"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-103"></span><span>    </span><span id="local-6989586621679034732"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034732"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
 </span><a href="Codec.Zlib.Lowlevel.html#zstreamNew"><span class="hs-identifier hs-var">zstreamNew</span></a></span><span>
 </span><span id="line-104"></span><span>    </span><span class="annot"><span class="annottext">ZStream' -&gt; WindowBits -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#inflateInit2"><span class="hs-identifier hs-var">inflateInit2</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052669"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
-</span><a href="#local-6989586621679052670"><span class="hs-identifier hs-var">w</span></a></span><span>
-</span><span id="line-105"></span><span>    </span><span id="local-6989586621679052666"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052666"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
+</span><a href="#local-6989586621679034732"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034733"><span class="hs-identifier hs-var">w</span></a></span><span>
+</span><span id="line-105"></span><span>    </span><span id="local-6989586621679034729"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034729"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 -&gt; ZStream' -&gt; IO (ForeignPtr ZStreamStruct)
 forall a. FinalizerPtr a -&gt; Ptr a -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">newForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 </span><a href="Codec.Zlib.Lowlevel.html#c_free_z_stream_inflate"><span class="hs-identifier hs-var">c_free_z_stream_inflate</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052669"><span class="hs-identifier hs-var">zstr</span></a></span><span>
-</span><span id="line-106"></span><span>    </span><span id="local-6989586621679052663"><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052663"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
+</span><a href="#local-6989586621679034732"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><span id="line-106"></span><span>    </span><span id="local-6989586621679034726"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034726"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
 forall a. Int -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">mallocForeignPtrBytes</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier hs-var">defaultChunkSize</span></span><span>
 </span><span id="line-107"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr CChar -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052663"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034726"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052660"><span class="annot"><span class="annottext">buff :: Ptr CChar
-</span><a href="#local-6989586621679052660"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034723"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034723"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-108"></span><span>        </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_out"><span class="hs-identifier hs-var">c_set_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052669"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052660"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034732"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034723"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
@@ -160,8 +162,8 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">(ZStreamPair, Maybe ByteString) -&gt; Inflate
 </span><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-var">Inflate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052666"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052663"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
+</span><a href="#local-6989586621679034729"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034726"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">)</span><span>
 </span><span id="line-110"></span><span>
@@ -170,25 +172,25 @@ forall a. Maybe a
 </span><span id="line-113"></span><span class="hs-comment">-- match the one set during compression.</span><span>
 </span><span id="line-114"></span><span class="annot"><a href="Codec.Zlib.html#initInflateWithDictionary"><span class="hs-identifier hs-type">initInflateWithDictionary</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">WindowBits</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-type">Inflate</span></a></span><span>
 </span><span id="line-115"></span><span id="initInflateWithDictionary"><span class="annot"><span class="annottext">initInflateWithDictionary :: WindowBits -&gt; ByteString -&gt; IO Inflate
-</span><a href="Codec.Zlib.html#initInflateWithDictionary"><span class="hs-identifier hs-var hs-var">initInflateWithDictionary</span></a></span></span><span> </span><span id="local-6989586621679052658"><span class="annot"><span class="annottext">w :: WindowBits
-</span><a href="#local-6989586621679052658"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span id="local-6989586621679052657"><span class="annot"><span class="annottext">bs :: ByteString
-</span><a href="#local-6989586621679052657"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-116"></span><span>    </span><span id="local-6989586621679052656"><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052656"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
+</span><a href="Codec.Zlib.html#initInflateWithDictionary"><span class="hs-identifier hs-var hs-var">initInflateWithDictionary</span></a></span></span><span> </span><span id="local-6989586621679034721"><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034721"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span id="local-6989586621679034720"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034720"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-116"></span><span>    </span><span id="local-6989586621679034719"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034719"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
 </span><a href="Codec.Zlib.Lowlevel.html#zstreamNew"><span class="hs-identifier hs-var">zstreamNew</span></a></span><span>
 </span><span id="line-117"></span><span>    </span><span class="annot"><span class="annottext">ZStream' -&gt; WindowBits -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#inflateInit2"><span class="hs-identifier hs-var">inflateInit2</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052656"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
-</span><a href="#local-6989586621679052658"><span class="hs-identifier hs-var">w</span></a></span><span>
-</span><span id="line-118"></span><span>    </span><span id="local-6989586621679052655"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052655"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
+</span><a href="#local-6989586621679034719"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034721"><span class="hs-identifier hs-var">w</span></a></span><span>
+</span><span id="line-118"></span><span>    </span><span id="local-6989586621679034718"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034718"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 -&gt; ZStream' -&gt; IO (ForeignPtr ZStreamStruct)
 forall a. FinalizerPtr a -&gt; Ptr a -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">newForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 </span><a href="Codec.Zlib.Lowlevel.html#c_free_z_stream_inflate"><span class="hs-identifier hs-var">c_free_z_stream_inflate</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052656"><span class="hs-identifier hs-var">zstr</span></a></span><span>
-</span><span id="line-119"></span><span>    </span><span id="local-6989586621679052654"><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052654"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
+</span><a href="#local-6989586621679034719"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><span id="line-119"></span><span>    </span><span id="local-6989586621679034717"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034717"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
 forall a. Int -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">mallocForeignPtrBytes</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier hs-var">defaultChunkSize</span></span><span>
@@ -196,14 +198,14 @@ forall a. Int -&gt; IO (ForeignPtr a)
 </span><span id="line-121"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr CChar -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052654"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034717"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052653"><span class="annot"><span class="annottext">buff :: Ptr CChar
-</span><a href="#local-6989586621679052653"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034716"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034716"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-122"></span><span>        </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_out"><span class="hs-identifier hs-var">c_set_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052656"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052653"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034719"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034716"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
@@ -215,11 +217,11 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">(ZStreamPair, Maybe ByteString) -&gt; Inflate
 </span><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-var">Inflate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052655"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052654"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
+</span><a href="#local-6989586621679034718"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034717"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052657"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679034720"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-124"></span><span>
 </span><span id="line-125"></span><span class="hs-comment">-- | Initialize a deflation process with the given compression level and</span><span>
 </span><span id="line-126"></span><span class="hs-comment">-- 'WindowBits'. You will need to call 'feedDeflate' to feed uncompressed</span><span>
@@ -228,41 +230,42 @@ forall a. a -&gt; Maybe a
 </span><span id="line-129"></span><span class="annot"><a href="Codec.Zlib.html#initDeflate"><span class="hs-identifier hs-type">initDeflate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-comment">-- ^ Compression level</span><span>
 </span><span id="line-130"></span><span>            </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">WindowBits</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span>
 </span><span id="line-131"></span><span id="initDeflate"><span class="annot"><span class="annottext">initDeflate :: Int -&gt; WindowBits -&gt; IO Deflate
-</span><a href="Codec.Zlib.html#initDeflate"><span class="hs-identifier hs-var hs-var">initDeflate</span></a></span></span><span> </span><span id="local-6989586621679052652"><span class="annot"><span class="annottext">level :: Int
-</span><a href="#local-6989586621679052652"><span class="hs-identifier hs-var">level</span></a></span></span><span> </span><span id="local-6989586621679052651"><span class="annot"><span class="annottext">w :: WindowBits
-</span><a href="#local-6989586621679052651"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-132"></span><span>    </span><span id="local-6989586621679052650"><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052650"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
+</span><a href="Codec.Zlib.html#initDeflate"><span class="hs-identifier hs-var hs-var">initDeflate</span></a></span></span><span> </span><span id="local-6989586621679034715"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034715"><span class="hs-identifier hs-var">level</span></a></span></span><span> </span><span id="local-6989586621679034714"><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034714"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-132"></span><span>    </span><span id="local-6989586621679034713"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034713"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
 </span><a href="Codec.Zlib.Lowlevel.html#zstreamNew"><span class="hs-identifier hs-var">zstreamNew</span></a></span><span>
 </span><span id="line-133"></span><span>    </span><span class="annot"><span class="annottext">ZStream' -&gt; Int -&gt; WindowBits -&gt; Int -&gt; Strategy -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#deflateInit2"><span class="hs-identifier hs-var">deflateInit2</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052650"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052652"><span class="hs-identifier hs-var">level</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
-</span><a href="#local-6989586621679052651"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="annot"><span class="hs-number">8</span></span><span> </span><span class="annot"><span class="annottext">Strategy
+</span><a href="#local-6989586621679034713"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034715"><span class="hs-identifier hs-var">level</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034714"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">8</span></span><span> </span><span class="annot"><span class="annottext">Strategy
 </span><a href="Codec.Zlib.Lowlevel.html#StrategyDefault"><span class="hs-identifier hs-var">StrategyDefault</span></a></span><span>
-</span><span id="line-134"></span><span>    </span><span id="local-6989586621679052647"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052647"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
+</span><span id="line-134"></span><span>    </span><span id="local-6989586621679034710"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034710"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 -&gt; ZStream' -&gt; IO (ForeignPtr ZStreamStruct)
 forall a. FinalizerPtr a -&gt; Ptr a -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">newForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 </span><a href="Codec.Zlib.Lowlevel.html#c_free_z_stream_deflate"><span class="hs-identifier hs-var">c_free_z_stream_deflate</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052650"><span class="hs-identifier hs-var">zstr</span></a></span><span>
-</span><span id="line-135"></span><span>    </span><span id="local-6989586621679052645"><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052645"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
+</span><a href="#local-6989586621679034713"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><span id="line-135"></span><span>    </span><span id="local-6989586621679034708"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034708"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
 forall a. Int -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">mallocForeignPtrBytes</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier hs-var">defaultChunkSize</span></span><span>
 </span><span id="line-136"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr CChar -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052645"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034708"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052644"><span class="annot"><span class="annottext">buff :: Ptr CChar
-</span><a href="#local-6989586621679052644"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034707"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034707"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-137"></span><span>        </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_out"><span class="hs-identifier hs-var">c_set_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052650"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052644"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034713"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034707"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
@@ -274,8 +277,8 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ZStreamPair -&gt; Deflate
 </span><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-var">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052647"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052645"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679034710"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034708"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-139"></span><span>
 </span><span id="line-140"></span><span class="hs-comment">-- | Initialize an deflation process with the given compression level and</span><span>
 </span><span id="line-141"></span><span class="hs-comment">-- 'WindowBits'.</span><span>
@@ -284,28 +287,29 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span id="line-144"></span><span>                          </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span> </span><span class="hs-comment">-- ^ Deflate dictionary</span><span>
 </span><span id="line-145"></span><span>                          </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">WindowBits</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span>
 </span><span id="line-146"></span><span id="initDeflateWithDictionary"><span class="annot"><span class="annottext">initDeflateWithDictionary :: Int -&gt; ByteString -&gt; WindowBits -&gt; IO Deflate
-</span><a href="Codec.Zlib.html#initDeflateWithDictionary"><span class="hs-identifier hs-var hs-var">initDeflateWithDictionary</span></a></span></span><span> </span><span id="local-6989586621679052643"><span class="annot"><span class="annottext">level :: Int
-</span><a href="#local-6989586621679052643"><span class="hs-identifier hs-var">level</span></a></span></span><span> </span><span id="local-6989586621679052642"><span class="annot"><span class="annottext">bs :: ByteString
-</span><a href="#local-6989586621679052642"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span id="local-6989586621679052641"><span class="annot"><span class="annottext">w :: WindowBits
-</span><a href="#local-6989586621679052641"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-147"></span><span>    </span><span id="local-6989586621679052640"><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052640"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
+</span><a href="Codec.Zlib.html#initDeflateWithDictionary"><span class="hs-identifier hs-var hs-var">initDeflateWithDictionary</span></a></span></span><span> </span><span id="local-6989586621679034706"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034706"><span class="hs-identifier hs-var">level</span></a></span></span><span> </span><span id="local-6989586621679034705"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034705"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span id="local-6989586621679034704"><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034704"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-147"></span><span>    </span><span id="local-6989586621679034703"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034703"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO ZStream'
 </span><a href="Codec.Zlib.Lowlevel.html#zstreamNew"><span class="hs-identifier hs-var">zstreamNew</span></a></span><span>
 </span><span id="line-148"></span><span>    </span><span class="annot"><span class="annottext">ZStream' -&gt; Int -&gt; WindowBits -&gt; Int -&gt; Strategy -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#deflateInit2"><span class="hs-identifier hs-var">deflateInit2</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052640"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052643"><span class="hs-identifier hs-var">level</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
-</span><a href="#local-6989586621679052641"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="annot"><span class="hs-number">8</span></span><span> </span><span class="annot"><span class="annottext">Strategy
+</span><a href="#local-6989586621679034703"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034706"><span class="hs-identifier hs-var">level</span></a></span><span> </span><span class="annot"><span class="annottext">WindowBits
+</span><a href="#local-6989586621679034704"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">8</span></span><span> </span><span class="annot"><span class="annottext">Strategy
 </span><a href="Codec.Zlib.Lowlevel.html#StrategyDefault"><span class="hs-identifier hs-var">StrategyDefault</span></a></span><span>
-</span><span id="line-149"></span><span>    </span><span id="local-6989586621679052639"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052639"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
+</span><span id="line-149"></span><span>    </span><span id="local-6989586621679034702"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034702"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 -&gt; ZStream' -&gt; IO (ForeignPtr ZStreamStruct)
 forall a. FinalizerPtr a -&gt; Ptr a -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">newForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">FinalizerPtr ZStreamStruct
 </span><a href="Codec.Zlib.Lowlevel.html#c_free_z_stream_deflate"><span class="hs-identifier hs-var">c_free_z_stream_deflate</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052640"><span class="hs-identifier hs-var">zstr</span></a></span><span>
-</span><span id="line-150"></span><span>    </span><span id="local-6989586621679052638"><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052638"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
+</span><a href="#local-6989586621679034703"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><span id="line-150"></span><span>    </span><span id="local-6989586621679034701"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034701"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (ForeignPtr CChar)
 forall a. Int -&gt; IO (ForeignPtr a)
 </span><span class="hs-identifier hs-var">mallocForeignPtrBytes</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier hs-var">defaultChunkSize</span></span><span>
@@ -313,32 +317,32 @@ forall a. Int -&gt; IO (ForeignPtr a)
 </span><span id="line-152"></span><span>    </span><span class="annot"><span class="annottext">ByteString -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
 forall a. ByteString -&gt; (CStringLen -&gt; IO a) -&gt; IO a
 </span><span class="hs-identifier hs-var">unsafeUseAsCStringLen</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052642"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO ()) -&gt; IO ()) -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034705"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO ()) -&gt; IO ()) -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679052636"><span class="annot"><span class="annottext">cstr :: Ptr CChar
-</span><a href="#local-6989586621679052636"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052635"><span class="annot"><span class="annottext">len :: Int
-</span><a href="#local-6989586621679052635"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679034699"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034699"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034698"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034698"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-153"></span><span>        </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_call_deflate_set_dictionary"><span class="hs-identifier hs-var">c_call_deflate_set_dictionary</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052640"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052636"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034703"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034699"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052635"><span class="hs-identifier hs-var">len</span></a></span><span>
+</span><a href="#local-6989586621679034698"><span class="hs-identifier hs-var">len</span></a></span><span>
 </span><span id="line-154"></span><span>
 </span><span id="line-155"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr CChar -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052638"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034701"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ()) -&gt; IO ()) -&gt; (Ptr CChar -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052633"><span class="annot"><span class="annottext">buff :: Ptr CChar
-</span><a href="#local-6989586621679052633"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034696"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034696"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-156"></span><span>        </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_out"><span class="hs-identifier hs-var">c_set_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052640"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052633"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034703"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034696"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
@@ -350,8 +354,8 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ZStreamPair -&gt; Deflate
 </span><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-var">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052639"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052638"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679034702"><span class="hs-identifier hs-var">fzstr</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034701"><span class="hs-identifier hs-var">fbuff</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-158"></span><span>
 </span><span id="line-159"></span><span class="hs-comment">-- | Feed the given 'S.ByteString' to the inflater. Return a 'Popper',</span><span>
 </span><span id="line-160"></span><span class="hs-comment">-- an IO action that returns the decompressed data a chunk at a time.</span><span>
@@ -368,35 +372,35 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span id="line-171"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span>
 </span><span id="line-172"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#Popper"><span class="hs-identifier hs-type">Popper</span></a></span><span>
 </span><span id="line-173"></span><span id="feedInflate"><span class="annot"><span class="annottext">feedInflate :: Inflate -&gt; ByteString -&gt; IO Popper
-</span><a href="Codec.Zlib.html#feedInflate"><span class="hs-identifier hs-var hs-var">feedInflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-type">Inflate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span id="local-6989586621679052632"><span class="annot"><span class="annottext">fzstr :: ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052632"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052631"><span class="annot"><span class="annottext">fbuff :: ForeignPtr CChar
-</span><a href="#local-6989586621679052631"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052630"><span class="annot"><span class="annottext">inflateDictionary :: Maybe ByteString
-</span><a href="#local-6989586621679052630"><span class="hs-identifier hs-var">inflateDictionary</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span id="local-6989586621679052629"><span class="annot"><span class="annottext">bs :: ByteString
-</span><a href="#local-6989586621679052629"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="Codec.Zlib.html#feedInflate"><span class="hs-identifier hs-var hs-var">feedInflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-type">Inflate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span id="local-6989586621679034695"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034695"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034694"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034694"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034693"><span class="annot"><span class="annottext">Maybe ByteString
+</span><a href="#local-6989586621679034693"><span class="hs-identifier hs-var">inflateDictionary</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span id="local-6989586621679034692"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034692"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-174"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct -&gt; (ZStream' -&gt; IO ()) -&gt; IO ()
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052632"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; IO ()) -&gt; IO ()) -&gt; (ZStream' -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034695"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; IO ()) -&gt; IO ()) -&gt; (ZStream' -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052628"><span class="annot"><span class="annottext">zstr :: ZStream'
-</span><a href="#local-6989586621679052628"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034691"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034691"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-175"></span><span>        </span><span class="annot"><span class="annottext">ByteString -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
 forall a. ByteString -&gt; (CStringLen -&gt; IO a) -&gt; IO a
 </span><span class="hs-identifier hs-var">unsafeUseAsCStringLen</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052629"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO ()) -&gt; IO ()) -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034692"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO ()) -&gt; IO ()) -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679052627"><span class="annot"><span class="annottext">cstr :: Ptr CChar
-</span><a href="#local-6989586621679052627"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052626"><span class="annot"><span class="annottext">len :: Int
-</span><a href="#local-6989586621679052626"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679034690"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034690"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034689"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034689"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-176"></span><span>            </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_in"><span class="hs-identifier hs-var">c_set_avail_in</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052628"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052627"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034691"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034690"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052626"><span class="hs-identifier hs-var">len</span></a></span><span>
+</span><a href="#local-6989586621679034689"><span class="hs-identifier hs-var">len</span></a></span><span>
 </span><span id="line-177"></span><span>    </span><span class="annot"><span class="annottext">Popper -&gt; IO Popper
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">(Popper -&gt; IO Popper) -&gt; Popper -&gt; IO Popper
@@ -408,23 +412,23 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 -&gt; Bool
 -&gt; Popper
 </span><a href="Codec.Zlib.html#drain"><span class="hs-identifier hs-var">drain</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052631"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052632"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
+</span><a href="#local-6989586621679034694"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034695"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052629"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
-</span><a href="#local-6989586621679052623"><span class="hs-identifier hs-var">inflate</span></a></span><span> </span><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679034692"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
+</span><a href="#local-6989586621679034686"><span class="hs-identifier hs-var">inflate</span></a></span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
 </span><span id="line-178"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-179"></span><span>    </span><span id="local-6989586621679052623"><span class="annot"><span class="annottext">inflate :: ZStream' -&gt; IO CInt
-</span><a href="#local-6989586621679052623"><span class="hs-identifier hs-var hs-var">inflate</span></a></span></span><span> </span><span id="local-6989586621679052622"><span class="annot"><span class="annottext">zstr :: ZStream'
-</span><a href="#local-6989586621679052622"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-180"></span><span>        </span><span id="local-6989586621679052621"><span class="annot"><span class="annottext">CInt
-</span><a href="#local-6989586621679052621"><span class="hs-identifier hs-var">res</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
+</span><span id="line-179"></span><span>    </span><span id="local-6989586621679034686"><span class="annot"><span class="annottext">inflate :: ZStream' -&gt; IO CInt
+</span><a href="#local-6989586621679034686"><span class="hs-identifier hs-var hs-var">inflate</span></a></span></span><span> </span><span id="local-6989586621679034685"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034685"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-180"></span><span>        </span><span id="local-6989586621679034684"><span class="annot"><span class="annottext">CInt
+</span><a href="#local-6989586621679034684"><span class="hs-identifier hs-var">res</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
 </span><a href="Codec.Zlib.Lowlevel.html#c_call_inflate_noflush"><span class="hs-identifier hs-var">c_call_inflate_noflush</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052622"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><a href="#local-6989586621679034685"><span class="hs-identifier hs-var">zstr</span></a></span><span>
 </span><span id="line-181"></span><span>        </span><span class="hs-keyword">if</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">CInt
-</span><a href="#local-6989586621679052621"><span class="hs-identifier hs-var">res</span></a></span><span> </span><span class="annot"><span class="annottext">CInt -&gt; CInt -&gt; Bool
+</span><a href="#local-6989586621679034684"><span class="hs-identifier hs-var">res</span></a></span><span> </span><span class="annot"><span class="annottext">CInt -&gt; CInt -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">CInt
 </span><a href="Codec.Zlib.html#zNeedDict"><span class="hs-identifier hs-var">zNeedDict</span></a></span><span class="hs-special">)</span><span>
@@ -441,50 +445,51 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">CInt
 </span><a href="Codec.Zlib.html#zNeedDict"><span class="hs-identifier hs-var">zNeedDict</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-comment">-- no dictionary supplied so throw error</span><span>
-</span><span id="line-183"></span><span>                       </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679052618"><span class="annot"><span class="annottext">dict :: ByteString
-</span><a href="#local-6989586621679052618"><span class="hs-identifier hs-var">dict</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ByteString -&gt; (CStringLen -&gt; IO CInt) -&gt; IO CInt
+</span><span id="line-183"></span><span>                       </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679034681"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034681"><span class="hs-identifier hs-var">dict</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ByteString -&gt; (CStringLen -&gt; IO CInt) -&gt; IO CInt
 forall a. ByteString -&gt; (CStringLen -&gt; IO a) -&gt; IO a
 </span><span class="hs-identifier hs-var">unsafeUseAsCStringLen</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052618"><span class="hs-identifier hs-var">dict</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO CInt) -&gt; IO CInt)
+</span><a href="#local-6989586621679034681"><span class="hs-identifier hs-var">dict</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO CInt) -&gt; IO CInt)
 -&gt; (CStringLen -&gt; IO CInt) -&gt; IO CInt
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679052617"><span class="annot"><span class="annottext">cstr :: Ptr CChar
-</span><a href="#local-6989586621679052617"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052616"><span class="annot"><span class="annottext">len :: Int
-</span><a href="#local-6989586621679052616"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679034680"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034680"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034679"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034679"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-184"></span><span>                                    </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_call_inflate_set_dictionary"><span class="hs-identifier hs-var">c_call_inflate_set_dictionary</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052622"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052617"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034685"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034680"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052616"><span class="hs-identifier hs-var">len</span></a></span><span>
+</span><a href="#local-6989586621679034679"><span class="hs-identifier hs-var">len</span></a></span><span>
 </span><span id="line-185"></span><span>                                    </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
 </span><a href="Codec.Zlib.Lowlevel.html#c_call_inflate_noflush"><span class="hs-identifier hs-var">c_call_inflate_noflush</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052622"><span class="hs-identifier hs-var">zstr</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679034685"><span class="hs-identifier hs-var">zstr</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-186"></span><span>                       </span><span class="annot"><span class="annottext">Maybe ByteString
-</span><a href="#local-6989586621679052630"><span class="hs-identifier hs-var">inflateDictionary</span></a></span><span>
+</span><a href="#local-6989586621679034693"><span class="hs-identifier hs-var">inflateDictionary</span></a></span><span>
 </span><span id="line-187"></span><span>            </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">CInt -&gt; IO CInt
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">CInt
-</span><a href="#local-6989586621679052621"><span class="hs-identifier hs-var">res</span></a></span><span>
+</span><a href="#local-6989586621679034684"><span class="hs-identifier hs-var">res</span></a></span><span>
 </span><span id="line-188"></span><span>
 </span><span id="line-189"></span><span class="hs-comment">-- | An IO action that returns the next chunk of data, returning 'Nothing' when</span><span>
 </span><span id="line-190"></span><span class="hs-comment">-- there is no more data to be popped.</span><span>
 </span><span id="line-191"></span><span class="hs-keyword">type</span><span> </span><span id="Popper"><span class="annot"><a href="Codec.Zlib.html#Popper"><span class="hs-identifier hs-var">Popper</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span class="hs-special">)</span><span>
 </span><span id="line-192"></span><span>
 </span><span id="line-193"></span><span class="hs-comment">-- | Ensure that the given @ByteString@ is not deallocated.</span><span>
-</span><span id="line-194"></span><span id="local-6989586621679052710"><span class="annot"><a href="Codec.Zlib.html#keepAlive"><span class="hs-identifier hs-type">keepAlive</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679052710"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679052710"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-194"></span><span id="local-6989586621679034773"><span class="annot"><a href="Codec.Zlib.html#keepAlive"><span class="hs-identifier hs-type">keepAlive</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679034773"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679034773"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-195"></span><span id="keepAlive"><span class="annot"><span class="annottext">keepAlive :: Maybe ByteString -&gt; IO a -&gt; IO a
-</span><a href="Codec.Zlib.html#keepAlive"><span class="hs-identifier hs-var hs-var">keepAlive</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Nothing</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO a -&gt; IO a
+</span><a href="Codec.Zlib.html#keepAlive"><span class="hs-identifier hs-var hs-var">keepAlive</span></a></span></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
+</span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO a -&gt; IO a
 forall a. a -&gt; a
 </span><span class="hs-identifier hs-var">id</span></span><span>
-</span><span id="line-196"></span><span class="annot"><a href="Codec.Zlib.html#keepAlive"><span class="hs-identifier hs-var">keepAlive</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679052612"><span class="annot"><span class="annottext">bs :: ByteString
-</span><a href="#local-6989586621679052612"><span class="hs-identifier hs-var">bs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; (CStringLen -&gt; IO a) -&gt; IO a
+</span><span id="line-196"></span><span class="annot"><a href="Codec.Zlib.html#keepAlive"><span class="hs-identifier hs-var">keepAlive</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679034675"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034675"><span class="hs-identifier hs-var">bs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; (CStringLen -&gt; IO a) -&gt; IO a
 forall a. ByteString -&gt; (CStringLen -&gt; IO a) -&gt; IO a
 </span><span class="hs-identifier hs-var">unsafeUseAsCStringLen</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052612"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO a) -&gt; IO a)
+</span><a href="#local-6989586621679034675"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO a) -&gt; IO a)
 -&gt; (IO a -&gt; CStringLen -&gt; IO a) -&gt; IO a -&gt; IO a
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">IO a -&gt; CStringLen -&gt; IO a
@@ -503,35 +508,36 @@ forall a b. a -&gt; b -&gt; a
 -&gt; (ZStream' -&gt; IO CInt)
 -&gt; Bool
 -&gt; Popper
-</span><a href="Codec.Zlib.html#drain"><span class="hs-identifier hs-var hs-var">drain</span></a></span></span><span> </span><span id="local-6989586621679052609"><span class="annot"><span class="annottext">fbuff :: ForeignPtr CChar
-</span><a href="#local-6989586621679052609"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span id="local-6989586621679052608"><span class="annot"><span class="annottext">fzstr :: ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052608"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span id="local-6989586621679052607"><span class="annot"><span class="annottext">mbs :: Maybe ByteString
-</span><a href="#local-6989586621679052607"><span class="hs-identifier hs-var">mbs</span></a></span></span><span> </span><span id="local-6989586621679052606"><span class="annot"><span class="annottext">func :: ZStream' -&gt; IO CInt
-</span><a href="#local-6989586621679052606"><span class="hs-identifier hs-var">func</span></a></span></span><span> </span><span id="local-6989586621679052605"><span class="annot"><span class="annottext">isFinish :: Bool
-</span><a href="#local-6989586621679052605"><span class="hs-identifier hs-var">isFinish</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct -&gt; (ZStream' -&gt; Popper) -&gt; Popper
+</span><a href="Codec.Zlib.html#drain"><span class="hs-identifier hs-var hs-var">drain</span></a></span></span><span> </span><span id="local-6989586621679034672"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034672"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span> </span><span id="local-6989586621679034671"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034671"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span> </span><span id="local-6989586621679034670"><span class="annot"><span class="annottext">Maybe ByteString
+</span><a href="#local-6989586621679034670"><span class="hs-identifier hs-var">mbs</span></a></span></span><span> </span><span id="local-6989586621679034669"><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
+</span><a href="#local-6989586621679034669"><span class="hs-identifier hs-var">func</span></a></span></span><span> </span><span id="local-6989586621679034668"><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679034668"><span class="hs-identifier hs-var">isFinish</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct -&gt; (ZStream' -&gt; Popper) -&gt; Popper
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052608"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; Popper) -&gt; Popper) -&gt; (ZStream' -&gt; Popper) -&gt; Popper
+</span><a href="#local-6989586621679034671"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; Popper) -&gt; Popper) -&gt; (ZStream' -&gt; Popper) -&gt; Popper
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052604"><span class="annot"><span class="annottext">zstr :: ZStream'
-</span><a href="#local-6989586621679052604"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe ByteString -&gt; Popper -&gt; Popper
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034667"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034667"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe ByteString -&gt; Popper -&gt; Popper
 forall a. Maybe ByteString -&gt; IO a -&gt; IO a
 </span><a href="Codec.Zlib.html#keepAlive"><span class="hs-identifier hs-var">keepAlive</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
-</span><a href="#local-6989586621679052607"><span class="hs-identifier hs-var">mbs</span></a></span><span> </span><span class="annot"><span class="annottext">(Popper -&gt; Popper) -&gt; Popper -&gt; Popper
+</span><a href="#local-6989586621679034670"><span class="hs-identifier hs-var">mbs</span></a></span><span> </span><span class="annot"><span class="annottext">(Popper -&gt; Popper) -&gt; Popper -&gt; Popper
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-205"></span><span>    </span><span id="local-6989586621679052603"><span class="annot"><span class="annottext">CInt
-</span><a href="#local-6989586621679052603"><span class="hs-identifier hs-var">res</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
-</span><a href="#local-6989586621679052606"><span class="hs-identifier hs-var">func</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052604"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><span id="line-205"></span><span>    </span><span id="local-6989586621679034666"><span class="annot"><span class="annottext">CInt
+</span><a href="#local-6989586621679034666"><span class="hs-identifier hs-var">res</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
+</span><a href="#local-6989586621679034669"><span class="hs-identifier hs-var">func</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034667"><span class="hs-identifier hs-var">zstr</span></a></span><span>
 </span><span id="line-206"></span><span>    </span><span class="annot"><span class="annottext">Bool -&gt; IO () -&gt; IO ()
 forall (f :: * -&gt; *). Applicative f =&gt; Bool -&gt; f () -&gt; f ()
 </span><span class="hs-identifier hs-var">when</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">CInt
-</span><a href="#local-6989586621679052603"><span class="hs-identifier hs-var">res</span></a></span><span> </span><span class="annot"><span class="annottext">CInt -&gt; CInt -&gt; Bool
+</span><a href="#local-6989586621679034666"><span class="hs-identifier hs-var">res</span></a></span><span> </span><span class="annot"><span class="annottext">CInt -&gt; CInt -&gt; Bool
 forall a. Ord a =&gt; a -&gt; a -&gt; Bool
-</span><span class="hs-operator hs-var">&lt;</span></span><span> </span><span class="annot"><span class="hs-number">0</span></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
+</span><span class="hs-operator hs-var">&lt;</span></span><span> </span><span class="annot"><span class="annottext">CInt
+</span><span class="hs-number">0</span></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
 </span><span class="hs-operator hs-var">&amp;&amp;</span></span><span> </span><span class="annot"><span class="annottext">CInt
-</span><a href="#local-6989586621679052603"><span class="hs-identifier hs-var">res</span></a></span><span> </span><span class="annot"><span class="annottext">CInt -&gt; CInt -&gt; Bool
+</span><a href="#local-6989586621679034666"><span class="hs-identifier hs-var">res</span></a></span><span> </span><span class="annot"><span class="annottext">CInt -&gt; CInt -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">/=</span></span><span> </span><span class="annot"><span class="annottext">CInt
 </span><a href="Codec.Zlib.html#zBufError"><span class="hs-identifier hs-var">zBufError</span></a></span><span class="hs-special">)</span><span>
@@ -547,49 +553,51 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">CInt -&gt; Int
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">CInt
-</span><a href="#local-6989586621679052603"><span class="hs-identifier hs-var">res</span></a></span><span>
-</span><span id="line-208"></span><span>    </span><span id="local-6989586621679052599"><span class="annot"><span class="annottext">CUInt
-</span><a href="#local-6989586621679052599"><span class="hs-identifier hs-var">avail</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CUInt
+</span><a href="#local-6989586621679034666"><span class="hs-identifier hs-var">res</span></a></span><span>
+</span><span id="line-208"></span><span>    </span><span id="local-6989586621679034662"><span class="annot"><span class="annottext">CUInt
+</span><a href="#local-6989586621679034662"><span class="hs-identifier hs-var">avail</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CUInt
 </span><a href="Codec.Zlib.Lowlevel.html#c_get_avail_out"><span class="hs-identifier hs-var">c_get_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052604"><span class="hs-identifier hs-var">zstr</span></a></span><span>
-</span><span id="line-209"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679052597"><span class="annot"><span class="annottext">size :: Int
-</span><a href="#local-6989586621679052597"><span class="hs-identifier hs-var hs-var">size</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034667"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><span id="line-209"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679034660"><span class="annot"><span class="annottext">size :: Int
+</span><a href="#local-6989586621679034660"><span class="hs-identifier hs-var hs-var">size</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier hs-var">defaultChunkSize</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">CUInt -&gt; Int
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">CUInt
-</span><a href="#local-6989586621679052599"><span class="hs-identifier hs-var">avail</span></a></span><span>
-</span><span id="line-210"></span><span>        </span><span id="local-6989586621679052596"><span class="annot"><span class="annottext">toOutput :: Bool
-</span><a href="#local-6989586621679052596"><span class="hs-identifier hs-var hs-var">toOutput</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CUInt
-</span><a href="#local-6989586621679052599"><span class="hs-identifier hs-var">avail</span></a></span><span> </span><span class="annot"><span class="annottext">CUInt -&gt; CUInt -&gt; Bool
+</span><a href="#local-6989586621679034662"><span class="hs-identifier hs-var">avail</span></a></span><span>
+</span><span id="line-210"></span><span>        </span><span id="local-6989586621679034659"><span class="annot"><span class="annottext">toOutput :: Bool
+</span><a href="#local-6989586621679034659"><span class="hs-identifier hs-var hs-var">toOutput</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CUInt
+</span><a href="#local-6989586621679034662"><span class="hs-identifier hs-var">avail</span></a></span><span> </span><span class="annot"><span class="annottext">CUInt -&gt; CUInt -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
-</span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="hs-number">0</span></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
+</span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">CUInt
+</span><span class="hs-number">0</span></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
 </span><span class="hs-operator hs-var">||</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679052605"><span class="hs-identifier hs-var">isFinish</span></a></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
+</span><a href="#local-6989586621679034668"><span class="hs-identifier hs-var">isFinish</span></a></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
 </span><span class="hs-operator hs-var">&amp;&amp;</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052597"><span class="hs-identifier hs-var">size</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Bool
+</span><a href="#local-6989586621679034660"><span class="hs-identifier hs-var">size</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
-</span><span class="hs-operator hs-var">/=</span></span><span> </span><span class="annot"><span class="hs-number">0</span></span><span class="hs-special">)</span><span>
+</span><span class="hs-operator hs-var">/=</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">0</span></span><span class="hs-special">)</span><span>
 </span><span id="line-211"></span><span>    </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679052596"><span class="hs-identifier hs-var">toOutput</span></a></span><span>
+</span><a href="#local-6989586621679034659"><span class="hs-identifier hs-var">toOutput</span></a></span><span>
 </span><span id="line-212"></span><span>        </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar -&gt; (Ptr CChar -&gt; Popper) -&gt; Popper
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052609"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; Popper) -&gt; Popper)
+</span><a href="#local-6989586621679034672"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; Popper) -&gt; Popper)
 -&gt; (Ptr CChar -&gt; Popper) -&gt; Popper
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052594"><span class="annot"><span class="annottext">buff :: Ptr CChar
-</span><a href="#local-6989586621679052594"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-213"></span><span>            </span><span id="local-6989586621679052593"><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052593"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CStringLen -&gt; IO ByteString
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034657"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034657"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-213"></span><span>            </span><span id="local-6989586621679034656"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034656"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CStringLen -&gt; IO ByteString
 </span><span class="hs-identifier hs-var">S.packCStringLen</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052594"><span class="hs-identifier hs-var">buff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052597"><span class="hs-identifier hs-var">size</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679034657"><span class="hs-identifier hs-var">buff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034660"><span class="hs-identifier hs-var">size</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-214"></span><span>            </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_out"><span class="hs-identifier hs-var">c_set_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052604"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052594"><span class="hs-identifier hs-var">buff</span></a></span><span>
+</span><a href="#local-6989586621679034667"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034657"><span class="hs-identifier hs-var">buff</span></a></span><span>
 </span><span id="line-215"></span><span>                </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
@@ -603,7 +611,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052593"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><a href="#local-6989586621679034656"><span class="hs-identifier hs-var">bs</span></a></span><span>
 </span><span id="line-217"></span><span>        </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Maybe ByteString -&gt; Popper
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
@@ -617,47 +625,48 @@ forall a. Maybe a
 </span><span id="line-223"></span><span class="hs-comment">-- function will return it to you.</span><span>
 </span><span id="line-224"></span><span class="annot"><a href="Codec.Zlib.html#finishInflate"><span class="hs-identifier hs-type">finishInflate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-type">Inflate</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span>
 </span><span id="line-225"></span><span id="finishInflate"><span class="annot"><span class="annottext">finishInflate :: Inflate -&gt; IO ByteString
-</span><a href="Codec.Zlib.html#finishInflate"><span class="hs-identifier hs-var hs-var">finishInflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-type">Inflate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span id="local-6989586621679052591"><span class="annot"><span class="annottext">fzstr :: ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052591"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052590"><span class="annot"><span class="annottext">fbuff :: ForeignPtr CChar
-</span><a href="#local-6989586621679052590"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="hs-identifier">_</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Codec.Zlib.html#finishInflate"><span class="hs-identifier hs-var hs-var">finishInflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Inflate"><span class="hs-identifier hs-type">Inflate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span id="local-6989586621679034654"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034654"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034653"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034653"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
+</span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-226"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
 -&gt; (ZStream' -&gt; IO ByteString) -&gt; IO ByteString
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052591"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; IO ByteString) -&gt; IO ByteString)
+</span><a href="#local-6989586621679034654"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; IO ByteString) -&gt; IO ByteString)
 -&gt; (ZStream' -&gt; IO ByteString) -&gt; IO ByteString
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052589"><span class="annot"><span class="annottext">zstr :: ZStream'
-</span><a href="#local-6989586621679052589"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034652"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034652"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-227"></span><span>        </span><span class="annot"><span class="annottext">ForeignPtr CChar -&gt; (Ptr CChar -&gt; IO ByteString) -&gt; IO ByteString
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052590"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ByteString) -&gt; IO ByteString)
+</span><a href="#local-6989586621679034653"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr CChar -&gt; IO ByteString) -&gt; IO ByteString)
 -&gt; (Ptr CChar -&gt; IO ByteString) -&gt; IO ByteString
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052588"><span class="annot"><span class="annottext">buff :: Ptr CChar
-</span><a href="#local-6989586621679052588"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-228"></span><span>            </span><span id="local-6989586621679052587"><span class="annot"><span class="annottext">CUInt
-</span><a href="#local-6989586621679052587"><span class="hs-identifier hs-var">avail</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CUInt
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034651"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034651"><span class="hs-identifier hs-var">buff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-228"></span><span>            </span><span id="local-6989586621679034650"><span class="annot"><span class="annottext">CUInt
+</span><a href="#local-6989586621679034650"><span class="hs-identifier hs-var">avail</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CUInt
 </span><a href="Codec.Zlib.Lowlevel.html#c_get_avail_out"><span class="hs-identifier hs-var">c_get_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052589"><span class="hs-identifier hs-var">zstr</span></a></span><span>
-</span><span id="line-229"></span><span>            </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679052586"><span class="annot"><span class="annottext">size :: Int
-</span><a href="#local-6989586621679052586"><span class="hs-identifier hs-var hs-var">size</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034652"><span class="hs-identifier hs-var">zstr</span></a></span><span>
+</span><span id="line-229"></span><span>            </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679034649"><span class="annot"><span class="annottext">size :: Int
+</span><a href="#local-6989586621679034649"><span class="hs-identifier hs-var hs-var">size</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier hs-var">defaultChunkSize</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">CUInt -&gt; Int
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">CUInt
-</span><a href="#local-6989586621679052587"><span class="hs-identifier hs-var">avail</span></a></span><span>
-</span><span id="line-230"></span><span>            </span><span id="local-6989586621679052585"><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052585"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CStringLen -&gt; IO ByteString
+</span><a href="#local-6989586621679034650"><span class="hs-identifier hs-var">avail</span></a></span><span>
+</span><span id="line-230"></span><span>            </span><span id="local-6989586621679034648"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034648"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CStringLen -&gt; IO ByteString
 </span><span class="hs-identifier hs-var">S.packCStringLen</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052588"><span class="hs-identifier hs-var">buff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052586"><span class="hs-identifier hs-var">size</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679034651"><span class="hs-identifier hs-var">buff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034649"><span class="hs-identifier hs-var">size</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-231"></span><span>            </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_out"><span class="hs-identifier hs-var">c_set_avail_out</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052589"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052588"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034652"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034651"><span class="hs-identifier hs-var">buff</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
@@ -666,7 +675,7 @@ forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span id="line-232"></span><span>            </span><span class="annot"><span class="annottext">ByteString -&gt; IO ByteString
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052585"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><a href="#local-6989586621679034648"><span class="hs-identifier hs-var">bs</span></a></span><span>
 </span><span id="line-233"></span><span>
 </span><span id="line-234"></span><span class="hs-comment">-- | Flush the inflation buffer. Useful for interactive application.</span><span>
 </span><span id="line-235"></span><span class="hs-comment">--</span><span>
@@ -691,34 +700,34 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span id="line-252"></span><span class="hs-comment">-- compressed data using 'finishDeflate'.</span><span>
 </span><span id="line-253"></span><span class="annot"><a href="Codec.Zlib.html#feedDeflate"><span class="hs-identifier hs-type">feedDeflate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">S.ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Codec.Zlib.html#Popper"><span class="hs-identifier hs-type">Popper</span></a></span><span>
 </span><span id="line-254"></span><span id="feedDeflate"><span class="annot"><span class="annottext">feedDeflate :: Deflate -&gt; ByteString -&gt; IO Popper
-</span><a href="Codec.Zlib.html#feedDeflate"><span class="hs-identifier hs-var hs-var">feedDeflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679052584"><span class="annot"><span class="annottext">fzstr :: ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052584"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052583"><span class="annot"><span class="annottext">fbuff :: ForeignPtr CChar
-</span><a href="#local-6989586621679052583"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span id="local-6989586621679052582"><span class="annot"><span class="annottext">bs :: ByteString
-</span><a href="#local-6989586621679052582"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="Codec.Zlib.html#feedDeflate"><span class="hs-identifier hs-var hs-var">feedDeflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679034647"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034647"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034646"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034646"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span id="local-6989586621679034645"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679034645"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-255"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct -&gt; (ZStream' -&gt; IO ()) -&gt; IO ()
 forall a b. ForeignPtr a -&gt; (Ptr a -&gt; IO b) -&gt; IO b
 </span><span class="hs-identifier hs-var">withForeignPtr</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052584"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; IO ()) -&gt; IO ()) -&gt; (ZStream' -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034647"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">((ZStream' -&gt; IO ()) -&gt; IO ()) -&gt; (ZStream' -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679052581"><span class="annot"><span class="annottext">zstr :: ZStream'
-</span><a href="#local-6989586621679052581"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679034644"><span class="annot"><span class="annottext">ZStream'
+</span><a href="#local-6989586621679034644"><span class="hs-identifier hs-var">zstr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-256"></span><span>        </span><span class="annot"><span class="annottext">ByteString -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
 forall a. ByteString -&gt; (CStringLen -&gt; IO a) -&gt; IO a
 </span><span class="hs-identifier hs-var">unsafeUseAsCStringLen</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052582"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO ()) -&gt; IO ()) -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
+</span><a href="#local-6989586621679034645"><span class="hs-identifier hs-var">bs</span></a></span><span> </span><span class="annot"><span class="annottext">((CStringLen -&gt; IO ()) -&gt; IO ()) -&gt; (CStringLen -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679052580"><span class="annot"><span class="annottext">cstr :: Ptr CChar
-</span><a href="#local-6989586621679052580"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052579"><span class="annot"><span class="annottext">len :: Int
-</span><a href="#local-6989586621679052579"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679034643"><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034643"><span class="hs-identifier hs-var">cstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034642"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679034642"><span class="hs-identifier hs-var">len</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-257"></span><span>            </span><span class="annot"><span class="annottext">ZStream' -&gt; Ptr CChar -&gt; CUInt -&gt; IO ()
 </span><a href="Codec.Zlib.Lowlevel.html#c_set_avail_in"><span class="hs-identifier hs-var">c_set_avail_in</span></a></span><span> </span><span class="annot"><span class="annottext">ZStream'
-</span><a href="#local-6989586621679052581"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
-</span><a href="#local-6989586621679052580"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
+</span><a href="#local-6989586621679034644"><span class="hs-identifier hs-var">zstr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr CChar
+</span><a href="#local-6989586621679034643"><span class="hs-identifier hs-var">cstr</span></a></span><span> </span><span class="annot"><span class="annottext">(CUInt -&gt; IO ()) -&gt; CUInt -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; CUInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679052579"><span class="hs-identifier hs-var">len</span></a></span><span>
+</span><a href="#local-6989586621679034642"><span class="hs-identifier hs-var">len</span></a></span><span>
 </span><span id="line-258"></span><span>    </span><span class="annot"><span class="annottext">Popper -&gt; IO Popper
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">(Popper -&gt; IO Popper) -&gt; Popper -&gt; IO Popper
@@ -730,11 +739,11 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 -&gt; Bool
 -&gt; Popper
 </span><a href="Codec.Zlib.html#drain"><span class="hs-identifier hs-var">drain</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052583"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052584"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
+</span><a href="#local-6989586621679034646"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034647"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679052582"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
+</span><a href="#local-6989586621679034645"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
 </span><a href="Codec.Zlib.Lowlevel.html#c_call_deflate_noflush"><span class="hs-identifier hs-var">c_call_deflate_noflush</span></a></span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
 </span><span id="line-259"></span><span>
@@ -743,9 +752,9 @@ forall a. a -&gt; Maybe a
 </span><span id="line-262"></span><span class="hs-comment">-- data, use this to flush the rest of the data and signal end of input.</span><span>
 </span><span id="line-263"></span><span class="annot"><a href="Codec.Zlib.html#finishDeflate"><span class="hs-identifier hs-type">finishDeflate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Codec.Zlib.html#Popper"><span class="hs-identifier hs-type">Popper</span></a></span><span>
 </span><span id="line-264"></span><span id="finishDeflate"><span class="annot"><span class="annottext">finishDeflate :: Deflate -&gt; Popper
-</span><a href="Codec.Zlib.html#finishDeflate"><span class="hs-identifier hs-var hs-var">finishDeflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679052577"><span class="annot"><span class="annottext">fzstr :: ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052577"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052576"><span class="annot"><span class="annottext">fbuff :: ForeignPtr CChar
-</span><a href="#local-6989586621679052576"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Codec.Zlib.html#finishDeflate"><span class="hs-identifier hs-var hs-var">finishDeflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679034640"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034640"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034639"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034639"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-265"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr CChar
 -&gt; ForeignPtr ZStreamStruct
 -&gt; Maybe ByteString
@@ -753,8 +762,8 @@ forall a. a -&gt; Maybe a
 -&gt; Bool
 -&gt; Popper
 </span><a href="Codec.Zlib.html#drain"><span class="hs-identifier hs-var">drain</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052576"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052577"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
+</span><a href="#local-6989586621679034639"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034640"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
 </span><a href="Codec.Zlib.Lowlevel.html#c_call_deflate_finish"><span class="hs-identifier hs-var">c_call_deflate_finish</span></a></span><span> </span><span class="annot"><span class="annottext">Bool
@@ -769,9 +778,9 @@ forall a. Maybe a
 </span><span id="line-273"></span><span class="hs-comment">-- Since 0.0.3</span><span>
 </span><span id="line-274"></span><span class="annot"><a href="Codec.Zlib.html#flushDeflate"><span class="hs-identifier hs-type">flushDeflate</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Codec.Zlib.html#Popper"><span class="hs-identifier hs-type">Popper</span></a></span><span>
 </span><span id="line-275"></span><span id="flushDeflate"><span class="annot"><span class="annottext">flushDeflate :: Deflate -&gt; Popper
-</span><a href="Codec.Zlib.html#flushDeflate"><span class="hs-identifier hs-var hs-var">flushDeflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679052574"><span class="annot"><span class="annottext">fzstr :: ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052574"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679052573"><span class="annot"><span class="annottext">fbuff :: ForeignPtr CChar
-</span><a href="#local-6989586621679052573"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Codec.Zlib.html#flushDeflate"><span class="hs-identifier hs-var hs-var">flushDeflate</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Codec.Zlib.html#Deflate"><span class="hs-identifier hs-type">Deflate</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679034637"><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034637"><span class="hs-identifier hs-var">fzstr</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679034636"><span class="annot"><span class="annottext">ForeignPtr CChar
+</span><a href="#local-6989586621679034636"><span class="hs-identifier hs-var">fbuff</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-276"></span><span>    </span><span class="annot"><span class="annottext">ForeignPtr CChar
 -&gt; ForeignPtr ZStreamStruct
 -&gt; Maybe ByteString
@@ -779,8 +788,8 @@ forall a. Maybe a
 -&gt; Bool
 -&gt; Popper
 </span><a href="Codec.Zlib.html#drain"><span class="hs-identifier hs-var">drain</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr CChar
-</span><a href="#local-6989586621679052573"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
-</span><a href="#local-6989586621679052574"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
+</span><a href="#local-6989586621679034636"><span class="hs-identifier hs-var">fbuff</span></a></span><span> </span><span class="annot"><span class="annottext">ForeignPtr ZStreamStruct
+</span><a href="#local-6989586621679034637"><span class="hs-identifier hs-var">fzstr</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">ZStream' -&gt; IO CInt
 </span><a href="Codec.Zlib.Lowlevel.html#c_call_deflate_flush"><span class="hs-identifier hs-var">c_call_deflate_flush</span></a></span><span> </span><span class="annot"><span class="annottext">Bool
