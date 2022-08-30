@@ -2,8 +2,8 @@
 
 Solve 9 letter word puzzles like:
 
-* [Nine Letter Word](http://nineletterword.tompaton.com/adevcrsoi/)
-* [Your Word Life](http://www.yourwiselife.com.au/games/9-letter-word/)
+- [Nine Letter Word](http://nineletterword.tompaton.com/adevcrsoi/)
+- [Your Word Life](http://www.yourwiselife.com.au/games/9-letter-word/)
 
 ![nineletterword.tompaton.com](doc/nineletterword.png)
 
@@ -12,39 +12,40 @@ Here we are using a subset of the British dictionary from the
 
 ## TODO
 
-* Can we use [Control.Monad.Validate](https://hackage.haskell.org/package/monad-validate-1.2.0.0/docs/Control-Monad-Validate.html)?
+- Can we use [Control.Monad.Validate](https://hackage.haskell.org/package/monad-validate-1.2.0.0/docs/Control-Monad-Validate.html)?
 
 ## Documentation
 
-* [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
-  * [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
-  * [criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
-  * [test coverage](https://frankhjung.github.io/haskell-wordpuzzle/hpc/index.html)
-* [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
-  * [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
-  * [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
-  * [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/index.html)
+- [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
+  - [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
+  - [criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
+  - [test coverage](https://frankhjung.github.io/haskell-wordpuzzle/hpc/index.html)
+- [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
+  - [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
+  - [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
+  - [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/index.html)
 
 ## Pipelines
 
-* [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
-* [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
+- [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
+- [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
 
 ## Method
 
 This program is used to list all words from this popular puzzle.
 A brief outline of what this program does is:
 
-* get user input of:
-  * minimum word length
-  * mandatory letter required in each word
-  * letters as one string
-  * [optional] dictionary to use to search for matching words
+- get user input of:
 
-* print each word in dictionary that satisfies:
-  * word is greater than or equal to minimum character length
-  * word contain mandatory character
-  * word contains other characters in correct frequencies
+  - minimum word length
+  - mandatory letter required in each word
+  - letters as one string
+  - [optional] dictionary to use to search for matching words
+
+- print each word in dictionary that satisfies:
+  - word is greater than or equal to minimum character length
+  - word contain mandatory character
+  - word contains other characters in correct frequencies
 
 ## How to run
 
@@ -211,9 +212,9 @@ gen[1].sync: 0
 Apart from solving a simple word puzzle this project also explores the following
 command line parsers:
 
-* [System.Environment getArgs](https://hackage.haskell.org/package/base/docs/System-Environment.html)
-* [System.Console GetOpt](https://hackage.haskell.org/package/base/docs/System-Console-GetOpt.html)
-* [optparse-applicative](https://hackage.haskell.org/package/optparse-applicative)
+- [System.Environment getArgs](https://hackage.haskell.org/package/base/docs/System-Environment.html)
+- [System.Console GetOpt](https://hackage.haskell.org/package/base/docs/System-Console-GetOpt.html)
+- [optparse-applicative](https://hackage.haskell.org/package/optparse-applicative)
 
 Each is preserved in a separate Git [branch](https://github.com/frankhjung/haskell-wordpuzzle/branches).
 
@@ -241,15 +242,15 @@ Documentation is built using [Haddock](https://www.haskell.org/haddock/).
 
 Included in this repository is generated documentation for the current version.
 
-* [haddock function documentation](./doc/html/wordpuzzle/index.html)
-* [criterion performance benchmarks](./doc/benchmark.html)
-* [test coverage](./doc/hpc/wordpuzzle/test/hpc_index.html)
+- [haddock function documentation](./doc/html/wordpuzzle/index.html)
+- [criterion performance benchmarks](./doc/benchmark.html)
+- [test coverage](./doc/hpc/wordpuzzle/test/hpc_index.html)
 
 ## Other Implementations
 
-* [Haskell](https://gitlab.com/frankhjung1/haskell-wordpuzzle)
-* [Java](https://gitlab.com/frankhjung1/java-wordpuzzle)
-* [Kotlin](https://gitlab.com/frankhjung1/kotlin-wordpuzzle)
-* [Go](https://gitlab.com/frankhjung1/go-wordpuzzle)
-* [Python](https://gitlab.com/frankhjung1/python-wordpuzzle)
-
+- [Clojure](https://gitlab.com/frankhjung1/clojure-wordpuzzle)
+- [Haskell](https://gitlab.com/frankhjung1/haskell-wordpuzzle)
+- [Java](https://gitlab.com/frankhjung1/java-wordpuzzle)
+- [Kotlin](https://gitlab.com/frankhjung1/kotlin-wordpuzzle)
+- [Go](https://gitlab.com/frankhjung1/go-wordpuzzle)
+- [Python](https://gitlab.com/frankhjung1/python-wordpuzzle)
