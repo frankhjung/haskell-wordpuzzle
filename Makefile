@@ -20,12 +20,12 @@ tags:
 
 style:
 	@echo style ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRCS)
 
 lint:
 	@echo lint ...
 	@hlint --color $(SRCS)
-	@cabal check
+	@cabal check --verbose=3
 
 build:
 	@echo build ...

@@ -1,23 +1,23 @@
-cabal-version:      >= 1.10
+cabal-version:      3.0
 
 name:               wordpuzzle
-version:            2.4.0
+version:            2.5.0
 synopsis:           9 letter word puzzle solver
 description:        Solve a common 9 letter word puzzle. This will list all words matching the 9 letters and must include a mandatory character.
 homepage:           https://github.com/frankhjung/haskell-wordpuzzle/blob/master/README.md
-license:            BSD3
-license-file:       LICENSE
 author:             Frank H Jung
 maintainer:         frankhjung@linux.com
 copyright:          Copyright © 2017-2022 Frank H Jung
+license:            BSD-3-Clause
+license-file:       LICENSE
 category:           education
 build-type:         Simple
 extra-source-files: README.md
-tested-with:        GHC == 8.10.7
+tested-with:        GHC == 9.0.2
 
 source-repository   head
   type:             git
-  location:         git@github.com:frankhjung/haskell-wordpuzzle.git
+  location:         https://github.com/frankhjung/haskell-wordpuzzle
 
 executable          wordpuzzle
   default-language: Haskell2010
@@ -25,10 +25,11 @@ executable          wordpuzzle
                   , src
   main-is:          Main.hs
   ghc-options:      -Wall -threaded
-  other-modules:    Paths_wordpuzzle
-                  , WordPuzzle
+  other-modules:    WordPuzzle
+                  , Paths_wordpuzzle
   build-depends:    base >= 4.13 && < 5.0
                   , optparse-applicative >= 0.15 && < 0.17
+  autogen-modules:  Paths_wordpuzzle
 
 library
   default-language: Haskell2010
@@ -48,8 +49,8 @@ test-suite          test
   ghc-options:      -Wall -threaded
   other-modules:    WordPuzzle
   build-depends:    base
-                  , bytestring >= 0.10.10 && < 0.11
-                  , hspec >= 2.7 && < 2.8
+                  , bytestring >= 0.10 && < 0.11
+                  , hspec >= 2.7 && < 2.9
 
 benchmark           benchmark
   default-language: Haskell2010

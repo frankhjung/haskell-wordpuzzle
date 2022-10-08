@@ -30,6 +30,13 @@ Here we are using a subset of the British dictionary from the
 - [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
 - [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
 
+## Build
+
+This project uses [stack](https://docs.haskellstack.org/en/stable/).
+
+- Stack has not been tested with GHC versions above 8.10, and using 9.0.2.
+- Stack has not been tested with Cabal versions above 3.2, and using version 3.4.1.0.
+
 ## Method
 
 This program is used to list all words from this popular puzzle.
