@@ -42,7 +42,7 @@ bench:
 	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
 doc:
-	@stack haddock --no-rerun-tests --no-reconfigure
+	@stack haddock --no-haddock-deps
 
 install: bench doc
 	@stack install --local-bin-path $(HOME)/bin
@@ -59,20 +59,22 @@ else
 endif
 
 setup:
-	stack setup
 	stack update
 	stack path
 	stack query
 	stack ls dependencies
 
 ghci:
-	stack ghci --ghci-options -Wno-type-defaults
+	@stack ghci --ghci-options -Wno-type-defaults
 
 clean:
-	stack clean
-	cabal new-clean
-	$(RM) -rf $(TARGET).tix .hdevtools.sock
+	@stack clean
+	@cabal clean
+	@rm -f tags
+	@rm -f $(wildcard *.hi **/*.hi)
+	@rm -f $(wildcard *.o **/*.o)
+	@rm -f $(wildcard *.prof **/*.prof)
+	@rm -f $(wildcard *.tix **/*.tix)
 
 cleanall: clean
-	stack clean --full
-	$(RM) -rf .stack-work/ $(TARGET)
+	@stack clean --full

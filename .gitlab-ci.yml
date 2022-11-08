@@ -16,8 +16,8 @@ build:
     entrypoint: [""]
   stage: build
   script:
-    - make setup clean check build test bench doc
-    - mv $(stack path --local-doc-root)/wordpuzzle*/ public/
+    - make clean check build test bench doc
+    - mv $(stack path --local-install-root)/doc/wordpuzzle*/ public/
     - cp -fp .stack-work/benchmark.html public/
   artifacts:
     paths:
