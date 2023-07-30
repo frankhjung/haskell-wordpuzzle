@@ -16,7 +16,7 @@ build:
     name: frankhjung/haskell:9.0.2
     entrypoint: [""]
   script:
-    - make clean check build test bench doc
+    - make setup clean check build test bench doc
     - mv $(stack path --local-install-root)/doc/wordpuzzle*/ public/
     - cp -fp .stack-work/benchmark.html public/
   artifacts:
@@ -34,7 +34,7 @@ pages:
     - if: '$CI_COMMIT_BRANCH == "master"'
   image: alpine:latest
   script:
-    - echo Publishing documentation ...
+    - echo Publish documentation ...
   dependencies:
     - build
   artifacts:
