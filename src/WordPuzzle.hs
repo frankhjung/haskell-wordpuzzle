@@ -33,6 +33,7 @@ module WordPuzzle ( WordPuzzle
                   , ValidationError(..)
                   ) where
 
+import           Data.Bool                  (bool)
 import           Data.Char                  (isLower)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
@@ -75,11 +76,9 @@ isSize = inRange (1,9)
 --
 -- >>> checkSize 1
 -- Right 1
-checkSize :: Int                 -- ^ value to check
+checkSize :: Int                 -- ^ size of word to check
             -> Either String Int -- ^ Left unexpected size or Right size
-checkSize s = if isSize s
-              then Right s
-              else Left (show (InvalidSize s))
+checkSize s = bool (Left (show (InvalidSize s))) (Right s) (isSize s)
 
 -- | Are letters valid?
 --
@@ -94,9 +93,7 @@ isLetters ls = 9 == length ls && all isLower ls
 -- | Check that letters are lowercase alphabetic characters.
 checkLetters :: String                -- ^ characters to check
               -> Either String String -- ^ valid lowercase letters
-checkLetters ls = if isLetters ls
-                  then Right ls
-                  else Left (show (InvalidLetters ls))
+checkLetters ls = bool (Left (show (InvalidLetters ls))) (Right ls) (isLetters ls)
 
 -- | Does word contain the mandatory letter?
 hasMandatory :: Char -> String -> Bool
@@ -105,6 +102,32 @@ hasMandatory = elem
 -- | Smart constructor for WordPuzzle.
 --
 -- TODO re-write using accumulative validation
+--
+-- One way to accumulate all validation errors into a list rather than
+-- failing on the first error found is to use a monad such as the Writer
+-- monad (mtl). Here's how the code could look using the Writer monad:
+--
+-- @
+-- import Control.Monad.Writer
+--
+-- makeWordPuzzle :: Int -> String -> FilePath -> Writer [ValidationError] WordPuzzle
+-- makeWordPuzzle s ls d = do
+--    when (not (isSize s)) $ tell [InvalidSize s]
+--    when (not (isLetters ls)) $ tell [InvalidLetters ls]
+--    return (WordPuzzle s (head ls) ls d)
+-- @
+--
+-- Now, when calling the function, you can extract the result and the
+-- accumulated errors using runWriter:
+--
+-- @
+-- result :: (WordPuzzle, [ValidationError])
+-- result = runWriter (makeWordPuzzle size letters filePath)
+-- @
+--
+-- Note that if there are no validation errors, the list of errors will be
+-- empty. You can then check the list of errors to determine if the result
+-- is valid or not.
 --
 -- See https://github.com/system-f/validation/blob/master/examples/src/Email.hs
 makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle

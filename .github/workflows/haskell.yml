@@ -2,14 +2,12 @@
 
 name: haskell wordpuzzle
 
-# yamllint disable-line rule:truthy
-on:
+on:   # yamllint disable-line rule:truthy
   push:
     branches: ['master', 'feature*']
     tags-ignore: ['*']
   check_run:
     types: [rerequested, requested_action]
-# yamllint enable
 
 env:
   STACK_ROOT: ${{ github.workspace }}/.stack
@@ -48,7 +46,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           stack haddock --no-haddock-deps
-          mv $(stack path --local-install-root) public/
+          mv $(stack path --local-install-root)/doc/wordpuzzle*/ public/
           mv .stack-work/benchmark.html public/
 
       - name: publish

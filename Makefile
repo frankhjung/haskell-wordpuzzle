@@ -78,3 +78,4 @@ clean:
 
 cleanall: clean
 	@stack clean --full
+	@$(RM) -rf .stack-work/ $(TARGET)
