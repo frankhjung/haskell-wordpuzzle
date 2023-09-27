@@ -29,6 +29,7 @@ module WordPuzzle ( WordPuzzle
                   , checkSize
                   , checkLetters
                   , hasLetters
+                  , hasLetters'
                   , solve
                   , ValidationError(..)
                   ) where
@@ -37,7 +38,7 @@ import           Data.Bool                  (bool)
 import           Data.Char                  (isLower)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
-import           Data.List                  ((\\))
+import           Data.List                  (delete, (\\))
 
 -- | Represent parameters required for the puzzle.
 data WordPuzzle = WordPuzzle
@@ -170,4 +171,21 @@ hasLetters :: String     -- ^ valid letters
            -> Bool       -- ^ true if dictionary word matches letters
 hasLetters _  []     = True
 hasLetters [] _      = False
-hasLetters (x:xs) ys = hasLetters xs (ys \\ [x])
+hasLetters (x:xs) ys = hasLetters xs (delete x ys)
+
+
+-- | Check if a word contains only characters from a letters list.
+--
+-- Original version using set difference.
+--
+-- * If all valid characters are removed from the word, and there are still
+-- characters left over, then the word is not valid.
+--
+-- * If all valid characters are removed from the word, and the word is
+-- empty, then the word is valid.
+hasLetters' :: String    -- ^ valid letters
+           -> String     -- ^ dictionary word to check
+           -> Bool       -- ^ true if dictionary word matches letters
+hasLetters' _  []     = True
+hasLetters' [] _      = False
+hasLetters' (x:xs) ys = hasLetters' xs (ys \\ [x])

@@ -4,7 +4,7 @@ module Main(main) where
 
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
 import           WordPuzzle (ValidationError (..), checkLetters, checkSize,
-                             hasLetters)
+                             hasLetters, hasLetters')
 
 main :: IO ()
 main = hspec $ do
@@ -47,3 +47,17 @@ main = hspec $ do
     context "when word does not contain valid character frequency" $
       it "returns false" $
         hasLetters "foobar" "baarof" `shouldBe` False
+
+  describe "hasLetters'" $ do
+    context "when word contains valid characters" $
+      it "returns true" $
+        hasLetters' "foobar" "barfoo" `shouldBe` True
+    context "when word contains a valid subset of characters" $
+      it "returns true" $
+        hasLetters' "foobar" "rof" `shouldBe` True
+    context "when word does not contain valid characters" $
+      it "returns false" $
+        hasLetters' "foobar" "bartez" `shouldBe` False
+    context "when word does not contain valid character frequency" $
+      it "returns false" $
+        hasLetters' "foobar" "baarof" `shouldBe` False
