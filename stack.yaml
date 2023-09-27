@@ -1,13 +1,6 @@
 ---
-resolver: lts-19.27
+resolver: lts-20.26
 arch: x86_64
 flags: {}
 packages: ["."]
 allow-newer: true
-extra-deps:
-  - bytestring-0.10.12.1
-  - criterion-1.5.13.0
-  - hspec-2.8.5
-  - io-streams-1.5.2.2
-  - optparse-applicative-0.16.1.0
-  - QuickCheck-2.14.2
