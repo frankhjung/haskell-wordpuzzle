@@ -184,8 +184,8 @@ hasLetters (x:xs) ys = hasLetters xs (delete x ys)
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
 hasLetters' :: String    -- ^ valid letters
-           -> String     -- ^ dictionary word to check
-           -> Bool       -- ^ true if dictionary word matches letters
+            -> String    -- ^ dictionary word to check
+            -> Bool      -- ^ true if dictionary word matches letters
 hasLetters' _  []     = True
 hasLetters' [] _      = False
 hasLetters' (x:xs) ys = hasLetters' xs (ys \\ [x])

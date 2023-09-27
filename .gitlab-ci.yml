@@ -5,7 +5,7 @@ stages:
   - deploy
 
 variables:
-  RTSOPTS: "+RTS -N1 -s"
+  RTSOPTS: +RTS -N1 -s
   STACK_ROOT: ${CI_PROJECT_DIR}/.stack
 
 build:
