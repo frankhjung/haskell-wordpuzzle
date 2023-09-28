@@ -38,7 +38,7 @@
 </span><span id="line-38"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Char</span></span><span>                  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">isLower</span></span><span class="hs-special">)</span><span>
 </span><span id="line-39"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Functor.Contravariant</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Predicate</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">getPredicate</span></span><span class="hs-special">)</span><span>
 </span><span id="line-40"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Ix</span></span><span>                    </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">inRange</span></span><span class="hs-special">)</span><span>
-</span><span id="line-41"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.List</span></span><span>                  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">delete</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(\\)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-41"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.List</span></span><span>                  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">delete</span></span><span class="hs-special">)</span><span>
 </span><span id="line-42"></span><span>
 </span><span id="line-43"></span><span class="hs-comment">-- | Represent parameters required for the puzzle.</span><span>
 </span><span id="line-44"></span><span class="hs-keyword">data</span><span> </span><span id="WordPuzzle"><span class="annot"><a href="WordPuzzle.html#WordPuzzle"><span class="hs-identifier hs-var">WordPuzzle</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="WordPuzzle"><span class="annot"><a href="WordPuzzle.html#WordPuzzle"><span class="hs-identifier hs-var">WordPuzzle</span></a></span></span><span>
@@ -51,7 +51,7 @@
 </span><a href="WordPuzzle.html#letters"><span class="hs-identifier hs-var hs-var">letters</span></a></span></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>   </span><span class="hs-comment">-- ^ letters to make words</span><span>
 </span><span id="line-49"></span><span>                  </span><span class="hs-special">,</span><span> </span><span id="dictionary"><span class="annot"><span class="annottext">WordPuzzle -&gt; String
 </span><a href="WordPuzzle.html#dictionary"><span class="hs-identifier hs-var hs-var">dictionary</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-comment">-- ^ dictionary for valid words</span><span>
-</span><span id="line-50"></span><span>                  </span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679035654"><span id="local-6989586621679035656"><span id="local-6989586621679035667"><span class="annot"><span class="annottext">Int -&gt; WordPuzzle -&gt; ShowS
+</span><span id="line-50"></span><span>                  </span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679035661"><span id="local-6989586621679035663"><span id="local-6989586621679035674"><span class="annot"><span class="annottext">Int -&gt; WordPuzzle -&gt; ShowS
 [WordPuzzle] -&gt; ShowS
 WordPuzzle -&gt; String
 forall a.
@@ -70,24 +70,24 @@ $cshowsPrec :: Int -&gt; WordPuzzle -&gt; ShowS
 </span><span id="line-55"></span><span>                       </span><span class="hs-glyph">|</span><span> </span><span id="UnexpectedValue"><span class="annot"><a href="WordPuzzle.html#UnexpectedValue"><span class="hs-identifier hs-var">UnexpectedValue</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-comment">-- ^ couldn't parse value</span><span>
 </span><span id="line-56"></span><span>
 </span><span id="line-57"></span><span class="hs-comment">-- | Show 'ValidationError' as string.</span><span>
-</span><span id="line-58"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679035645"><span id="local-6989586621679035648"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="WordPuzzle.html#ValidationError"><span class="hs-identifier hs-type">ValidationError</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-59"></span><span>  </span><span id="local-6989586621679035643"><span class="annot"><span class="annottext">show :: ValidationError -&gt; String
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="WordPuzzle.html#InvalidSize"><span class="hs-identifier hs-type">InvalidSize</span></a></span><span> </span><span id="local-6989586621679035641"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035641"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span>      </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-58"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679035652"><span id="local-6989586621679035655"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="WordPuzzle.html#ValidationError"><span class="hs-identifier hs-type">ValidationError</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-59"></span><span>  </span><span id="local-6989586621679035650"><span class="annot"><span class="annottext">show :: ValidationError -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="WordPuzzle.html#InvalidSize"><span class="hs-identifier hs-type">InvalidSize</span></a></span><span> </span><span id="local-6989586621679035648"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679035648"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span>      </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;expected size in range [1..9], got &quot;</span></span><span> </span><span class="annot"><span class="annottext">forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035641"><span class="hs-identifier hs-var">n</span></a></span><span>
-</span><span id="line-60"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="WordPuzzle.html#InvalidLetters"><span class="hs-identifier hs-type">InvalidLetters</span></a></span><span> </span><span id="local-6989586621679035640"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035640"><span class="hs-identifier hs-var">ls</span></a></span></span><span class="hs-special">)</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035648"><span class="hs-identifier hs-var">n</span></a></span><span>
+</span><span id="line-60"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="WordPuzzle.html#InvalidLetters"><span class="hs-identifier hs-type">InvalidLetters</span></a></span><span> </span><span id="local-6989586621679035647"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035647"><span class="hs-identifier hs-var">ls</span></a></span></span><span class="hs-special">)</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;expected 9 lowercase letters, got &quot;</span></span><span> </span><span class="annot"><span class="annottext">forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035640"><span class="hs-identifier hs-var">ls</span></a></span><span>
-</span><span id="line-61"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="WordPuzzle.html#UnexpectedValue"><span class="hs-identifier hs-type">UnexpectedValue</span></a></span><span> </span><span id="local-6989586621679035639"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035639"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035647"><span class="hs-identifier hs-var">ls</span></a></span><span>
+</span><span id="line-61"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="WordPuzzle.html#UnexpectedValue"><span class="hs-identifier hs-type">UnexpectedValue</span></a></span><span> </span><span id="local-6989586621679035646"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035646"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;unexpected value &quot;</span></span><span> </span><span class="annot"><span class="annottext">forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035639"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. [a] -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679035646"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot; for parameter&quot;</span></span><span>
 </span><span id="line-62"></span><span>
@@ -115,17 +115,17 @@ $cshowsPrec :: Int -&gt; WordPuzzle -&gt; ShowS
 </span><span id="line-80"></span><span class="annot"><a href="WordPuzzle.html#checkSize"><span class="hs-identifier hs-type">checkSize</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>                 </span><span class="hs-comment">-- ^ size of word to check</span><span>
 </span><span id="line-81"></span><span>            </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-comment">-- ^ Left unexpected size or Right size</span><span>
 </span><span id="line-82"></span><span id="checkSize"><span class="annot"><span class="annottext">checkSize :: Int -&gt; Either String Int
-</span><a href="WordPuzzle.html#checkSize"><span class="hs-identifier hs-var hs-var">checkSize</span></a></span></span><span> </span><span id="local-6989586621679035637"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035637"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. a -&gt; a -&gt; Bool -&gt; a
+</span><a href="WordPuzzle.html#checkSize"><span class="hs-identifier hs-var hs-var">checkSize</span></a></span></span><span> </span><span id="local-6989586621679035644"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679035644"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. a -&gt; a -&gt; Bool -&gt; a
 </span><span class="hs-identifier hs-var">bool</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; ValidationError
 </span><a href="WordPuzzle.html#InvalidSize"><span class="hs-identifier hs-var">InvalidSize</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035637"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a b. b -&gt; Either a b
+</span><a href="#local-6989586621679035644"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035637"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; Bool
+</span><a href="#local-6989586621679035644"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; Bool
 </span><a href="WordPuzzle.html#isSize"><span class="hs-identifier hs-var">isSize</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035637"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035644"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-83"></span><span>
 </span><span id="line-84"></span><span class="hs-comment">-- | Are letters valid?</span><span>
 </span><span id="line-85"></span><span class="hs-comment">--</span><span>
@@ -136,32 +136,32 @@ $cshowsPrec :: Int -&gt; WordPuzzle -&gt; ShowS
 </span><span id="line-90"></span><span class="hs-comment">-- False</span><span>
 </span><span id="line-91"></span><span class="annot"><a href="WordPuzzle.html#isLetters"><span class="hs-identifier hs-type">isLetters</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
 </span><span id="line-92"></span><span id="isLetters"><span class="annot"><span class="annottext">isLetters :: String -&gt; Bool
-</span><a href="WordPuzzle.html#isLetters"><span class="hs-identifier hs-var hs-var">isLetters</span></a></span></span><span> </span><span id="local-6989586621679035635"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035635"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="WordPuzzle.html#isLetters"><span class="hs-identifier hs-var hs-var">isLetters</span></a></span></span><span> </span><span id="local-6989586621679035642"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035642"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">9</span></span><span> </span><span class="annot"><span class="annottext">forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Int
 </span><span class="hs-identifier hs-var">length</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035635"><span class="hs-identifier hs-var">ls</span></a></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
+</span><a href="#local-6989586621679035642"><span class="hs-identifier hs-var">ls</span></a></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
 </span><span class="hs-operator hs-var">&amp;&amp;</span></span><span> </span><span class="annot"><span class="annottext">forall (t :: * -&gt; *) a. Foldable t =&gt; (a -&gt; Bool) -&gt; t a -&gt; Bool
 </span><span class="hs-identifier hs-var">all</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
 </span><span class="hs-identifier hs-var">isLower</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035635"><span class="hs-identifier hs-var">ls</span></a></span><span>
+</span><a href="#local-6989586621679035642"><span class="hs-identifier hs-var">ls</span></a></span><span>
 </span><span id="line-93"></span><span>
 </span><span id="line-94"></span><span class="hs-comment">-- | Check that letters are lowercase alphabetic characters.</span><span>
 </span><span id="line-95"></span><span class="annot"><a href="WordPuzzle.html#checkLetters"><span class="hs-identifier hs-type">checkLetters</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>                </span><span class="hs-comment">-- ^ characters to check</span><span>
 </span><span id="line-96"></span><span>              </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-comment">-- ^ valid lowercase letters</span><span>
 </span><span id="line-97"></span><span id="checkLetters"><span class="annot"><span class="annottext">checkLetters :: String -&gt; Either String String
-</span><a href="WordPuzzle.html#checkLetters"><span class="hs-identifier hs-var hs-var">checkLetters</span></a></span></span><span> </span><span id="local-6989586621679035631"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035631"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. a -&gt; a -&gt; Bool -&gt; a
+</span><a href="WordPuzzle.html#checkLetters"><span class="hs-identifier hs-var hs-var">checkLetters</span></a></span></span><span> </span><span id="local-6989586621679035638"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035638"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. a -&gt; a -&gt; Bool -&gt; a
 </span><span class="hs-identifier hs-var">bool</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; ValidationError
 </span><a href="WordPuzzle.html#InvalidLetters"><span class="hs-identifier hs-var">InvalidLetters</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035631"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a b. b -&gt; Either a b
+</span><a href="#local-6989586621679035638"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035631"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Bool
+</span><a href="#local-6989586621679035638"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Bool
 </span><a href="WordPuzzle.html#isLetters"><span class="hs-identifier hs-var">isLetters</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035631"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035638"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-98"></span><span>
 </span><span id="line-99"></span><span class="hs-comment">-- | Does word contain the mandatory letter?</span><span>
 </span><span id="line-100"></span><span class="annot"><a href="WordPuzzle.html#hasMandatory"><span class="hs-identifier hs-type">hasMandatory</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
@@ -202,36 +202,36 @@ $cshowsPrec :: Int -&gt; WordPuzzle -&gt; ShowS
 </span><span id="line-133"></span><span class="hs-comment">-- See https://github.com/system-f/validation/blob/master/examples/src/Email.hs</span><span>
 </span><span id="line-134"></span><span class="annot"><a href="WordPuzzle.html#makeWordPuzzle"><span class="hs-identifier hs-type">makeWordPuzzle</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="WordPuzzle.html#ValidationError"><span class="hs-identifier hs-type">ValidationError</span></a></span><span> </span><span class="annot"><a href="WordPuzzle.html#WordPuzzle"><span class="hs-identifier hs-type">WordPuzzle</span></a></span><span>
 </span><span id="line-135"></span><span id="makeWordPuzzle"><span class="annot"><span class="annottext">makeWordPuzzle :: Int -&gt; String -&gt; String -&gt; Either ValidationError WordPuzzle
-</span><a href="WordPuzzle.html#makeWordPuzzle"><span class="hs-identifier hs-var hs-var">makeWordPuzzle</span></a></span></span><span> </span><span id="local-6989586621679035628"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035628"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span id="local-6989586621679035627"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035627"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span id="local-6989586621679035626"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035626"><span class="hs-identifier hs-var">d</span></a></span></span><span>
+</span><a href="WordPuzzle.html#makeWordPuzzle"><span class="hs-identifier hs-var hs-var">makeWordPuzzle</span></a></span></span><span> </span><span id="local-6989586621679035635"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679035635"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span id="local-6989586621679035634"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035634"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span id="local-6989586621679035633"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035633"><span class="hs-identifier hs-var">d</span></a></span></span><span>
 </span><span id="line-136"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; Bool
 </span><a href="WordPuzzle.html#isSize"><span class="hs-identifier hs-var">isSize</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035628"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>          </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a b. a -&gt; Either a b
+</span><a href="#local-6989586621679035635"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>          </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; ValidationError
 </span><a href="WordPuzzle.html#InvalidSize"><span class="hs-identifier hs-var">InvalidSize</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035628"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035635"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-137"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Bool
 </span><a href="WordPuzzle.html#isLetters"><span class="hs-identifier hs-var">isLetters</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035627"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span>      </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a b. a -&gt; Either a b
+</span><a href="#local-6989586621679035634"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span>      </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; ValidationError
 </span><a href="WordPuzzle.html#InvalidLetters"><span class="hs-identifier hs-var">InvalidLetters</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035627"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035634"><span class="hs-identifier hs-var">ls</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-138"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span>               </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; Char -&gt; String -&gt; String -&gt; WordPuzzle
 </span><a href="WordPuzzle.html#WordPuzzle"><span class="hs-identifier hs-var">WordPuzzle</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679035628"><span class="hs-identifier hs-var">s</span></a></span><span> </span><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679035624"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035627"><span class="hs-identifier hs-var">ls</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035626"><span class="hs-identifier hs-var">d</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-139"></span><span>  </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679035624"><span class="annot"><span class="annottext">m :: Char
-</span><a href="#local-6989586621679035624"><span class="hs-identifier hs-var hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. [a] -&gt; a
+</span><a href="#local-6989586621679035635"><span class="hs-identifier hs-var">s</span></a></span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679035631"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035634"><span class="hs-identifier hs-var">ls</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035633"><span class="hs-identifier hs-var">d</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-139"></span><span>  </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679035631"><span class="annot"><span class="annottext">m :: Char
+</span><a href="#local-6989586621679035631"><span class="hs-identifier hs-var hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. [a] -&gt; a
 </span><span class="hs-identifier hs-var">head</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035627"><span class="hs-identifier hs-var">ls</span></a></span><span>  </span><span class="hs-comment">-- valid as ls already checked</span><span>
+</span><a href="#local-6989586621679035634"><span class="hs-identifier hs-var">ls</span></a></span><span>  </span><span class="hs-comment">-- valid as ls already checked</span><span>
 </span><span id="line-140"></span><span>
 </span><span id="line-141"></span><span class="hs-comment">-- | Solve word puzzle given a dictionary of words.</span><span>
 </span><span id="line-142"></span><span class="hs-comment">--</span><span>
@@ -244,57 +244,57 @@ $cshowsPrec :: Int -&gt; WordPuzzle -&gt; ShowS
 </span><span id="line-149"></span><span class="hs-comment">-- * must not exceed valid character frequency</span><span>
 </span><span id="line-150"></span><span class="annot"><a href="WordPuzzle.html#solve"><span class="hs-identifier hs-type">solve</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="WordPuzzle.html#WordPuzzle"><span class="hs-identifier hs-type">WordPuzzle</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-151"></span><span id="solve"><span class="annot"><span class="annottext">solve :: WordPuzzle -&gt; IO ()
-</span><a href="WordPuzzle.html#solve"><span class="hs-identifier hs-var hs-var">solve</span></a></span></span><span> </span><span id="local-6989586621679035622"><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679035622"><span class="hs-identifier hs-var">wordpuzzle</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-152"></span><span>  </span><span id="local-6989586621679035621"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035621"><span class="hs-identifier hs-var">dict</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
+</span><a href="WordPuzzle.html#solve"><span class="hs-identifier hs-var hs-var">solve</span></a></span></span><span> </span><span id="local-6989586621679035629"><span class="annot"><span class="annottext">WordPuzzle
+</span><a href="#local-6989586621679035629"><span class="hs-identifier hs-var">wordpuzzle</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-152"></span><span>  </span><span id="local-6989586621679035628"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035628"><span class="hs-identifier hs-var">dict</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">readFile</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">WordPuzzle -&gt; String
 </span><a href="WordPuzzle.html#dictionary"><span class="hs-identifier hs-var">dictionary</span></a></span><span> </span><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679035622"><span class="hs-identifier hs-var">wordpuzzle</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035629"><span class="hs-identifier hs-var">wordpuzzle</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-153"></span><span>  </span><span class="annot"><span class="annottext">forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Foldable t, Monad m) =&gt;
 (a -&gt; m b) -&gt; t a -&gt; m ()
 </span><span class="hs-identifier hs-var">mapM_</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; IO ()
 </span><span class="hs-identifier hs-var">putStrLn</span></span><span> </span><span class="annot"><span class="annottext">forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">WordPuzzle -&gt; [String] -&gt; [String]
-</span><a href="#local-6989586621679035617"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679035622"><span class="hs-identifier hs-var">wordpuzzle</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [String]
+</span><a href="#local-6989586621679035624"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">WordPuzzle
+</span><a href="#local-6989586621679035629"><span class="hs-identifier hs-var">wordpuzzle</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [String]
 </span><span class="hs-identifier hs-var">lines</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035621"><span class="hs-identifier hs-var">dict</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035628"><span class="hs-identifier hs-var">dict</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-154"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-155"></span><span>    </span><span class="annot"><a href="#local-6989586621679035617"><span class="hs-identifier hs-type">go</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="WordPuzzle.html#WordPuzzle"><span class="hs-identifier hs-type">WordPuzzle</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span>
-</span><span id="line-156"></span><span>    </span><span id="local-6989586621679035617"><span class="annot"><span class="annottext">go :: WordPuzzle -&gt; [String] -&gt; [String]
-</span><a href="#local-6989586621679035617"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621679035615"><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679035615"><span class="hs-identifier hs-var">puzzle</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; [a] -&gt; [a]
+</span><span id="line-155"></span><span>    </span><span class="annot"><a href="#local-6989586621679035624"><span class="hs-identifier hs-type">go</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="WordPuzzle.html#WordPuzzle"><span class="hs-identifier hs-type">WordPuzzle</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span>
+</span><span id="line-156"></span><span>    </span><span id="local-6989586621679035624"><span class="annot"><span class="annottext">go :: WordPuzzle -&gt; [String] -&gt; [String]
+</span><a href="#local-6989586621679035624"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621679035622"><span class="annot"><span class="annottext">WordPuzzle
+</span><a href="#local-6989586621679035622"><span class="hs-identifier hs-var">puzzle</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; [a] -&gt; [a]
 </span><span class="hs-identifier hs-var">filter</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Predicate a -&gt; a -&gt; Bool
 </span><span class="hs-identifier hs-var">getPredicate</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall {a}. Predicate [a]
-</span><a href="#local-6989586621679035614"><span class="hs-identifier hs-var">pS</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><a href="#local-6989586621679035621"><span class="hs-identifier hs-var">pS</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Predicate String
-</span><a href="#local-6989586621679035613"><span class="hs-identifier hs-var">pM</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><a href="#local-6989586621679035620"><span class="hs-identifier hs-var">pM</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Predicate String
-</span><a href="#local-6989586621679035612"><span class="hs-identifier hs-var">pL</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035619"><span class="hs-identifier hs-var">pL</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-157"></span><span>      </span><span class="hs-keyword">where</span><span>
-</span><span id="line-158"></span><span>        </span><span id="local-6989586621679035614"><span class="annot"><span class="annottext">pS :: Predicate [a]
-</span><a href="#local-6989586621679035614"><span class="hs-identifier hs-var hs-var">pS</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; Predicate a
+</span><span id="line-158"></span><span>        </span><span id="local-6989586621679035621"><span class="annot"><span class="annottext">pS :: Predicate [a]
+</span><a href="#local-6989586621679035621"><span class="hs-identifier hs-var hs-var">pS</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; Predicate a
 </span><span class="hs-identifier hs-var">Predicate</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Ix a =&gt; (a, a) -&gt; a -&gt; Bool
 </span><span class="hs-identifier hs-var">inRange</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">WordPuzzle -&gt; Int
 </span><a href="WordPuzzle.html#size"><span class="hs-identifier hs-var">size</span></a></span><span> </span><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679035615"><span class="hs-identifier hs-var">puzzle</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679035622"><span class="hs-identifier hs-var">puzzle</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">9</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Int
 </span><span class="hs-identifier hs-var">length</span></span><span class="hs-special">)</span><span>
-</span><span id="line-159"></span><span>        </span><span id="local-6989586621679035613"><span class="annot"><span class="annottext">pM :: Predicate String
-</span><a href="#local-6989586621679035613"><span class="hs-identifier hs-var hs-var">pM</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; Predicate a
+</span><span id="line-159"></span><span>        </span><span id="local-6989586621679035620"><span class="annot"><span class="annottext">pM :: Predicate String
+</span><a href="#local-6989586621679035620"><span class="hs-identifier hs-var hs-var">pM</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; Predicate a
 </span><span class="hs-identifier hs-var">Predicate</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Char -&gt; String -&gt; Bool
 </span><a href="WordPuzzle.html#hasMandatory"><span class="hs-identifier hs-var">hasMandatory</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">WordPuzzle -&gt; Char
 </span><a href="WordPuzzle.html#mandatory"><span class="hs-identifier hs-var">mandatory</span></a></span><span> </span><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679035615"><span class="hs-identifier hs-var">puzzle</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-160"></span><span>        </span><span id="local-6989586621679035612"><span class="annot"><span class="annottext">pL :: Predicate String
-</span><a href="#local-6989586621679035612"><span class="hs-identifier hs-var hs-var">pL</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; Predicate a
+</span><a href="#local-6989586621679035622"><span class="hs-identifier hs-var">puzzle</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-160"></span><span>        </span><span id="local-6989586621679035619"><span class="annot"><span class="annottext">pL :: Predicate String
+</span><a href="#local-6989586621679035619"><span class="hs-identifier hs-var hs-var">pL</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">forall a. (a -&gt; Bool) -&gt; Predicate a
 </span><span class="hs-identifier hs-var">Predicate</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; String -&gt; Bool
 </span><a href="WordPuzzle.html#hasLetters"><span class="hs-identifier hs-var">hasLetters</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">WordPuzzle -&gt; String
 </span><a href="WordPuzzle.html#letters"><span class="hs-identifier hs-var">letters</span></a></span><span> </span><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679035615"><span class="hs-identifier hs-var">puzzle</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035622"><span class="hs-identifier hs-var">puzzle</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-161"></span><span>
 </span><span id="line-162"></span><span class="hs-comment">-- | Check if a word contains only characters from a letters list.</span><span>
 </span><span id="line-163"></span><span class="hs-comment">--</span><span>
@@ -313,15 +313,15 @@ $cshowsPrec :: Int -&gt; WordPuzzle -&gt; ShowS
 </span><span id="line-173"></span><span class="annot"><a href="WordPuzzle.html#hasLetters"><span class="hs-identifier hs-var">hasLetters</span></a></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-identifier">_</span></span><span>      </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-174"></span><span class="annot"><a href="WordPuzzle.html#hasLetters"><span class="hs-identifier hs-var">hasLetters</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679035606"><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679035606"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679035605"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035605"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679035604"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035604"><span class="hs-identifier hs-var">ys</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; Bool
+</span><span id="line-174"></span><span class="annot"><a href="WordPuzzle.html#hasLetters"><span class="hs-identifier hs-var">hasLetters</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679035613"><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679035613"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679035612"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035612"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679035611"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035611"><span class="hs-identifier hs-var">ys</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; Bool
 </span><a href="WordPuzzle.html#hasLetters"><span class="hs-identifier hs-var">hasLetters</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035605"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Eq a =&gt; a -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679035612"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Eq a =&gt; a -&gt; [a] -&gt; [a]
 </span><span class="hs-identifier hs-var">delete</span></span><span> </span><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679035606"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035604"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679035613"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035611"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-175"></span><span>
 </span><span id="line-176"></span><span>
 </span><span id="line-177"></span><span class="hs-comment">-- | Check if a word contains only characters from a letters list.</span><span>
@@ -343,13 +343,20 @@ $cshowsPrec :: Int -&gt; WordPuzzle -&gt; ShowS
 </span><span id="line-190"></span><span class="annot"><a href="WordPuzzle.html#hasLetters%27"><span class="hs-identifier hs-var">hasLetters'</span></a></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-identifier">_</span></span><span>      </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-191"></span><span class="annot"><a href="WordPuzzle.html#hasLetters%27"><span class="hs-identifier hs-var">hasLetters'</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679035603"><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679035603"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679035602"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035602"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679035601"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035601"><span class="hs-identifier hs-var">ys</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; Bool
-</span><a href="WordPuzzle.html#hasLetters%27"><span class="hs-identifier hs-var">hasLetters'</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035602"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679035601"><span class="hs-identifier hs-var">ys</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. Eq a =&gt; [a] -&gt; [a] -&gt; [a]
-</span><span class="hs-operator hs-var">\\</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679035603"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span>
-</span><span id="line-192"></span></pre></body></html>
+</span><span id="line-191"></span><span class="annot"><a href="WordPuzzle.html#hasLetters%27"><span class="hs-identifier hs-var">hasLetters'</span></a></span><span> </span><span id="local-6989586621679035610"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035610"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679035609"><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679035609"><span class="hs-identifier hs-var">y</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679035608"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035608"><span class="hs-identifier hs-var">ys</span></a></span></span><span class="hs-special">)</span><span>
+</span><span id="line-192"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679035609"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
+</span><span class="hs-operator hs-var">`elem`</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035610"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; Bool
+</span><a href="WordPuzzle.html#hasLetters%27"><span class="hs-identifier hs-var">hasLetters'</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Eq a =&gt; a -&gt; [a] -&gt; [a]
+</span><span class="hs-identifier hs-var">delete</span></span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679035609"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035610"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679035608"><span class="hs-identifier hs-var">ys</span></a></span><span>
+</span><span id="line-193"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">otherwise</span></span><span>   </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span>
+</span><span id="line-194"></span></pre></body></html>
