@@ -1,7 +1,7 @@
 cabal-version:      3.0
 
 name:               wordpuzzle
-version:            2.6.0
+version:            2.6.1
 synopsis:           9 letter word puzzle solver
 description:        Solve a common 9 letter word puzzle. This will list all words matching the 9 letters and must include a mandatory character.
 homepage:           https://github.com/frankhjung/haskell-wordpuzzle/blob/master/README.md
