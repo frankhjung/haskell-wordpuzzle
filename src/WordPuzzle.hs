@@ -38,7 +38,7 @@ import           Data.Bool                  (bool)
 import           Data.Char                  (isLower)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
-import           Data.List                  (delete, (\\))
+import           Data.List                  (delete)
 
 -- | Represent parameters required for the puzzle.
 data WordPuzzle = WordPuzzle
@@ -188,4 +188,6 @@ hasLetters' :: String    -- ^ valid letters
             -> Bool      -- ^ true if dictionary word matches letters
 hasLetters' _  []     = True
 hasLetters' [] _      = False
-hasLetters' (x:xs) ys = hasLetters' xs (ys \\ [x])
+hasLetters' xs (y:ys)
+  | y `elem` xs = hasLetters' (delete y xs) ys
+  | otherwise   = False

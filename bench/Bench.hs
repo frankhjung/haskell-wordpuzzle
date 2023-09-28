@@ -8,7 +8,7 @@ main = defaultMain
   [
     bgroup "WordPuzzle"
     [
-      bench "hasLetters" $ nf hasLetters "foobar"     -- faster
-    , bench "hasLetters'" $ nf hasLetters' "foobar"   -- slower
+      bench "hasLetters" $ nf hasLetters "cadevrsoi"     -- faster
+    , bench "hasLetters'" $ nf hasLetters' "cadevrsoi"   -- slightly slower
     ]
   ]
