@@ -7,7 +7,7 @@
 --   Solve a common 9 letter word puzzle. This will list all words matching
 --   the 9 letters and must include a mandatory character.
 @package wordpuzzle
-@version 2.1.0
+@version 2.6.1
 
 
 -- | Supporting functions for solving letter word puzzles.
@@ -36,12 +36,51 @@ module WordPuzzle
 -- | Represent parameters required for the puzzle.
 data WordPuzzle
 
--- | Smart constructor for WordPuzzle. TODO re-write using accumulative
---   validation See
+-- | Smart constructor for WordPuzzle.
+--   
+--   TODO re-write using accumulative validation
+--   
+--   One way to accumulate all validation errors into a list rather than
+--   failing on the first error found is to use a monad such as the Writer
+--   monad (mtl). Here's how the code could look using the Writer monad:
+--   
+--   <pre>
+--   import Control.Monad.Writer
+--   
+--   makeWordPuzzle :: Int -&gt; String -&gt; FilePath -&gt; Writer [ValidationError] WordPuzzle
+--   makeWordPuzzle s ls d = do
+--      when (not (isSize s)) $ tell [InvalidSize s]
+--      when (not (isLetters ls)) $ tell [InvalidLetters ls]
+--      return (WordPuzzle s (head ls) ls d)
+--   </pre>
+--   
+--   Now, when calling the function, you can extract the result and the
+--   accumulated errors using runWriter:
+--   
+--   <pre>
+--   result :: (WordPuzzle, [ValidationError])
+--   result = runWriter (makeWordPuzzle size letters filePath)
+--   </pre>
+--   
+--   Note that if there are no validation errors, the list of errors will
+--   be empty. You can then check the list of errors to determine if the
+--   result is valid or not.
+--   
+--   See
 --   <a>https://github.com/system-f/validation/blob/master/examples/src/Email.hs</a>
 makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle
 
 -- | Check that mandatory value is in the range from 1 to 9.
+--   
+--   <pre>
+--   &gt;&gt;&gt; checkSize 10
+--   Left (InvalidSize 10)
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; checkSize 1
+--   Right 1
+--   </pre>
 checkSize :: Int -> Either String Int
 
 -- | Check that letters are lowercase alphabetic characters.
@@ -57,10 +96,29 @@ checkLetters :: String -> Either String String
 --   </ul>
 hasLetters :: String -> String -> Bool
 
--- | Solve word puzzle given a dictionary of words. 1. must be greater than
---   the minimum word length 2. must be no more than 9 characters long 3.
---   must contain mandatory character 4. must contain only valid characters
---   5. must not exceed valid character frequency
+-- | Check if a word contains only characters from a letters list.
+--   
+--   Original version using set difference.
+--   
+--   <ul>
+--   <li>If all valid characters are removed from the word, and there are
+--   still characters left over, then the word is not valid.</li>
+--   <li>If all valid characters are removed from the word, and the word is
+--   empty, then the word is valid.</li>
+--   </ul>
+hasLetters' :: String -> String -> Bool
+
+-- | Solve word puzzle given a dictionary of words.
+--   
+--   Where each word:
+--   
+--   <ul>
+--   <li>must be greater than the minimum word length</li>
+--   <li>must be no more than 9 characters long</li>
+--   <li>must contain mandatory character</li>
+--   <li>must contain only valid characters</li>
+--   <li>must not exceed valid character frequency</li>
+--   </ul>
 solve :: WordPuzzle -> IO ()
 
 -- | Error given on invalid parameter.

@@ -4,10 +4,6 @@ stages:
   - build
   - deploy
 
-variables:
-  RTSOPTS: +RTS -N1 -s
-  STACK_ROOT: ${CI_PROJECT_DIR}/.stack
-
 build:
   stage: build
   except:
@@ -15,18 +11,21 @@ build:
   image:
     name: frankhjung/haskell:9.2.8
     entrypoint: [""]
+  variables:
+    PROJECT: wordpuzzle
+    RTSOPTS: +RTS -N1 -s
+    STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
     - make setup clean check build test bench doc
-    - mv $(stack path --local-install-root)/doc/wordpuzzle*/ public/
-    - cp -fp .stack-work/benchmark.html public/
+    - mv $(stack path --local-install-root)/doc/${PROJECT}*/ public/
+    - cp -fp ${STACK_ROOT}/benchmark.html public/
   artifacts:
     paths:
       - public
   cache:
     key: ${CI_COMMIT_REF_NAME}
     paths:
-      - .stack
-      - .stack-work
+      - ${STACK_ROOT}
 
 pages:
   stage: deploy
