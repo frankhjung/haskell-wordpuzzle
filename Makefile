@@ -47,7 +47,7 @@ doc:
 install: bench doc
 	@stack install --local-bin-path $(HOME)/bin
 	@cp -pr $(shell find .stack-work/dist -type d -name html) doc/
-	@cp .stack-work/benchmark.html doc/
+	@mv benchmark.html doc/
 
 dictionary:
 ifneq ("$(wildcard /usr/share/dict/british-english-huge)","")

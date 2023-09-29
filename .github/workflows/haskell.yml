@@ -10,7 +10,8 @@ on:   # yamllint disable-line rule:truthy
     types: [rerequested, requested_action]
 
 env:
-  STACK_ROOT: ${{ github.workspace }}/.stack
+  PROJECT: wordpuzzle
+  STACK_ROOT: ${{ github.workspace }}/.stack-work
 
 jobs:
 
@@ -28,9 +29,7 @@ jobs:
       - name: cache
         uses: actions/cache@v3
         with:
-          path: |
-            .stack-work/
-            ${{ env.STACK_ROOT }}
+          path: ${{ env.STACK_ROOT }}
           key: ${{ github.ref }}
 
       - name: build
@@ -40,14 +39,14 @@ jobs:
         run: stack test --coverage
 
       - name: bench
-        run: stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+        run: stack bench --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
 
       - name: haddock
         if: github.ref == 'refs/heads/master'
         run: |
           stack haddock --no-haddock-deps
-          mv $(stack path --local-install-root)/doc/wordpuzzle*/ public/
-          mv .stack-work/benchmark.html public/
+          mv $(stack path --local-install-root)/doc/${{ env.PROJECT }}*/ public/
+          mv ${{ env.STACK_ROOT }}/benchmark.html public/
 
       - name: publish
         if: success() && github.ref == 'refs/heads/master'
