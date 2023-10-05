@@ -9,7 +9,7 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:9.2.8
+    name: frankhjung/haskell:9.4.7
     entrypoint: [""]
   variables:
     PROJECT: wordpuzzle

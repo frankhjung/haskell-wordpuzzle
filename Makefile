@@ -8,19 +8,20 @@ SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
 ARGS	?= -s 7 -l cadevrsoi
 
-default: check build test
+default: style check build test
 
-all:	check build test bench doc exec
+all:	style check build test bench doc exec
 
-check:	tags style lint
-
-tags:
-	@echo tags ...
-	@hasktags --ctags --extendedctag $(SRCS)
+check:	tags lint
 
 style:
 	@echo style ...
 	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@cabal-fmt --inplace wordpuzzle.cabal
+
+tags:
+	@echo tags ...
+	@hasktags --ctags --extendedctag $(SRCS)
 
 lint:
 	@echo lint ...
