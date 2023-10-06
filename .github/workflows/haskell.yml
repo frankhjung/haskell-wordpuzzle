@@ -8,6 +8,7 @@ on:   # yamllint disable-line rule:truthy
     tags-ignore: ['*']
   check_run:
     types: [rerequested, requested_action]
+# yamllint enable
 
 env:
   PROJECT: wordpuzzle
