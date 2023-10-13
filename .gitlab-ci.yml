@@ -10,14 +10,12 @@ build:
     - tags
   image:
     name: frankhjung/haskell:9.4.7
-    entrypoint: [""]
   variables:
-    PROJECT: wordpuzzle
     RTSOPTS: +RTS -N1 -s
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
     - make setup clean check build test bench doc
-    - mv $(stack path --local-install-root)/doc/${PROJECT}*/ public/
+    - mv $(stack path --local-doc-root)/ public/
     - cp -fp ${STACK_ROOT}/benchmark.html public/
   artifacts:
     paths:
