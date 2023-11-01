@@ -1,6 +1,7 @@
 #!/usr/bin/env make
 
 .DEFAULT_GOAL	:= default
+
 TARGET	:= wordpuzzle
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
@@ -15,32 +16,27 @@ all:	format check build test bench doc exec
 
 .PHONY:	format
 format:
-	@echo format ...
-	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRCS)
-	@cabal-fmt --inplace wordpuzzle.cabal
+	@stylish-haskell --verbose --inplace $(SRCS)
+	@cabal-fmt --inplace $(TARGET).cabal
 
 .PHONY:	check
 check:	tags lint
 
 .PHONY:	tags
 tags:
-	@echo tags ...
 	@hasktags --ctags --extendedctag $(SRCS)
 
 .PHONY:	lint
 lint:
-	@echo lint ...
-	@hlint --color $(SRCS)
+	@hlint --color --show $(SRCS)
 	@cabal check --verbose=3
 
 .PHONY:	build
 build:
-	@echo build ...
 	@stack build --verbosity info --pedantic --no-test
 
 .PHONY:	test
 test:
-	@echo test ...
 	@stack test
 
 .PHONY:	exec
@@ -84,4 +80,5 @@ clean:
 .PHONY:	cleanall
 cleanall: clean
 	@stack purge
+	@rm -f stack.yaml.lock
 	@rm -f tags
