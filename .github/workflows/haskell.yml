@@ -39,7 +39,9 @@ jobs:
         run: stack test --coverage
 
       - name: bench
-        run: stack bench --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
+        run: |
+          stack bench \
+            --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
 
       - name: haddock
         if: github.ref == 'refs/heads/master'
