@@ -3,82 +3,83 @@
 .DEFAULT_GOAL	:= default
 
 TARGET	:= wordpuzzle
-SUBS	:= $(wildcard */)
-SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
+CABAL	:= $(TARGET).cabal
+SRCS	:= $(wildcard */*.hs)
 
 ARGS	?= -s 7 -l cadevrsoi
 
-.PHONY:	default
+.PHONY: default
 default: format check build test
 
-.PHONY:	all
+.PHONY: all
 all:	format check build test bench doc exec
 
-.PHONY:	format
-format:
-	@stylish-haskell --verbose --inplace $(SRCS)
-	@cabal-fmt --inplace $(TARGET).cabal
+.PHONY: format
+format:	$(SRCS)
+	@echo format ...
+	@cabal-fmt --inplace $(CABAL)
+	@stylish-haskell --inplace $(SRCS)
 
-.PHONY:	check
+.PHONY: check
 check:	tags lint
 
-.PHONY:	tags
-tags:
+.PHONY: tags
+tags:	$(SRCS)
+	@echo tags ...
 	@hasktags --ctags --extendedctag $(SRCS)
 
-.PHONY:	lint
-lint:
-	@hlint --color --show $(SRCS)
-	@cabal check --verbose=3
+.PHONY: lint
+lint:	$(SRCS)
+	@echo lint ...
+	@hlint --cross --color --show $(SRCS)
+	@cabal check
 
-.PHONY:	build
-build:
-	@stack build --verbosity info --pedantic --no-test
+.PHONY: build
+build:  $(SRCS)
+	@echo build ...
+	@cabal build
 
-.PHONY:	test
+.PHONY: test
 test:
-	@stack test
+	@echo test ...
+	@cabal test --test-show-details=direct
 
-.PHONY:	exec
-exec:
-	@stack exec -- $(TARGET) $(ARGS) +RTS -s
+.PHONY: doc
+doc:
+	@echo doc ...
+	@cabal haddock --haddock-quickjump --haddock-hyperlink-source
 
 .PHONY:	bench
 bench:
-	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+	@cabal bench
 
-.PHONY:	doc
-doc:
-	@stack haddock
+.PHONY:	exec
+exec:
+	@cabal exec $(TARGET) -- $(ARGS) +RTS -s
 
 .PHONY:	dictionary
 dictionary:
-ifneq ("$(wildcard /usr/share/dict/british-english-huge)","")
-	@echo using dictionary from /usr/share/dict/british-english-huge
-	@ln -sf /usr/share/dict/british-english-huge dictionary
-else
+ifeq (,$(wildcard /usr/share/dict/british-english-huge))
 	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
 	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
+else
+	@echo using dictionary from /usr/share/dict/british-english-huge
+	@ln -sf /usr/share/dict/british-english-huge dictionary
 endif
 
-.PHONY:	setup
+.PHONY: setup
 setup:
-	stack update
-	stack path
-	stack query
-	stack ls dependencies
+ifeq (,$(wildcard ${CABAL_CONFIG}))
+	-cabal user-config init
+	-cabal update --only-dependencies
+else
+	@echo Using user-config from ${CABAL_CONFIG} ...
+endif
 
-.PHONY:	ghci
-ghci:
-	@stack ghci --ghci-options -Wno-type-defaults
-
-.PHONY:	clean
+.PHONY: clean
 clean:
-	@stack clean
 	@cabal clean
 
-.PHONY:	cleanall
+.PHONY: cleanall
 cleanall: clean
-	@stack purge
-	@rm -f stack.yaml.lock
-	@rm -f tags
+	@$(RM) tags
