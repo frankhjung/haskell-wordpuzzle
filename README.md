@@ -47,7 +47,7 @@ A brief outline of what this program does is:
   - minimum word length
   - mandatory letter required in each word
   - letters as one string
-  - [optional] dictionary to use to search for matching words
+  - (optional) dictionary to use to search for matching words
 
 - print each word in dictionary that satisfies:
   - word is greater than or equal to minimum character length
@@ -155,7 +155,17 @@ Completed 2 action(s).
 
 ### Benchmarks
 
-Running Criterion benchmarks:
+To enable benchmarks call:
+
+```bash
+cabal configure --enable-benchmarks
+```
+
+Then to run Criterion benchmarks call:
+
+```bash
+cabal bench
+```
 
 ```text
 wordpuzzle-0.7.5: benchmarks
@@ -251,7 +261,6 @@ Included in this repository is generated documentation for the current version.
 
 - [haddock function documentation](./doc/html/wordpuzzle/index.html)
 - [criterion performance benchmarks](./doc/benchmark.html)
-- [test coverage](./doc/hpc/wordpuzzle/test/hpc_index.html)
 
 ## Other Implementations
 

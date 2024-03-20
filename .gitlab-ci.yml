@@ -9,21 +9,28 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:9.4.7
+    name: frankhjung/haskell:${GHC_VERSION}
   variables:
-    RTSOPTS: +RTS -N1 -s
-    STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
+    GHC_VERSION: 9.4.8
+    PROJECT: wordpuzzle
+    CABAL_DIR: ${CI_PROJECT_DIR}/.cabal
+    CABAL_CONFIG: ${CABAL_DIR}/config
+    DOC_DIR: dist-newstyle/build/x86_64-linux/ghc-${GHC_VERSION}/${PROJECT}-*/doc/html/${PROJECT}/
   script:
-    - make setup clean check build test bench doc
-    - mv $(stack path --local-doc-root)/ public/
-    - cp -fp ${STACK_ROOT}/benchmark.html public/
+    - make setup
+    - make check
+    - make build
+    - make doc
+    - mv ${DOC_DIR} public
+    - make test
+    - make bench
   artifacts:
     paths:
       - public
   cache:
     key: ${CI_COMMIT_REF_NAME}
     paths:
-      - ${STACK_ROOT}
+      - ${CABAL_DIR}
 
 pages:
   stage: deploy
@@ -31,7 +38,7 @@ pages:
     - if: '$CI_COMMIT_BRANCH == "master"'
   image: alpine:latest
   script:
-    - echo Publish documentation ...
+    - echo Publish pages ...
   dependencies:
     - build
   artifacts:
