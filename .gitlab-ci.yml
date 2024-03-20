@@ -9,7 +9,7 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:9.4.7
+    name: frankhjung/haskell:9.4.8
   variables:
     RTSOPTS: +RTS -N1 -s
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work

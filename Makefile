@@ -3,8 +3,7 @@
 .DEFAULT_GOAL	:= default
 
 TARGET	:= wordpuzzle
-SUBS	:= $(wildcard */)
-SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
+SRCS	:= $(wildcard */*.hs)
 
 ARGS	?= -s 7 -l cadevrsoi
 
@@ -29,7 +28,7 @@ tags:
 .PHONY:	lint
 lint:
 	@hlint --color --show $(SRCS)
-	@cabal check --verbose=3
+	@cabal check
 
 .PHONY:	build
 build:
@@ -67,10 +66,6 @@ setup:
 	stack path
 	stack query
 	stack ls dependencies
-
-.PHONY:	ghci
-ghci:
-	@stack ghci --ghci-options -Wno-type-defaults
 
 .PHONY:	clean
 clean:
