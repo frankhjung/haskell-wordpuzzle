@@ -88,11 +88,11 @@
 </span><span id="line-88"></span><span>                            </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="System.IO.Streams.Internal.html#OutputStream"><span class="hs-identifier hs-type">OutputStream</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span><span>
 </span><span id="line-89"></span><span>                            </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="System.IO.Streams.Internal.html#OutputStream"><span class="hs-identifier hs-type">OutputStream</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Builder</span></span><span class="hs-special">)</span><span>
 </span><span id="line-90"></span><span id="builderStreamWithBufferFunc"><span class="annot"><span class="annottext">builderStreamWithBufferFunc :: IO Buffer -&gt; OutputStream ByteString -&gt; IO (OutputStream Builder)
-</span><a href="System.IO.Streams.Builder.html#builderStreamWithBufferFunc"><span class="hs-identifier hs-var hs-var">builderStreamWithBufferFunc</span></a></span></span><span> </span><span id="local-6989586621679085121"><span class="annot"><span class="annottext">IO Buffer
-</span><a href="#local-6989586621679085121"><span class="hs-identifier hs-var">mkNewBuf</span></a></span></span><span> </span><span id="local-6989586621679085122"><span class="annot"><span class="annottext">OutputStream ByteString
-</span><a href="#local-6989586621679085122"><span class="hs-identifier hs-var">os</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-91"></span><span>    </span><span id="local-6989586621679085123"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085123"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Maybe Buffer -&gt; IO (IORef (Maybe Buffer))
+</span><a href="System.IO.Streams.Builder.html#builderStreamWithBufferFunc"><span class="hs-identifier hs-var hs-var">builderStreamWithBufferFunc</span></a></span></span><span> </span><span id="local-6989586621679085126"><span class="annot"><span class="annottext">IO Buffer
+</span><a href="#local-6989586621679085126"><span class="hs-identifier hs-var">mkNewBuf</span></a></span></span><span> </span><span id="local-6989586621679085127"><span class="annot"><span class="annottext">OutputStream ByteString
+</span><a href="#local-6989586621679085127"><span class="hs-identifier hs-var">os</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-91"></span><span>    </span><span id="local-6989586621679085128"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085128"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Maybe Buffer -&gt; IO (IORef (Maybe Buffer))
 forall a. a -&gt; IO (IORef a)
 </span><span class="hs-identifier hs-var">newIORef</span></span><span> </span><span class="annot"><span class="annottext">Maybe Buffer
 forall a. Maybe a
@@ -103,20 +103,20 @@ forall a. (Maybe a -&gt; IO ()) -&gt; IO (OutputStream a)
 -&gt; (Maybe Builder -&gt; IO ()) -&gt; IO (OutputStream Builder)
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; Maybe Builder -&gt; IO ()
-</span><a href="#local-6989586621679085124"><span class="hs-identifier hs-var">chunk</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085123"><span class="hs-identifier hs-var">ref</span></a></span><span>
+</span><a href="#local-6989586621679085129"><span class="hs-identifier hs-var">chunk</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085128"><span class="hs-identifier hs-var">ref</span></a></span><span>
 </span><span id="line-93"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-94"></span><span>    </span><span id="local-6989586621679085124"><span class="annot"><span class="annottext">chunk :: IORef (Maybe Buffer) -&gt; Maybe Builder -&gt; IO ()
-</span><a href="#local-6989586621679085124"><span class="hs-identifier hs-var hs-var">chunk</span></a></span></span><span> </span><span id="local-6989586621679085128"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085128"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="annot"><span class="annottext">Maybe Builder
+</span><span id="line-94"></span><span>    </span><span id="local-6989586621679085129"><span class="annot"><span class="annottext">chunk :: IORef (Maybe Buffer) -&gt; Maybe Builder -&gt; IO ()
+</span><a href="#local-6989586621679085129"><span class="hs-identifier hs-var hs-var">chunk</span></a></span></span><span> </span><span id="local-6989586621679085133"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085133"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="annot"><span class="annottext">Maybe Builder
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-95"></span><span>        </span><span id="local-6989586621679085129"><span class="annot"><span class="annottext">Maybe Buffer
-</span><a href="#local-6989586621679085129"><span class="hs-identifier hs-var">mbuf</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; IO (Maybe Buffer)
+</span><span id="line-95"></span><span>        </span><span id="local-6989586621679085134"><span class="annot"><span class="annottext">Maybe Buffer
+</span><a href="#local-6989586621679085134"><span class="hs-identifier hs-var">mbuf</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; IO (Maybe Buffer)
 forall a. IORef a -&gt; IO a
 </span><span class="hs-identifier hs-var">readIORef</span></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085128"><span class="hs-identifier hs-var">ref</span></a></span><span>
+</span><a href="#local-6989586621679085133"><span class="hs-identifier hs-var">ref</span></a></span><span>
 </span><span id="line-96"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe Buffer
-</span><a href="#local-6989586621679085129"><span class="hs-identifier hs-var">mbuf</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679085134"><span class="hs-identifier hs-var">mbuf</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-97"></span><span>          </span><span class="hs-comment">-- If we existing buffer leftovers, write them to the output.</span><span>
 </span><span id="line-98"></span><span>          </span><span class="annot"><span class="annottext">Maybe Buffer
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">() -&gt; IO ()
@@ -125,80 +125,80 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">(() -&gt; IO ()) -&gt; () -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$!</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-99"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679085131"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085131"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; IO ()
-</span><a href="#local-6989586621679085132"><span class="hs-identifier hs-var">writeBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085131"><span class="hs-identifier hs-var">buf</span></a></span><span>
+</span><span id="line-99"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679085136"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085136"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; IO ()
+</span><a href="#local-6989586621679085137"><span class="hs-identifier hs-var">writeBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085136"><span class="hs-identifier hs-var">buf</span></a></span><span>
 </span><span id="line-100"></span><span>        </span><span class="annot"><span class="annottext">Maybe ByteString -&gt; OutputStream ByteString -&gt; IO ()
 forall a. Maybe a -&gt; OutputStream a -&gt; IO ()
 </span><a href="System.IO.Streams.Internal.html#write"><span class="hs-identifier hs-var">write</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ByteString
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">OutputStream ByteString
-</span><a href="#local-6989586621679085122"><span class="hs-identifier hs-var">os</span></a></span><span>
-</span><span id="line-101"></span><span>    </span><span class="annot"><a href="#local-6989586621679085124"><span class="hs-identifier hs-var">chunk</span></a></span><span> </span><span id="local-6989586621679085133"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085133"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679085134"><span class="annot"><span class="annottext">Builder
-</span><a href="#local-6989586621679085134"><span class="hs-identifier hs-var">builder</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085135"><span class="hs-identifier hs-var">runStep</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085133"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">(BuildStep () -&gt; IO ()) -&gt; BuildStep () -&gt; IO ()
+</span><a href="#local-6989586621679085127"><span class="hs-identifier hs-var">os</span></a></span><span>
+</span><span id="line-101"></span><span>    </span><span class="annot"><a href="#local-6989586621679085129"><span class="hs-identifier hs-var">chunk</span></a></span><span> </span><span id="local-6989586621679085138"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085138"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679085139"><span class="annot"><span class="annottext">Builder
+</span><a href="#local-6989586621679085139"><span class="hs-identifier hs-var">builder</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; BuildStep () -&gt; IO ()
+</span><a href="#local-6989586621679085140"><span class="hs-identifier hs-var">runStep</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085138"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">(BuildStep () -&gt; IO ()) -&gt; BuildStep () -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Builder -&gt; BuildStep ()
 </span><span class="hs-identifier hs-var">runBuilder</span></span><span> </span><span class="annot"><span class="annottext">Builder
-</span><a href="#local-6989586621679085134"><span class="hs-identifier hs-var">builder</span></a></span><span>
+</span><a href="#local-6989586621679085139"><span class="hs-identifier hs-var">builder</span></a></span><span>
 </span><span id="line-102"></span><span>
-</span><span id="line-103"></span><span>    </span><span id="local-6989586621679085138"><span class="annot"><span class="annottext">getBuf :: IORef (Maybe Buffer) -&gt; IO Buffer
-</span><a href="#local-6989586621679085138"><span class="hs-identifier hs-var hs-var">getBuf</span></a></span></span><span> </span><span id="local-6989586621679085139"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085139"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; IO (Maybe Buffer)
+</span><span id="line-103"></span><span>    </span><span id="local-6989586621679085143"><span class="annot"><span class="annottext">getBuf :: IORef (Maybe Buffer) -&gt; IO Buffer
+</span><a href="#local-6989586621679085143"><span class="hs-identifier hs-var hs-var">getBuf</span></a></span></span><span> </span><span id="local-6989586621679085144"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085144"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; IO (Maybe Buffer)
 forall a. IORef a -&gt; IO a
 </span><span class="hs-identifier hs-var">readIORef</span></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085139"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">IO (Maybe Buffer) -&gt; (Maybe Buffer -&gt; IO Buffer) -&gt; IO Buffer
+</span><a href="#local-6989586621679085144"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">IO (Maybe Buffer) -&gt; (Maybe Buffer -&gt; IO Buffer) -&gt; IO Buffer
 forall a b. IO a -&gt; (a -&gt; IO b) -&gt; IO b
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">IO Buffer -&gt; (Buffer -&gt; IO Buffer) -&gt; Maybe Buffer -&gt; IO Buffer
 forall b a. b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b
 </span><span class="hs-identifier hs-var">maybe</span></span><span> </span><span class="annot"><span class="annottext">IO Buffer
-</span><a href="#local-6989586621679085121"><span class="hs-identifier hs-var">mkNewBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; IO Buffer
+</span><a href="#local-6989586621679085126"><span class="hs-identifier hs-var">mkNewBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; IO Buffer
 forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span>
 </span><span id="line-104"></span><span>
-</span><span id="line-105"></span><span>    </span><span id="local-6989586621679085141"><span class="annot"><span class="annottext">bumpBuf :: Buffer -&gt; Ptr Word8 -&gt; Buffer
-</span><a href="#local-6989586621679085141"><span class="hs-identifier hs-var hs-var">bumpBuf</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Buffer</span></span><span> </span><span id="local-6989586621679085143"><span class="annot"><span class="annottext">ForeignPtr Word8
-</span><a href="#local-6989586621679085143"><span class="hs-identifier hs-var">fp</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">BufferRange</span></span><span> </span><span class="hs-glyph">!</span><span class="annot"><span class="annottext">Ptr Word8
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679085145"><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085145"><span class="hs-identifier hs-var">endBuf</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span id="local-6989586621679085146"><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085146"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-105"></span><span>    </span><span id="local-6989586621679085146"><span class="annot"><span class="annottext">bumpBuf :: Buffer -&gt; Ptr Word8 -&gt; Buffer
+</span><a href="#local-6989586621679085146"><span class="hs-identifier hs-var hs-var">bumpBuf</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Buffer</span></span><span> </span><span id="local-6989586621679085148"><span class="annot"><span class="annottext">ForeignPtr Word8
+</span><a href="#local-6989586621679085148"><span class="hs-identifier hs-var">fp</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">BufferRange</span></span><span> </span><span class="hs-glyph">!</span><span class="annot"><span class="annottext">Ptr Word8
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679085150"><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085150"><span class="hs-identifier hs-var">endBuf</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span id="local-6989586621679085151"><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085151"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-106"></span><span>        </span><span class="annot"><span class="annottext">ForeignPtr Word8 -&gt; BufferRange -&gt; Buffer
 </span><span class="hs-identifier hs-var">Buffer</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr Word8
-</span><a href="#local-6989586621679085143"><span class="hs-identifier hs-var">fp</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr Word8 -&gt; Ptr Word8 -&gt; BufferRange
+</span><a href="#local-6989586621679085148"><span class="hs-identifier hs-var">fp</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr Word8 -&gt; Ptr Word8 -&gt; BufferRange
 </span><span class="hs-identifier hs-var">BufferRange</span></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085146"><span class="hs-identifier hs-var">endPtr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085145"><span class="hs-identifier hs-var">endBuf</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679085151"><span class="hs-identifier hs-var">endPtr</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085150"><span class="hs-identifier hs-var">endBuf</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-107"></span><span>
-</span><span id="line-108"></span><span>    </span><span id="local-6989586621679085147"><span class="annot"><span class="annottext">updateBuf :: IORef (Maybe Buffer) -&gt; Buffer -&gt; Ptr Word8 -&gt; IO ()
-</span><a href="#local-6989586621679085147"><span class="hs-identifier hs-var hs-var">updateBuf</span></a></span></span><span> </span><span id="local-6989586621679085148"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085148"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span id="local-6989586621679085149"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085149"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span id="local-6989586621679085150"><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085150"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; Maybe Buffer -&gt; IO ()
+</span><span id="line-108"></span><span>    </span><span id="local-6989586621679085152"><span class="annot"><span class="annottext">updateBuf :: IORef (Maybe Buffer) -&gt; Buffer -&gt; Ptr Word8 -&gt; IO ()
+</span><a href="#local-6989586621679085152"><span class="hs-identifier hs-var hs-var">updateBuf</span></a></span></span><span> </span><span id="local-6989586621679085153"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085153"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span id="local-6989586621679085154"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085154"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span id="local-6989586621679085155"><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085155"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; Maybe Buffer -&gt; IO ()
 forall a. IORef a -&gt; a -&gt; IO ()
 </span><span class="hs-identifier hs-var">writeIORef</span></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085148"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">(Maybe Buffer -&gt; IO ()) -&gt; Maybe Buffer -&gt; IO ()
+</span><a href="#local-6989586621679085153"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">(Maybe Buffer -&gt; IO ()) -&gt; Maybe Buffer -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$!</span></span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; Maybe Buffer
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(Buffer -&gt; Maybe Buffer) -&gt; Buffer -&gt; Maybe Buffer
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$!</span></span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; Buffer
-</span><a href="#local-6989586621679085141"><span class="hs-identifier hs-var">bumpBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085149"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085150"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
+</span><a href="#local-6989586621679085146"><span class="hs-identifier hs-var">bumpBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085154"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085155"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
 </span><span id="line-109"></span><span>
-</span><span id="line-110"></span><span>    </span><span id="local-6989586621679085132"><span class="annot"><span class="annottext">writeBuf :: Buffer -&gt; IO ()
-</span><a href="#local-6989586621679085132"><span class="hs-identifier hs-var hs-var">writeBuf</span></a></span></span><span> </span><span id="local-6989586621679085153"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085153"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-111"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679085154"><span class="annot"><span class="annottext">bs :: ByteString
-</span><a href="#local-6989586621679085154"><span class="hs-identifier hs-var hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; ByteString
+</span><span id="line-110"></span><span>    </span><span id="local-6989586621679085137"><span class="annot"><span class="annottext">writeBuf :: Buffer -&gt; IO ()
+</span><a href="#local-6989586621679085137"><span class="hs-identifier hs-var hs-var">writeBuf</span></a></span></span><span> </span><span id="local-6989586621679085158"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085158"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-111"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679085159"><span class="annot"><span class="annottext">bs :: ByteString
+</span><a href="#local-6989586621679085159"><span class="hs-identifier hs-var hs-var">bs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; ByteString
 </span><span class="hs-identifier hs-var">byteStringFromBuffer</span></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085153"><span class="hs-identifier hs-var">buf</span></a></span><span>
+</span><a href="#local-6989586621679085158"><span class="hs-identifier hs-var">buf</span></a></span><span>
 </span><span id="line-112"></span><span>        </span><span class="annot"><span class="annottext">Bool -&gt; IO () -&gt; IO ()
 forall (f :: * -&gt; *). Applicative f =&gt; Bool -&gt; f () -&gt; f ()
 </span><span class="hs-identifier hs-var">when</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool -&gt; Bool
@@ -208,32 +208,32 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-identifier hs-var">S.null</span></span><span> </span><span class="annot"><span class="annottext">(ByteString -&gt; Bool) -&gt; ByteString -&gt; Bool
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679085154"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(IO () -&gt; IO ()) -&gt; IO () -&gt; IO ()
+</span><a href="#local-6989586621679085159"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(IO () -&gt; IO ()) -&gt; IO () -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">OutputStream ByteString -&gt; Maybe ByteString -&gt; IO ()
 forall a. OutputStream a -&gt; Maybe a -&gt; IO ()
 </span><a href="System.IO.Streams.Internal.html#writeTo"><span class="hs-identifier hs-var">writeTo</span></a></span><span> </span><span class="annot"><span class="annottext">OutputStream ByteString
-</span><a href="#local-6989586621679085122"><span class="hs-identifier hs-var">os</span></a></span><span> </span><span class="annot"><span class="annottext">(Maybe ByteString -&gt; IO ()) -&gt; Maybe ByteString -&gt; IO ()
+</span><a href="#local-6989586621679085127"><span class="hs-identifier hs-var">os</span></a></span><span> </span><span class="annot"><span class="annottext">(Maybe ByteString -&gt; IO ()) -&gt; Maybe ByteString -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$!</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679085154"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><a href="#local-6989586621679085159"><span class="hs-identifier hs-var">bs</span></a></span><span>
 </span><span id="line-113"></span><span>
-</span><span id="line-114"></span><span>    </span><span id="local-6989586621679085158"><span class="annot"><span class="annottext">bufRange :: Buffer -&gt; BufferRange
-</span><a href="#local-6989586621679085158"><span class="hs-identifier hs-var hs-var">bufRange</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Buffer</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr Word8
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679085159"><span class="annot"><span class="annottext">BufferRange
-</span><a href="#local-6989586621679085159"><span class="hs-identifier hs-var">rng</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">BufferRange
-</span><a href="#local-6989586621679085159"><span class="hs-identifier hs-var">rng</span></a></span><span>
+</span><span id="line-114"></span><span>    </span><span id="local-6989586621679085163"><span class="annot"><span class="annottext">bufRange :: Buffer -&gt; BufferRange
+</span><a href="#local-6989586621679085163"><span class="hs-identifier hs-var hs-var">bufRange</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Buffer</span></span><span> </span><span class="annot"><span class="annottext">ForeignPtr Word8
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679085164"><span class="annot"><span class="annottext">BufferRange
+</span><a href="#local-6989586621679085164"><span class="hs-identifier hs-var">rng</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">BufferRange
+</span><a href="#local-6989586621679085164"><span class="hs-identifier hs-var">rng</span></a></span><span>
 </span><span id="line-115"></span><span>
-</span><span id="line-116"></span><span>    </span><span id="local-6989586621679085135"><span class="annot"><span class="annottext">runStep :: IORef (Maybe Buffer) -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085135"><span class="hs-identifier hs-var hs-var">runStep</span></a></span></span><span> </span><span id="local-6989586621679085161"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085161"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span id="local-6989586621679085162"><span class="annot"><span class="annottext">BuildStep ()
-</span><a href="#local-6989586621679085162"><span class="hs-identifier hs-var">step</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-117"></span><span>        </span><span id="local-6989586621679085163"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085163"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; IO Buffer
-</span><a href="#local-6989586621679085138"><span class="hs-identifier hs-var">getBuf</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085161"><span class="hs-identifier hs-var">ref</span></a></span><span>
+</span><span id="line-116"></span><span>    </span><span id="local-6989586621679085140"><span class="annot"><span class="annottext">runStep :: IORef (Maybe Buffer) -&gt; BuildStep () -&gt; IO ()
+</span><a href="#local-6989586621679085140"><span class="hs-identifier hs-var hs-var">runStep</span></a></span></span><span> </span><span id="local-6989586621679085166"><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span id="local-6989586621679085167"><span class="annot"><span class="annottext">BuildStep ()
+</span><a href="#local-6989586621679085167"><span class="hs-identifier hs-var">step</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-117"></span><span>        </span><span id="local-6989586621679085168"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085168"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; IO Buffer
+</span><a href="#local-6989586621679085143"><span class="hs-identifier hs-var">getBuf</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">ref</span></a></span><span>
 </span><span id="line-118"></span><span>        </span><span class="annot"><span class="annottext">BuildStep ()
 -&gt; (Ptr Word8 -&gt; () -&gt; IO ())
 -&gt; (Ptr Word8 -&gt; Int -&gt; BuildStep () -&gt; IO ())
@@ -248,81 +248,81 @@ BuildStep a
 -&gt; BufferRange
 -&gt; IO b
 </span><span class="hs-identifier hs-var">fillWithBuildStep</span></span><span> </span><span class="annot"><span class="annottext">BuildStep ()
-</span><a href="#local-6989586621679085162"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; () -&gt; IO ()
-</span><a href="#local-6989586621679085164"><span class="hs-identifier hs-var">cDone</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085163"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; Int -&gt; BuildStep () -&gt; IO ()
+</span><a href="#local-6989586621679085167"><span class="hs-identifier hs-var">step</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; () -&gt; IO ()
+</span><a href="#local-6989586621679085169"><span class="hs-identifier hs-var">cDone</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085168"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; Int -&gt; BuildStep () -&gt; IO ()
 forall {p}. Buffer -&gt; Ptr Word8 -&gt; p -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085165"><span class="hs-identifier hs-var">cFull</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085163"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; ByteString -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">cInsert</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085163"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679085170"><span class="hs-identifier hs-var">cFull</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085168"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; ByteString -&gt; BuildStep () -&gt; IO ()
+</span><a href="#local-6989586621679085171"><span class="hs-identifier hs-var">cInsert</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085168"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-119"></span><span>                          </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; BufferRange
-</span><a href="#local-6989586621679085158"><span class="hs-identifier hs-var">bufRange</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085163"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679085163"><span class="hs-identifier hs-var">bufRange</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085168"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-120"></span><span>      </span><span class="hs-keyword">where</span><span>
-</span><span id="line-121"></span><span>        </span><span id="local-6989586621679085164"><span class="annot"><span class="annottext">cDone :: Buffer -&gt; Ptr Word8 -&gt; () -&gt; IO ()
-</span><a href="#local-6989586621679085164"><span class="hs-identifier hs-var hs-var">cDone</span></a></span></span><span> </span><span id="local-6989586621679085167"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085167"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span id="local-6989586621679085168"><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085168"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">!</span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; Buffer -&gt; Ptr Word8 -&gt; IO ()
-</span><a href="#local-6989586621679085147"><span class="hs-identifier hs-var">updateBuf</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085161"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085167"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085168"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
-</span><span id="line-122"></span><span>        </span><span id="local-6989586621679085165"><span class="annot"><span class="annottext">cFull :: Buffer -&gt; Ptr Word8 -&gt; p -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085165"><span class="hs-identifier hs-var hs-var">cFull</span></a></span></span><span> </span><span id="local-6989586621679085171"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085171"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679085172"><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085172"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">!</span><span class="annot"><span class="annottext">p
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679085173"><span class="annot"><span class="annottext">BuildStep ()
-</span><a href="#local-6989586621679085173"><span class="hs-identifier hs-var">newStep</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-121"></span><span>        </span><span id="local-6989586621679085169"><span class="annot"><span class="annottext">cDone :: Buffer -&gt; Ptr Word8 -&gt; () -&gt; IO ()
+</span><a href="#local-6989586621679085169"><span class="hs-identifier hs-var hs-var">cDone</span></a></span></span><span> </span><span id="local-6989586621679085172"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085172"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span id="local-6989586621679085173"><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085173"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">!</span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; Buffer -&gt; Ptr Word8 -&gt; IO ()
+</span><a href="#local-6989586621679085152"><span class="hs-identifier hs-var">updateBuf</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085172"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085173"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
+</span><span id="line-122"></span><span>        </span><span id="local-6989586621679085170"><span class="annot"><span class="annottext">cFull :: Buffer -&gt; Ptr Word8 -&gt; p -&gt; BuildStep () -&gt; IO ()
+</span><a href="#local-6989586621679085170"><span class="hs-identifier hs-var hs-var">cFull</span></a></span></span><span> </span><span id="local-6989586621679085176"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085176"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679085177"><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085177"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">!</span><span class="annot"><span class="annottext">p
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679085178"><span class="annot"><span class="annottext">BuildStep ()
+</span><a href="#local-6989586621679085178"><span class="hs-identifier hs-var">newStep</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-123"></span><span>            </span><span class="annot"><span class="annottext">Buffer -&gt; IO ()
-</span><a href="#local-6989586621679085132"><span class="hs-identifier hs-var">writeBuf</span></a></span><span> </span><span class="annot"><span class="annottext">(Buffer -&gt; IO ()) -&gt; Buffer -&gt; IO ()
+</span><a href="#local-6989586621679085137"><span class="hs-identifier hs-var">writeBuf</span></a></span><span> </span><span class="annot"><span class="annottext">(Buffer -&gt; IO ()) -&gt; Buffer -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$!</span></span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; Buffer
-</span><a href="#local-6989586621679085141"><span class="hs-identifier hs-var">bumpBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085171"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085172"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
+</span><a href="#local-6989586621679085146"><span class="hs-identifier hs-var">bumpBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085176"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085177"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
 </span><span id="line-124"></span><span>            </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; Maybe Buffer -&gt; IO ()
 forall a. IORef a -&gt; a -&gt; IO ()
 </span><span class="hs-identifier hs-var">writeIORef</span></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085161"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe Buffer
+</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe Buffer
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
 </span><span id="line-125"></span><span>            </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085135"><span class="hs-identifier hs-var">runStep</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085161"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">BuildStep ()
-</span><a href="#local-6989586621679085173"><span class="hs-identifier hs-var">newStep</span></a></span><span>
-</span><span id="line-126"></span><span>        </span><span id="local-6989586621679085166"><span class="annot"><span class="annottext">cInsert :: Buffer -&gt; Ptr Word8 -&gt; ByteString -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var hs-var">cInsert</span></a></span></span><span> </span><span id="local-6989586621679085177"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085177"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679085178"><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085178"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679085179"><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679085179"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span id="local-6989586621679085180"><span class="annot"><span class="annottext">BuildStep ()
-</span><a href="#local-6989586621679085180"><span class="hs-identifier hs-var">newStep</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="#local-6989586621679085140"><span class="hs-identifier hs-var">runStep</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">BuildStep ()
+</span><a href="#local-6989586621679085178"><span class="hs-identifier hs-var">newStep</span></a></span><span>
+</span><span id="line-126"></span><span>        </span><span id="local-6989586621679085171"><span class="annot"><span class="annottext">cInsert :: Buffer -&gt; Ptr Word8 -&gt; ByteString -&gt; BuildStep () -&gt; IO ()
+</span><a href="#local-6989586621679085171"><span class="hs-identifier hs-var hs-var">cInsert</span></a></span></span><span> </span><span id="local-6989586621679085182"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085182"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679085183"><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085183"><span class="hs-identifier hs-var">endPtr</span></a></span></span><span> </span><span class="hs-glyph">!</span><span id="local-6989586621679085184"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679085184"><span class="hs-identifier hs-var">bs</span></a></span></span><span> </span><span id="local-6989586621679085185"><span class="annot"><span class="annottext">BuildStep ()
+</span><a href="#local-6989586621679085185"><span class="hs-identifier hs-var">newStep</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-127"></span><span>            </span><span class="annot"><span class="annottext">Buffer -&gt; IO ()
-</span><a href="#local-6989586621679085132"><span class="hs-identifier hs-var">writeBuf</span></a></span><span> </span><span class="annot"><span class="annottext">(Buffer -&gt; IO ()) -&gt; Buffer -&gt; IO ()
+</span><a href="#local-6989586621679085137"><span class="hs-identifier hs-var">writeBuf</span></a></span><span> </span><span class="annot"><span class="annottext">(Buffer -&gt; IO ()) -&gt; Buffer -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$!</span></span><span> </span><span class="annot"><span class="annottext">Buffer -&gt; Ptr Word8 -&gt; Buffer
-</span><a href="#local-6989586621679085141"><span class="hs-identifier hs-var">bumpBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085177"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
-</span><a href="#local-6989586621679085178"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
+</span><a href="#local-6989586621679085146"><span class="hs-identifier hs-var">bumpBuf</span></a></span><span> </span><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085182"><span class="hs-identifier hs-var">buf</span></a></span><span> </span><span class="annot"><span class="annottext">Ptr Word8
+</span><a href="#local-6989586621679085183"><span class="hs-identifier hs-var">endPtr</span></a></span><span>
 </span><span id="line-128"></span><span>            </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; Maybe Buffer -&gt; IO ()
 forall a. IORef a -&gt; a -&gt; IO ()
 </span><span class="hs-identifier hs-var">writeIORef</span></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085161"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe Buffer
+</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe Buffer
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
 </span><span id="line-129"></span><span>            </span><span class="annot"><span class="annottext">OutputStream ByteString -&gt; Maybe ByteString -&gt; IO ()
 forall a. OutputStream a -&gt; Maybe a -&gt; IO ()
 </span><a href="System.IO.Streams.Internal.html#writeTo"><span class="hs-identifier hs-var">writeTo</span></a></span><span> </span><span class="annot"><span class="annottext">OutputStream ByteString
-</span><a href="#local-6989586621679085122"><span class="hs-identifier hs-var">os</span></a></span><span> </span><span class="annot"><span class="annottext">(Maybe ByteString -&gt; IO ()) -&gt; Maybe ByteString -&gt; IO ()
+</span><a href="#local-6989586621679085127"><span class="hs-identifier hs-var">os</span></a></span><span> </span><span class="annot"><span class="annottext">(Maybe ByteString -&gt; IO ()) -&gt; Maybe ByteString -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$!</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; Maybe ByteString
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ByteString
-</span><a href="#local-6989586621679085179"><span class="hs-identifier hs-var">bs</span></a></span><span>
+</span><a href="#local-6989586621679085184"><span class="hs-identifier hs-var">bs</span></a></span><span>
 </span><span id="line-130"></span><span>            </span><span class="annot"><span class="annottext">IORef (Maybe Buffer) -&gt; BuildStep () -&gt; IO ()
-</span><a href="#local-6989586621679085135"><span class="hs-identifier hs-var">runStep</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
-</span><a href="#local-6989586621679085161"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">BuildStep ()
-</span><a href="#local-6989586621679085180"><span class="hs-identifier hs-var">newStep</span></a></span><span>
+</span><a href="#local-6989586621679085140"><span class="hs-identifier hs-var">runStep</span></a></span><span> </span><span class="annot"><span class="annottext">IORef (Maybe Buffer)
+</span><a href="#local-6989586621679085166"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="annot"><span class="annottext">BuildStep ()
+</span><a href="#local-6989586621679085185"><span class="hs-identifier hs-var">newStep</span></a></span><span>
 </span><span id="line-131"></span><span>
 </span><span id="line-132"></span><span>
 </span><span id="line-133"></span><span class="hs-comment">------------------------------------------------------------------------------</span><span>
@@ -337,11 +337,11 @@ forall a. a -&gt; Maybe a
 </span><span id="line-142"></span><span class="hs-comment">-- /Since: 1.3.0.0./</span><span>
 </span><span id="line-143"></span><span class="annot"><a href="System.IO.Streams.Builder.html#builderStreamWithBufferSize"><span class="hs-identifier hs-type">builderStreamWithBufferSize</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="System.IO.Streams.Internal.html#OutputStream"><span class="hs-identifier hs-type">OutputStream</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="System.IO.Streams.Internal.html#OutputStream"><span class="hs-identifier hs-type">OutputStream</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Builder</span></span><span class="hs-special">)</span><span>
 </span><span id="line-144"></span><span id="builderStreamWithBufferSize"><span class="annot"><span class="annottext">builderStreamWithBufferSize :: Int -&gt; OutputStream ByteString -&gt; IO (OutputStream Builder)
-</span><a href="System.IO.Streams.Builder.html#builderStreamWithBufferSize"><span class="hs-identifier hs-var hs-var">builderStreamWithBufferSize</span></a></span></span><span> </span><span id="local-6989586621679085181"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679085181"><span class="hs-identifier hs-var">bufsiz</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO Buffer -&gt; OutputStream ByteString -&gt; IO (OutputStream Builder)
+</span><a href="System.IO.Streams.Builder.html#builderStreamWithBufferSize"><span class="hs-identifier hs-var hs-var">builderStreamWithBufferSize</span></a></span></span><span> </span><span id="local-6989586621679085186"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679085186"><span class="hs-identifier hs-var">bufsiz</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO Buffer -&gt; OutputStream ByteString -&gt; IO (OutputStream Builder)
 </span><a href="System.IO.Streams.Builder.html#builderStreamWithBufferFunc"><span class="hs-identifier hs-var">builderStreamWithBufferFunc</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int -&gt; IO Buffer
 </span><span class="hs-identifier hs-var">newBuffer</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679085181"><span class="hs-identifier hs-var">bufsiz</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679085186"><span class="hs-identifier hs-var">bufsiz</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-145"></span><span>
 </span><span id="line-146"></span><span>
 </span><span id="line-147"></span><span class="hs-comment">------------------------------------------------------------------------------</span><span>
@@ -379,17 +379,17 @@ forall a. a -&gt; Maybe a
 </span><span id="line-176"></span><span>                    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="System.IO.Streams.Internal.html#OutputStream"><span class="hs-identifier hs-type">OutputStream</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ByteString</span></span><span>
 </span><span id="line-177"></span><span>                    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="System.IO.Streams.Internal.html#OutputStream"><span class="hs-identifier hs-type">OutputStream</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Builder</span></span><span class="hs-special">)</span><span>
 </span><span id="line-178"></span><span id="unsafeBuilderStream"><span class="annot"><span class="annottext">unsafeBuilderStream :: IO Buffer -&gt; OutputStream ByteString -&gt; IO (OutputStream Builder)
-</span><a href="System.IO.Streams.Builder.html#unsafeBuilderStream"><span class="hs-identifier hs-var hs-var">unsafeBuilderStream</span></a></span></span><span> </span><span id="local-6989586621679085182"><span class="annot"><span class="annottext">IO Buffer
-</span><a href="#local-6989586621679085182"><span class="hs-identifier hs-var">mkBuf</span></a></span></span><span> </span><span id="local-6989586621679085183"><span class="annot"><span class="annottext">OutputStream ByteString
-</span><a href="#local-6989586621679085183"><span class="hs-identifier hs-var">os</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-179"></span><span>    </span><span id="local-6989586621679085184"><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085184"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO Buffer
-</span><a href="#local-6989586621679085182"><span class="hs-identifier hs-var">mkBuf</span></a></span><span>
+</span><a href="System.IO.Streams.Builder.html#unsafeBuilderStream"><span class="hs-identifier hs-var hs-var">unsafeBuilderStream</span></a></span></span><span> </span><span id="local-6989586621679085187"><span class="annot"><span class="annottext">IO Buffer
+</span><a href="#local-6989586621679085187"><span class="hs-identifier hs-var">mkBuf</span></a></span></span><span> </span><span id="local-6989586621679085188"><span class="annot"><span class="annottext">OutputStream ByteString
+</span><a href="#local-6989586621679085188"><span class="hs-identifier hs-var">os</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-179"></span><span>    </span><span id="local-6989586621679085189"><span class="annot"><span class="annottext">Buffer
+</span><a href="#local-6989586621679085189"><span class="hs-identifier hs-var">buf</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO Buffer
+</span><a href="#local-6989586621679085187"><span class="hs-identifier hs-var">mkBuf</span></a></span><span>
 </span><span id="line-180"></span><span>    </span><span class="annot"><span class="annottext">IO Buffer -&gt; OutputStream ByteString -&gt; IO (OutputStream Builder)
 </span><a href="System.IO.Streams.Builder.html#builderStreamWithBufferFunc"><span class="hs-identifier hs-var">builderStreamWithBufferFunc</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Buffer -&gt; IO Buffer
 forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">Buffer
-</span><a href="#local-6989586621679085184"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">OutputStream ByteString
-</span><a href="#local-6989586621679085183"><span class="hs-identifier hs-var">os</span></a></span><span>
+</span><a href="#local-6989586621679085189"><span class="hs-identifier hs-var">buf</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">OutputStream ByteString
+</span><a href="#local-6989586621679085188"><span class="hs-identifier hs-var">os</span></a></span><span>
 </span><span id="line-181"></span></pre></body></html>
