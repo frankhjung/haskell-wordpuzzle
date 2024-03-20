@@ -10,10 +10,6 @@ Solve 9 letter word puzzles like:
 Here we are using a subset of the British dictionary from the
 [wbritish](https://packages.debian.org/sid/text/wbritish) package.
 
-## TODO
-
-- Can we use [Control.Monad.Validate](https://hackage.haskell.org/package/monad-validate-1.2.0.0/docs/Control-Monad-Validate.html)?
-
 ## Documentation
 
 - [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
