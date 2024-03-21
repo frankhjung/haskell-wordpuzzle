@@ -37,49 +37,54 @@ lint:	$(SRCS)
 .PHONY: build
 build:  $(SRCS)
 	@echo build ...
-	@cabal build
+	@stack build --verbosity info --pedantic --no-test
 
 .PHONY: test
 test:
 	@echo test ...
-	@cabal test --test-show-details=direct
+	@stack test
 
-.PHONY: doc
+.PHONY:	doc
 doc:
 	@echo doc ...
-	@cabal haddock --haddock-quickjump --haddock-hyperlink-source
+	@stack haddock --haddock-hyperlink-source
 
 .PHONY:	bench
 bench:
-	@cabal bench
+	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
 .PHONY:	exec
 exec:
-	@cabal exec $(TARGET) -- $(ARGS) +RTS -s
+	@stack exec -- $(TARGET) $(ARGS) +RTS -s
 
 .PHONY:	dictionary
 dictionary:
-ifeq (,$(wildcard /usr/share/dict/british-english-huge))
-	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
-	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
-else
+ifneq ("$(wildcard /usr/share/dict/british-english-huge)","")
 	@echo using dictionary from /usr/share/dict/british-english-huge
 	@ln -sf /usr/share/dict/british-english-huge dictionary
-endif
-
-.PHONY: setup
-setup:
-ifeq (,$(wildcard ${CABAL_CONFIG}))
-	-cabal user-config init
-	-cabal update --only-dependencies
 else
-	@echo Using user-config from ${CABAL_CONFIG} ...
+	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
+	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
 endif
 
-.PHONY: clean
+.PHONY:	setup
+setup:
+	stack update
+	stack path
+	stack query
+	stack ls dependencies
+
+.PHONY:	ghci
+ghci:
+	@stack ghci --ghci-options -Wno-type-defaults
+
+.PHONY:	clean
 clean:
+	@stack clean
 	@cabal clean
 
-.PHONY: distclean
+.PHONY:	distclean
 distclean: clean
+	@stack purge
+	@$(RM) dictionary
 	@$(RM) tags
