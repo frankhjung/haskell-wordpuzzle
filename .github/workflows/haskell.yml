@@ -32,11 +32,14 @@ jobs:
           path: ${{ env.STACK_ROOT }}
           key: ${{ github.ref }}
 
+      - name: check
+        run: cabal check
+
       - name: build
-        run: stack build --pedantic --no-test
+        run: stack build --verbosity info --pedantic --no-test
 
       - name: test
-        run: stack test --coverage
+        run: stack test
 
       - name: bench
         run: |
@@ -46,7 +49,7 @@ jobs:
       - name: haddock
         if: github.ref == 'refs/heads/master'
         run: |
-          stack haddock
+          stack haddock --haddock-hyperlink-source
           mv $(stack path --local-doc-root)/ public/
           mv ${{ env.STACK_ROOT }}/benchmark.html public/
 

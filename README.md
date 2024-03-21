@@ -15,11 +15,9 @@ Here we are using a subset of the British dictionary from the
 - [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
   - [criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
-  - [test coverage](https://frankhjung.github.io/haskell-wordpuzzle/hpc/index.html)
 - [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
   - [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
-  - [test coverage](https://frankhjung1.gitlab.io/haskell-wordpuzzle/hpc/index.html)
 
 ## Pipelines
 
@@ -28,10 +26,20 @@ Here we are using a subset of the British dictionary from the
 
 ## Build
 
-This project uses [stack](https://docs.haskellstack.org/en/stable/).
+This project can be built using either [cabal](https://www.haskell.org/cabal/)
+or [stack](https://docs.haskellstack.org/en/stable/).
 
-- Stack has not been tested with GHC versions above 8.10, and using 9.0.2.
-- Stack has not been tested with Cabal versions above 3.2, and using version 3.4.1.0.
+The default [Makefile](Makefile) builds using the
+[cabal](https://www.haskell.org/cabal/) tool.
+
+To build using [stack](https://docs.haskellstack.org/en/stable/):
+
+```bash
+make -f stack.mak [target]
+```
+
+Stack is required for GitHub pipelines as it provides the correct Haskell
+version.
 
 ## Method
 
@@ -151,7 +159,7 @@ Completed 2 action(s).
 
 ### Benchmarks
 
-To enable benchmarks call:
+To enable benchmarks with [Cabal](https://www.haskell.org/cabal/) call:
 
 ```bash
 cabal configure --enable-benchmarks
@@ -237,7 +245,8 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 0.7.6 of this project is using [LTS Haskell 12.26 (ghc-8.4.4)](https://www.stackage.org/lts-12.26)
+Version 0.7.6 of this project is using [LTS Haskell 12.26
+(ghc-8.4.4)](https://www.stackage.org/lts-12.26)
 
 ## Dependencies Graph
 
@@ -250,6 +259,15 @@ stack dot --external | dot -Tpng -o doc/dependencies.png
 ![Dependencies Graph](doc/dependencies.png)
 
 ## References
+
+### Build
+
+Either of the following build tools can be used:
+
+- [Cabal](https://www.haskell.org/cabal/)
+- [Stack](https://docs.haskellstack.org/en/stable/)
+
+### Documentation
 
 Documentation is built using [Haddock](https://www.haskell.org/haddock/).
 
