@@ -47,7 +47,10 @@ test:
 .PHONY: doc
 doc:
 	@echo doc ...
-	@cabal haddock --haddock-quickjump --haddock-hyperlink-source
+	@cabal haddock \
+		--haddock-quickjump \
+		--haddock-hyperlink-sources \
+		--cabal-file=$(CABAL)
 
 .PHONY:	bench
 bench:
