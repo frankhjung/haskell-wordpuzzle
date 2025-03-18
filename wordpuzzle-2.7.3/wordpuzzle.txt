@@ -124,10 +124,10 @@ solve :: WordPuzzle -> IO ()
 -- | Error given on invalid parameter.
 data ValidationError
 
--- | bad size integer
-InvalidSize :: Int -> ValidationError
+-- | expected range and actual size
+InvalidSize :: (Int, Int) -> Int -> ValidationError
 
--- | bad letters
+-- | actual letters
 InvalidLetters :: String -> ValidationError
 
 -- | couldn't parse value
