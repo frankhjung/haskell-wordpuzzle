@@ -19,19 +19,17 @@
 
   > checkXyz :: a -> Either Error a
 
-  TODO Update validation to return a List of errors:
-
-  > validateXyz :: a -> Validation [Error] a
 -}
 
 module WordPuzzle ( WordPuzzle
-                  , makeWordPuzzle
                   , checkSize
                   , checkLetters
                   , hasLetters
                   , hasLetters'
                   , solve
                   , ValidationError(..)
+                  , validate
+                  , toEither
                   ) where
 
 import           Data.Bool                  (bool)
@@ -39,6 +37,7 @@ import           Data.Char                  (isLower)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
 import           Data.List                  (delete)
+import           Data.Validation            (Validation (..), toEither)
 
 -- | Represent parameters required for the puzzle.
 data WordPuzzle = WordPuzzle
@@ -58,8 +57,26 @@ data ValidationError =
 -- | Show 'ValidationError' as string.
 instance Show ValidationError where
   show (InvalidSize (en1,en2) an)  = "expected value in range (" ++ show en1 ++ ", " ++ show en2 ++ ") got " ++ show an
-  show (InvalidLetters ls)  = "expected lowercase letters, got" ++ ls
+  show (InvalidLetters ls)  = "expected lowercase letters, got " ++ ls
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
+
+-- | Validate program parameters.
+validate :: Int -> String -> FilePath -> Validation [ValidationError] WordPuzzle
+validate _ [] _ = Failure [InvalidLetters "empty letters"]
+validate s (m:ls) d =
+  WordPuzzle <$> validateSize s         -- validate size
+             <*> pure m                 -- mandatory letter
+             <*> validateLetters (m:ls) -- validate letters
+             <*> pure d                 -- dictionary
+
+-- | Validate size of word.
+validateSize :: Int -> Validation [ValidationError] Int
+validateSize s = bool (Failure [InvalidSize (1,9) s]) (Success s) (isSize s)
+
+
+-- | Validate letters.
+validateLetters :: String -> Validation [ValidationError] String
+validateLetters ls = bool (Failure [InvalidLetters ls]) (Success ls) (isLetters ls)
 
 -- | Is size valid?
 --
@@ -100,44 +117,6 @@ checkLetters ls = bool (Left (show (InvalidLetters ls))) (Right ls) (isLetters l
 -- | Does word contain the mandatory letter?
 hasMandatory :: Char -> String -> Bool
 hasMandatory = elem
-
--- | Smart constructor for WordPuzzle.
---
--- TODO re-write using accumulative validation
---
--- One way to accumulate all validation errors into a list rather than
--- failing on the first error found is to use a monad such as the Writer
--- monad (mtl). Here's how the code could look using the Writer monad:
---
--- @
--- import Control.Monad.Writer
---
--- makeWordPuzzle :: Int -> String -> FilePath -> Writer [ValidationError] WordPuzzle
--- makeWordPuzzle s ls d = do
---    when (not (isSize s)) $ tell [InvalidSize s]
---    when (not (isLetters ls)) $ tell [InvalidLetters ls]
---    return (WordPuzzle s (head ls) ls d)
--- @
---
--- Now, when calling the function, you can extract the result and the
--- accumulated errors using runWriter:
---
--- @
--- result :: (WordPuzzle, [ValidationError])
--- result = runWriter (makeWordPuzzle size letters filePath)
--- @
---
--- Note that if there are no validation errors, the list of errors will be
--- empty. You can then check the list of errors to determine if the result
--- is valid or not.
---
--- See https://github.com/system-f/validation/blob/master/examples/src/Email.hs
-makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle
-makeWordPuzzle s ls d
-  | not (isSize s)          = Left (InvalidSize (1,9) s)
-  | not (isLetters ls)      = Left (InvalidLetters ls)
-  | otherwise               = Right (WordPuzzle s m ls d)
-  where m = head ls  -- valid as ls already checked
 
 -- | Solve word puzzle given a dictionary of words.
 --

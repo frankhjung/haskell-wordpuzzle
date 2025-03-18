@@ -47,10 +47,10 @@ test:
 .PHONY: doc
 doc:
 	@echo doc ...
-	@cabal haddock \
+	@cabal v2-haddock \
 		--haddock-quickjump \
 		--haddock-hyperlink-sources \
-		--cabal-file=$(CABAL)
+		lib:$(TARGET)
 
 .PHONY:	bench
 bench:
@@ -58,7 +58,7 @@ bench:
 
 .PHONY:	exec
 exec:
-	@cabal exec $(TARGET) -- $(ARGS) +RTS -s
+	cabal exec $(TARGET) -- $(ARGS) +RTS -s
 
 .PHONY:	dictionary
 dictionary:
@@ -75,6 +75,7 @@ setup:
 ifeq (,$(wildcard ${CABAL_CONFIG}))
 	-cabal user-config init
 	-cabal update --only-dependencies
+	-cabal build
 else
 	@echo Using user-config from ${CABAL_CONFIG} ...
 endif

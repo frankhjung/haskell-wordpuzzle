@@ -24,6 +24,15 @@ Here we are using a subset of the British dictionary from the
 - [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
 - [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
 
+## Package Dependencies
+
+To include a package:
+
+- update cabal sections with package with version
+- run `cabal update`
+- run `cabal build`
+- run `make clean default`
+
 ## Build
 
 This project can be built using either [cabal](https://www.haskell.org/cabal/)
@@ -260,14 +269,14 @@ stack dot --external | dot -Tpng -o doc/dependencies.png
 
 ## References
 
-### Build
+### Haskell Build
 
 Either of the following build tools can be used:
 
 - [Cabal](https://www.haskell.org/cabal/)
 - [Stack](https://docs.haskellstack.org/en/stable/)
 
-### Documentation
+### Haddock Documentation
 
 Documentation is built using [Haddock](https://www.haskell.org/haddock/).
 

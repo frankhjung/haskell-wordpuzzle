@@ -9,7 +9,7 @@ import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
 import           Paths_wordpuzzle    (version)
 import           Text.Read           (readMaybe)
 import           WordPuzzle          (ValidationError (..), checkLetters,
-                                      checkSize, makeWordPuzzle, solve)
+                                      checkSize, solve, toEither, validate)
 
 -- valid command line options
 data Opts = Opts
@@ -76,5 +76,7 @@ readSizeOption ss =
 main :: IO ()
 main = do
   opts <- execParser optsParser
-  let wp = makeWordPuzzle (size opts) (letters opts) (dictionary opts)
-  either print solve wp -- print error or show matching words
+  let validation = validate (size opts) (letters opts) (dictionary opts)
+  case toEither validation of
+    Left errors  -> mapM_ print errors -- Print all validation errors
+    Right puzzle -> solve puzzle
