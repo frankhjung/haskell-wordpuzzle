@@ -50,14 +50,15 @@ data WordPuzzle = WordPuzzle
                   } deriving (Show)
 
 -- | Error given on invalid parameter.
-data ValidationError = InvalidSize Int          -- ^ bad size integer
-                       | InvalidLetters String  -- ^ bad letters
-                       | UnexpectedValue String -- ^ couldn't parse value
+data ValidationError =
+    InvalidSize (Int, Int) Int      -- ^ expected range and actual size
+    | InvalidLetters String         -- ^ actual letters
+    | UnexpectedValue String        -- ^ couldn't parse value
 
 -- | Show 'ValidationError' as string.
 instance Show ValidationError where
-  show (InvalidSize n)      = "expected size in range [1..9], got " ++ show n
-  show (InvalidLetters ls)  = "expected 9 lowercase letters, got " ++ ls
+  show (InvalidSize (en1,en2) an)  = "expected value in range (" ++ show en1 ++ ", " ++ show en2 ++ ") got " ++ show an
+  show (InvalidLetters ls)  = "expected lowercase letters, got" ++ ls
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
 -- | Is size valid?
@@ -79,7 +80,7 @@ isSize = inRange (1,9)
 -- Right 1
 checkSize :: Int                 -- ^ size of word to check
             -> Either String Int -- ^ Left unexpected size or Right size
-checkSize s = bool (Left (show (InvalidSize s))) (Right s) (isSize s)
+checkSize s = bool (Left (show (InvalidSize (1,9) s))) (Right s) (isSize s)
 
 -- | Are letters valid?
 --
@@ -133,7 +134,7 @@ hasMandatory = elem
 -- See https://github.com/system-f/validation/blob/master/examples/src/Email.hs
 makeWordPuzzle :: Int -> String -> FilePath -> Either ValidationError WordPuzzle
 makeWordPuzzle s ls d
-  | not (isSize s)          = Left (InvalidSize s)
+  | not (isSize s)          = Left (InvalidSize (1,9) s)
   | not (isLetters ls)      = Left (InvalidLetters ls)
   | otherwise               = Right (WordPuzzle s m ls d)
   where m = head ls  -- valid as ls already checked
@@ -166,9 +167,10 @@ solve wordpuzzle = do
 --
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
-hasLetters :: String     -- ^ valid letters
-           -> String     -- ^ dictionary word to check
-           -> Bool       -- ^ true if dictionary word matches letters
+hasLetters ::
+     String     -- ^ valid letters
+  -> String     -- ^ dictionary word to check
+  -> Bool       -- ^ true if dictionary word matches letters
 hasLetters _  []     = True
 hasLetters [] _      = False
 hasLetters (x:xs) ys = hasLetters xs (delete x ys)

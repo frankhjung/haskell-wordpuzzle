@@ -12,10 +12,10 @@ main = hspec $ do
   describe "checkSize" $ do
     context "size outside range" $
       it "returns Left" $
-        checkSize 0 `shouldBe` Left (show (InvalidSize 0))
+        checkSize 0 `shouldBe` Left (show (InvalidSize (1,9) 0))
     context "size outside range" $
       it "returns Left" $
-        checkSize 10 `shouldBe` Left (show (InvalidSize 10))
+        checkSize 10 `shouldBe` Left (show (InvalidSize (1,9) 10))
     context "size in range" $
       it "returns Right" $
         checkSize 4 `shouldBe` Right 4
