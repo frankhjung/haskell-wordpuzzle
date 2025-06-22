@@ -50,7 +50,18 @@ make -f stack.mak [target]
 Stack is required for GitHub pipelines as it provides the correct Haskell
 version.
 
-## Method
+### Upgrading GHC
+
+When updating the GHC version:
+
+1. Run `make cleanall` to remove the old build artifacts.
+1. Remove the `cabal.project.freeze` file.
+1. Update the `cabal.project` file with the new LTS version.
+1. Run `cabal update` to update the package list.
+1. Run `make` to rebuild the project.
+1. Run `cabal freeze` to create a new `cabal.project.freeze` file.
+
+## Solver
 
 This program is used to list all words from this popular puzzle.
 A brief outline of what this program does is:

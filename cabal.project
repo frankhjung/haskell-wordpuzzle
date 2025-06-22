@@ -1,0 +1,4 @@
+import: https://www.stackage.org/lts-22.44/cabal.config
+packages: ./*.cabal
+tests: True
+benchmarks: True

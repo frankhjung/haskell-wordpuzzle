@@ -1,9 +1,9 @@
 cabal-version:      3.0
 name:               wordpuzzle
-version:            2.8.0
+version:            1.0.0
 synopsis:           9 letter word puzzle solver
 tested-with:
-  GHC ==8.4.4 || ==8.10.7 || ==9.0.2 || ==9.4.7 || ==9.4.8
+  GHC ==8.4.4 || ==8.10.7 || ==9.0.2 || ==9.4.7 || ==9.4.8 || ==9.6.7
 
 description:
   Solve a common 9 letter word puzzle. This will list all words matching the 9
@@ -39,8 +39,8 @@ executable wordpuzzle
     WordPuzzle
 
   build-depends:
-    , base                  ^>=4.17 && <5
-    , optparse-applicative  ^>=0.17
+    , base                  ^>=4.18.3
+    , optparse-applicative  ^>=0.18
     , validation            ^>=1.1
 
 library
@@ -59,7 +59,7 @@ library
     -Wredundant-constraints -threaded -Wno-unused-do-bind -haddock
 
   build-depends:
-    , base        ^>=4.17 && <5
+    , base        ^>=4.18.3
     , bytestring  ^>=0.11
     , io-streams  ^>=1.5
     , validation  ^>=1.1
@@ -71,9 +71,9 @@ test-suite test
   type:             exitcode-stdio-1.0
   other-modules:    WordPuzzle
   build-depends:
-    , base        ^>=4.17 && <5
+    , base        ^>=4.18.3
     , bytestring
-    , hspec       ^>=2.10
+    , hspec       ^>=2.11
     , validation  ^>=1.1
 
 benchmark benchmark
@@ -83,6 +83,6 @@ benchmark benchmark
   type:             exitcode-stdio-1.0
   other-modules:    WordPuzzle
   build-depends:
-    , base        ^>=4.17 && <5
+    , base        ^>=4.18.3
     , criterion   ^>=1.6
     , validation  ^>=1.1
