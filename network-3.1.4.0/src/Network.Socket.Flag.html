@@ -20,7 +20,7 @@ import qualified Text.Read as P
 </span><span id="line-19"></span><span class="annot"><span class="hs-comment">-- | Message flags. To combine flags, use '(&lt;&gt;)'.</span></span><span>
 </span><span id="line-20"></span><span class="hs-keyword">newtype</span><span> </span><span id="MsgFlag"><span class="annot"><a href="Network.Socket.Flag.html#MsgFlag"><span class="hs-identifier hs-var">MsgFlag</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="MsgFlag"><span class="annot"><a href="Network.Socket.Flag.html#MsgFlag"><span class="hs-identifier hs-var">MsgFlag</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="fromMsgFlag"><span class="annot"><span class="annottext">MsgFlag -&gt; CInt
 </span><a href="Network.Socket.Flag.html#fromMsgFlag"><span class="hs-identifier hs-var hs-var">fromMsgFlag</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CInt</span></span><span> </span><span class="hs-special">}</span><span>
-</span><span id="line-21"></span><span>                </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679071931"><span id="local-6989586621679071937"><span id="local-6989586621679071941"><span class="annot"><span class="annottext">Int -&gt; MsgFlag -&gt; ShowS
+</span><span id="line-21"></span><span>                </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679073979"><span id="local-6989586621679073985"><span id="local-6989586621679073989"><span class="annot"><span class="annottext">Int -&gt; MsgFlag -&gt; ShowS
 [MsgFlag] -&gt; ShowS
 MsgFlag -&gt; String
 (Int -&gt; MsgFlag -&gt; ShowS)
@@ -33,7 +33,7 @@ $cshow :: MsgFlag -&gt; String
 show :: MsgFlag -&gt; String
 $cshowList :: [MsgFlag] -&gt; ShowS
 showList :: [MsgFlag] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679071945"><span id="local-6989586621679071950"><span class="annot"><span class="annottext">MsgFlag -&gt; MsgFlag -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679073993"><span id="local-6989586621679073998"><span class="annot"><span class="annottext">MsgFlag -&gt; MsgFlag -&gt; Bool
 (MsgFlag -&gt; MsgFlag -&gt; Bool)
 -&gt; (MsgFlag -&gt; MsgFlag -&gt; Bool) -&gt; Eq MsgFlag
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -41,9 +41,9 @@ $c== :: MsgFlag -&gt; MsgFlag -&gt; Bool
 == :: MsgFlag -&gt; MsgFlag -&gt; Bool
 $c/= :: MsgFlag -&gt; MsgFlag -&gt; Bool
 /= :: MsgFlag -&gt; MsgFlag -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679071958"><span id="local-6989586621679071963"><span id="local-6989586621679071967"><span id="local-6989586621679071971"><span id="local-6989586621679071975"><span id="local-6989586621679071979"><span id="local-6989586621679071983"><span class="annot"><span class="annottext">Eq MsgFlag
-Eq MsgFlag
--&gt; (MsgFlag -&gt; MsgFlag -&gt; Ordering)
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679074006"><span id="local-6989586621679074011"><span id="local-6989586621679074015"><span id="local-6989586621679074019"><span id="local-6989586621679074023"><span id="local-6989586621679074027"><span id="local-6989586621679074031"><span class="annot"><span class="annottext">Eq MsgFlag
+Eq MsgFlag =&gt;
+(MsgFlag -&gt; MsgFlag -&gt; Ordering)
 -&gt; (MsgFlag -&gt; MsgFlag -&gt; Bool)
 -&gt; (MsgFlag -&gt; MsgFlag -&gt; Bool)
 -&gt; (MsgFlag -&gt; MsgFlag -&gt; Bool)
@@ -55,8 +55,8 @@ MsgFlag -&gt; MsgFlag -&gt; Bool
 MsgFlag -&gt; MsgFlag -&gt; Ordering
 MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 forall a.
-Eq a
--&gt; (a -&gt; a -&gt; Ordering)
+Eq a =&gt;
+(a -&gt; a -&gt; Ordering)
 -&gt; (a -&gt; a -&gt; Bool)
 -&gt; (a -&gt; a -&gt; Bool)
 -&gt; (a -&gt; a -&gt; Bool)
@@ -78,7 +78,7 @@ $cmax :: MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 max :: MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 $cmin :: MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 min :: MsgFlag -&gt; MsgFlag -&gt; MsgFlag
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679071989"><span id="local-6989586621679071993"><span id="local-6989586621679071997"><span id="local-6989586621679072001"><span id="local-6989586621679072005"><span id="local-6989586621679072009"><span id="local-6989586621679072013"><span class="annot"><span class="annottext">Integer -&gt; MsgFlag
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679074037"><span id="local-6989586621679074041"><span id="local-6989586621679074045"><span id="local-6989586621679074049"><span id="local-6989586621679074053"><span id="local-6989586621679074057"><span id="local-6989586621679074061"><span class="annot"><span class="annottext">Integer -&gt; MsgFlag
 MsgFlag -&gt; MsgFlag
 MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 (MsgFlag -&gt; MsgFlag -&gt; MsgFlag)
@@ -112,10 +112,10 @@ $csignum :: MsgFlag -&gt; MsgFlag
 signum :: MsgFlag -&gt; MsgFlag
 $cfromInteger :: Integer -&gt; MsgFlag
 fromInteger :: Integer -&gt; MsgFlag
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Num</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679072021"><span id="local-6989586621679072026"><span id="local-6989586621679072030"><span id="local-6989586621679072034"><span id="local-6989586621679072038"><span id="local-6989586621679072042"><span id="local-6989586621679072046"><span id="local-6989586621679072050"><span id="local-6989586621679072054"><span id="local-6989586621679072058"><span id="local-6989586621679072062"><span id="local-6989586621679072066"><span id="local-6989586621679072070"><span id="local-6989586621679072074"><span id="local-6989586621679072078"><span id="local-6989586621679072082"><span id="local-6989586621679072086"><span id="local-6989586621679072090"><span id="local-6989586621679072094"><span id="local-6989586621679072098"><span id="local-6989586621679072102"><span id="local-6989586621679072106"><span class="annot"><span class="annottext">Eq MsgFlag
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Num</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679074069"><span id="local-6989586621679074074"><span id="local-6989586621679074078"><span id="local-6989586621679074082"><span id="local-6989586621679074086"><span id="local-6989586621679074090"><span id="local-6989586621679074094"><span id="local-6989586621679074098"><span id="local-6989586621679074102"><span id="local-6989586621679074106"><span id="local-6989586621679074110"><span id="local-6989586621679074114"><span id="local-6989586621679074118"><span id="local-6989586621679074122"><span id="local-6989586621679074126"><span id="local-6989586621679074130"><span id="local-6989586621679074134"><span id="local-6989586621679074138"><span id="local-6989586621679074142"><span id="local-6989586621679074146"><span id="local-6989586621679074150"><span id="local-6989586621679074154"><span class="annot"><span class="annottext">Eq MsgFlag
 MsgFlag
-Eq MsgFlag
--&gt; (MsgFlag -&gt; MsgFlag -&gt; MsgFlag)
+Eq MsgFlag =&gt;
+(MsgFlag -&gt; MsgFlag -&gt; MsgFlag)
 -&gt; (MsgFlag -&gt; MsgFlag -&gt; MsgFlag)
 -&gt; (MsgFlag -&gt; MsgFlag -&gt; MsgFlag)
 -&gt; (MsgFlag -&gt; MsgFlag)
@@ -147,8 +147,8 @@ MsgFlag -&gt; Int -&gt; Bool
 MsgFlag -&gt; Int -&gt; MsgFlag
 MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 forall a.
-Eq a
--&gt; (a -&gt; a -&gt; a)
+Eq a =&gt;
+(a -&gt; a -&gt; a)
 -&gt; (a -&gt; a -&gt; a)
 -&gt; (a -&gt; a -&gt; a)
 -&gt; (a -&gt; a)
@@ -217,14 +217,14 @@ $cpopCount :: MsgFlag -&gt; Int
 popCount :: MsgFlag -&gt; Int
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Bits</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-22"></span><span>
-</span><span id="line-23"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679072113"><span id="local-6989586621679072117"><span class="annot"><span class="hs-identifier hs-type">Sem.Semigroup</span></span><span> </span><span class="annot"><a href="Network.Socket.Flag.html#MsgFlag"><span class="hs-identifier hs-type">MsgFlag</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-24"></span><span>    </span><span id="local-6989586621679072123"><span class="annot"><span class="annottext">&lt;&gt; :: MsgFlag -&gt; MsgFlag -&gt; MsgFlag
+</span><span id="line-23"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679074161"><span id="local-6989586621679074165"><span class="annot"><span class="hs-identifier hs-type">Sem.Semigroup</span></span><span> </span><span class="annot"><a href="Network.Socket.Flag.html#MsgFlag"><span class="hs-identifier hs-type">MsgFlag</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-24"></span><span>    </span><span id="local-6989586621679074171"><span class="annot"><span class="annottext">&lt;&gt; :: MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 </span><span class="hs-operator hs-var hs-var hs-var hs-var">(&lt;&gt;)</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">MsgFlag -&gt; MsgFlag -&gt; MsgFlag
 forall a. Bits a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">(.|.)</span></span><span>
 </span><span id="line-25"></span><span>
-</span><span id="line-26"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679072129"><span id="local-6989586621679072133"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="Network.Socket.Flag.html#MsgFlag"><span class="hs-identifier hs-type">MsgFlag</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-27"></span><span>    </span><span id="local-6989586621679072137"><span class="annot"><span class="annottext">mempty :: MsgFlag
+</span><span id="line-26"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679074177"><span id="local-6989586621679074181"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="Network.Socket.Flag.html#MsgFlag"><span class="hs-identifier hs-type">MsgFlag</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-27"></span><span>    </span><span id="local-6989586621679074185"><span class="annot"><span class="annottext">mempty :: MsgFlag
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">mempty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CInt -&gt; MsgFlag
 </span><a href="Network.Socket.Flag.html#MsgFlag"><span class="hs-identifier hs-var">MsgFlag</span></a></span><span> </span><span class="annot"><span class="annottext">CInt
 </span><span class="hs-number">0</span></span><span>

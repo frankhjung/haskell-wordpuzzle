@@ -36,63 +36,63 @@
 forall s a b t. (s -&gt; a) -&gt; (b -&gt; t) -&gt; Iso s t a b
 </span><a href="Control.Lens.Iso.html#iso"><span class="hs-identifier hs-var">iso</span></a></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; (Natural, Natural)
 forall {b}. Integral b =&gt; b -&gt; (b, b)
-</span><a href="#local-6989586621679395480"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Natural -&gt; Natural -&gt; Natural) -&gt; (Natural, Natural) -&gt; Natural
+</span><a href="#local-6989586621679396776"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Natural -&gt; Natural -&gt; Natural) -&gt; (Natural, Natural) -&gt; Natural
 forall a b c. (a -&gt; b -&gt; c) -&gt; (a, b) -&gt; c
 </span><span class="hs-identifier hs-var">uncurry</span></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; Natural -&gt; Natural
 forall {t}. Integral t =&gt; t -&gt; t -&gt; t
-</span><a href="#local-6989586621679395482"><span class="hs-identifier hs-var">yon</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-33"></span><span>  </span><span id="local-6989586621679395482"><span class="annot"><span class="annottext">yon :: t -&gt; t -&gt; t
-</span><a href="#local-6989586621679395482"><span class="hs-identifier hs-var hs-var">yon</span></a></span></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396778"><span class="hs-identifier hs-var">yon</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-33"></span><span>  </span><span id="local-6989586621679396778"><span class="annot"><span class="annottext">yon :: t -&gt; t -&gt; t
+</span><a href="#local-6989586621679396778"><span class="hs-identifier hs-var hs-var">yon</span></a></span></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-number">0</span></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-number">0</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-number">0</span></span><span>
-</span><span id="line-34"></span><span>  </span><span class="annot"><a href="#local-6989586621679395482"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span id="local-6989586621679395509"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395509"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span id="local-6989586621679395510"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395510"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; (t, t)
+</span><span id="line-34"></span><span>  </span><span class="annot"><a href="#local-6989586621679396778"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span id="local-6989586621679396805"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396805"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span id="local-6989586621679396806"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396806"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; (t, t)
 forall a. Integral a =&gt; a -&gt; a -&gt; (a, a)
 </span><span class="hs-identifier hs-var">quotRem</span></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395509"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396805"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-number">2</span></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-35"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679395512"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395512"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679395513"><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395513"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395513"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
+</span><span id="line-35"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679396808"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396808"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679396809"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396809"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396809"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">t
 </span><span class="hs-number">2</span></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span> </span><span class="annot"><span class="annottext">t -&gt; t -&gt; t
-</span><a href="#local-6989586621679395482"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395510"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">t
-</span><a href="#local-6989586621679395512"><span class="hs-identifier hs-var">q</span></a></span><span> </span><span class="hs-comment">-- rotation</span><span>
+</span><a href="#local-6989586621679396778"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396806"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396808"><span class="hs-identifier hs-var">q</span></a></span><span> </span><span class="hs-comment">-- rotation</span><span>
 </span><span id="line-36"></span><span>
-</span><span id="line-37"></span><span>  </span><span id="local-6989586621679395480"><span class="annot"><span class="annottext">hither :: b -&gt; (b, b)
-</span><a href="#local-6989586621679395480"><span class="hs-identifier hs-var hs-var">hither</span></a></span></span><span> </span><span class="annot"><span class="annottext">b
+</span><span id="line-37"></span><span>  </span><span id="local-6989586621679396776"><span class="annot"><span class="annottext">hither :: b -&gt; (b, b)
+</span><a href="#local-6989586621679396776"><span class="hs-identifier hs-var hs-var">hither</span></a></span></span><span> </span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">0</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">0</span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">0</span></span><span class="hs-special">)</span><span>
-</span><span id="line-38"></span><span>  </span><span class="annot"><a href="#local-6989586621679395480"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span id="local-6989586621679395536"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; (b, b)
+</span><span id="line-38"></span><span>  </span><span class="annot"><a href="#local-6989586621679396776"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span id="local-6989586621679396832"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396832"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; (b, b)
 forall a. Integral a =&gt; a -&gt; a -&gt; (a, a)
 </span><span class="hs-identifier hs-var">quotRem</span></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396832"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">2</span></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-39"></span><span>   </span><span class="hs-special">(</span><span id="local-6989586621679395537"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395537"><span class="hs-identifier hs-var">p</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679395538"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395538"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">b -&gt; (b, b)
-</span><a href="#local-6989586621679395480"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395537"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-40"></span><span>     </span><span class="hs-special">(</span><span id="local-6989586621679395539"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395539"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679395540"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395540"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395538"><span class="hs-identifier hs-var">r</span></a></span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
+</span><span id="line-39"></span><span>   </span><span class="hs-special">(</span><span id="local-6989586621679396833"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396833"><span class="hs-identifier hs-var">p</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679396834"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396834"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">b -&gt; (b, b)
+</span><a href="#local-6989586621679396776"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396833"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-40"></span><span>     </span><span class="hs-special">(</span><span id="local-6989586621679396835"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396835"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679396836"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396836"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396834"><span class="hs-identifier hs-var">r</span></a></span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">2</span></span><span class="annot"><span class="annottext">b -&gt; b -&gt; b
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395540"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395539"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-comment">-- rotation</span><span>
+</span><a href="#local-6989586621679396836"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396835"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-comment">-- rotation</span><span>
 </span><span id="line-41"></span><span>
 </span><span id="line-42"></span><span class="hs-comment">-- | The natural numbers are isomorphic to disjoint sums of natural numbers embedded as</span><span>
 </span><span id="line-43"></span><span class="hs-comment">-- evens or odds.</span><span>
@@ -106,46 +106,46 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 forall s a b t. (s -&gt; a) -&gt; (b -&gt; t) -&gt; Iso s t a b
 </span><a href="Control.Lens.Iso.html#iso"><span class="hs-identifier hs-var">iso</span></a></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; Either Natural Natural
 forall {b}. Integral b =&gt; b -&gt; Either b b
-</span><a href="#local-6989586621679395548"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">Either Natural Natural -&gt; Natural
+</span><a href="#local-6989586621679396844"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">Either Natural Natural -&gt; Natural
 forall {a}. Num a =&gt; Either a a -&gt; a
-</span><a href="#local-6989586621679395549"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-48"></span><span>  </span><span id="local-6989586621679395548"><span class="annot"><span class="annottext">hither :: b -&gt; Either b b
-</span><a href="#local-6989586621679395548"><span class="hs-identifier hs-var hs-var">hither</span></a></span></span><span> </span><span id="local-6989586621679395569"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395569"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; (b, b)
+</span><a href="#local-6989586621679396845"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-48"></span><span>  </span><span id="local-6989586621679396844"><span class="annot"><span class="annottext">hither :: b -&gt; Either b b
+</span><a href="#local-6989586621679396844"><span class="hs-identifier hs-var hs-var">hither</span></a></span></span><span> </span><span id="local-6989586621679396865"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396865"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">b -&gt; b -&gt; (b, b)
 forall a. Integral a =&gt; a -&gt; a -&gt; (a, a)
 </span><span class="hs-identifier hs-var">quotRem</span></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395569"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396865"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">2</span></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-49"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679395570"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395570"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">b
+</span><span id="line-49"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679396866"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396866"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">0</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">b -&gt; Either b b
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395570"><span class="hs-identifier hs-var">q</span></a></span><span>
-</span><span id="line-50"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679395571"><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396866"><span class="hs-identifier hs-var">q</span></a></span><span>
+</span><span id="line-50"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679396867"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679396867"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">b
 </span><span class="hs-number">1</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">b -&gt; Either b b
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">b
-</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">q</span></a></span><span>
+</span><a href="#local-6989586621679396867"><span class="hs-identifier hs-var">q</span></a></span><span>
 </span><span id="line-51"></span><span>    </span><span class="annot"><span class="annottext">(b, b)
 </span><span class="hs-identifier">_</span></span><span>     </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Char] -&gt; Either b b
 forall a. HasCallStack =&gt; [Char] -&gt; a
 </span><span class="hs-identifier hs-var">error</span></span><span> </span><span class="annot"><span class="annottext">[Char]
 </span><span class="hs-string">&quot;_Sum: impossible&quot;</span></span><span>
-</span><span id="line-52"></span><span>  </span><span id="local-6989586621679395549"><span class="annot"><span class="annottext">yon :: Either a a -&gt; a
-</span><a href="#local-6989586621679395549"><span class="hs-identifier hs-var hs-var">yon</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679395580"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679395580"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">)</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><span id="line-52"></span><span>  </span><span id="local-6989586621679396845"><span class="annot"><span class="annottext">yon :: Either a a -&gt; a
+</span><a href="#local-6989586621679396845"><span class="hs-identifier hs-var hs-var">yon</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679396876"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679396876"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">)</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
 </span><span class="hs-number">2</span></span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679395580"><span class="hs-identifier hs-var">q</span></a></span><span>
-</span><span id="line-53"></span><span>  </span><span class="annot"><a href="#local-6989586621679395549"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679395581"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679395581"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679396876"><span class="hs-identifier hs-var">q</span></a></span><span>
+</span><span id="line-53"></span><span>  </span><span class="annot"><a href="#local-6989586621679396845"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679396877"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679396877"><span class="hs-identifier hs-var">q</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
 </span><span class="hs-number">2</span></span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">*</span></span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679395581"><span class="hs-identifier hs-var">q</span></a></span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
+</span><a href="#local-6989586621679396877"><span class="hs-identifier hs-var">q</span></a></span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span class="annot"><span class="annottext">a
 </span><span class="hs-number">1</span></span><span>
@@ -157,16 +157,16 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 -&gt; ([Natural] -&gt; Natural) -&gt; Iso' Natural [Natural]
 forall s a b t. (s -&gt; a) -&gt; (b -&gt; t) -&gt; Iso s t a b
 </span><a href="Control.Lens.Iso.html#iso"><span class="hs-identifier hs-var">iso</span></a></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; [Natural]
-</span><a href="#local-6989586621679395586"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">[Natural] -&gt; Natural
-</span><a href="#local-6989586621679395587"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-58"></span><span>  </span><span id="local-6989586621679395586"><span class="annot"><span class="annottext">hither :: Natural -&gt; [Natural]
-</span><a href="#local-6989586621679395586"><span class="hs-identifier hs-var hs-var">hither</span></a></span></span><span> </span><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396882"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">[Natural] -&gt; Natural
+</span><a href="#local-6989586621679396883"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-58"></span><span>  </span><span id="local-6989586621679396882"><span class="annot"><span class="annottext">hither :: Natural -&gt; [Natural]
+</span><a href="#local-6989586621679396882"><span class="hs-identifier hs-var hs-var">hither</span></a></span></span><span> </span><span class="annot"><span class="annottext">Natural
 </span><span class="hs-number">0</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-59"></span><span>  </span><span class="annot"><a href="#local-6989586621679395586"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span id="local-6989586621679395597"><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395597"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395598"><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395598"><span class="hs-identifier hs-var">h</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395599"><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395599"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395597"><span class="hs-identifier hs-var">n</span></a></span><span class="annot"><span class="annottext">Natural -&gt; Natural -&gt; Natural
+</span><span id="line-59"></span><span>  </span><span class="annot"><a href="#local-6989586621679396882"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span id="local-6989586621679396893"><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396893"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396894"><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396894"><span class="hs-identifier hs-var">h</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396895"><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396895"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396893"><span class="hs-identifier hs-var">n</span></a></span><span class="annot"><span class="annottext">Natural -&gt; Natural -&gt; Natural
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span class="annot"><span class="annottext">Natural
 </span><span class="hs-number">1</span></span><span class="hs-special">)</span><span class="annot"><span class="annottext">Natural
@@ -176,17 +176,17 @@ forall s a. s -&gt; Getting a s a -&gt; a
 </span><a href="Control.Lens.Getter.html#%5E."><span class="hs-operator hs-var">^.</span></a></span><span class="annot"><span class="annottext">Getting (Natural, Natural) Natural (Natural, Natural)
 Iso' Natural (Natural, Natural)
 </span><a href="Numeric.Natural.Lens.html#_Pair"><span class="hs-identifier hs-var">_Pair</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395598"><span class="hs-identifier hs-var">h</span></a></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; [Natural] -&gt; [Natural]
+</span><a href="#local-6989586621679396894"><span class="hs-identifier hs-var">h</span></a></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; [Natural] -&gt; [Natural]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; [Natural]
-</span><a href="#local-6989586621679395586"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395599"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-60"></span><span>  </span><span id="local-6989586621679395587"><span class="annot"><span class="annottext">yon :: [Natural] -&gt; Natural
-</span><a href="#local-6989586621679395587"><span class="hs-identifier hs-var hs-var">yon</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396882"><span class="hs-identifier hs-var">hither</span></a></span><span> </span><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396895"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><span id="line-60"></span><span>  </span><span id="local-6989586621679396883"><span class="annot"><span class="annottext">yon :: [Natural] -&gt; Natural
+</span><a href="#local-6989586621679396883"><span class="hs-identifier hs-var hs-var">yon</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Natural
 </span><span class="hs-number">0</span></span><span>
-</span><span id="line-61"></span><span>  </span><span class="annot"><a href="#local-6989586621679395587"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395610"><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395610"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679395611"><span class="annot"><span class="annottext">[Natural]
-</span><a href="#local-6989586621679395611"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Natural
+</span><span id="line-61"></span><span>  </span><span class="annot"><a href="#local-6989586621679396883"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396906"><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396906"><span class="hs-identifier hs-var">x</span></a></span></span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span id="local-6989586621679396907"><span class="annot"><span class="annottext">[Natural]
+</span><a href="#local-6989586621679396907"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Natural
 </span><span class="hs-number">1</span></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; Natural -&gt; Natural
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">AReview Natural (Natural, Natural) -&gt; (Natural, Natural) -&gt; Natural
@@ -194,9 +194,9 @@ forall b (m :: * -&gt; *) t. MonadReader b m =&gt; AReview t b -&gt; m t
 </span><a href="Control.Lens.Review.html#review"><span class="hs-identifier hs-var">review</span></a></span><span> </span><span class="annot"><span class="annottext">AReview Natural (Natural, Natural)
 Iso' Natural (Natural, Natural)
 </span><a href="Numeric.Natural.Lens.html#_Pair"><span class="hs-identifier hs-var">_Pair</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395610"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[Natural] -&gt; Natural
-</span><a href="#local-6989586621679395587"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="annot"><span class="annottext">[Natural]
-</span><a href="#local-6989586621679395611"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679396906"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[Natural] -&gt; Natural
+</span><a href="#local-6989586621679396883"><span class="hs-identifier hs-var">yon</span></a></span><span> </span><span class="annot"><span class="annottext">[Natural]
+</span><a href="#local-6989586621679396907"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-62"></span><span>
 </span><span id="line-63"></span><span class="hs-comment">-- |</span><span>
 </span><span id="line-64"></span><span class="hs-comment">-- interleaves the bits of two natural numbers</span><span>
@@ -204,16 +204,16 @@ Iso' Natural (Natural, Natural)
 </span><span id="line-66"></span><span class="hs-keyword">pattern</span><span> </span><span id="Pair"><span id="%24mPair"><span id="%24bPair"><span class="annot"><span class="annottext">$mPair :: forall {r}.
 Natural -&gt; (Natural -&gt; Natural -&gt; r) -&gt; ((# #) -&gt; r) -&gt; r
 $bPair :: Natural -&gt; Natural -&gt; Natural
-</span><a href="Numeric.Natural.Lens.html#Pair"><span class="hs-identifier hs-var hs-var hs-var hs-var">Pair</span></a></span></span></span></span><span> </span><span class="annot"><a href="#local-6989586621679395615"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679395616"><span class="hs-identifier hs-type">y</span></a></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Lens.Getter.html#view"><span class="hs-identifier hs-type">view</span></a></span><span> </span><span class="annot"><a href="Numeric.Natural.Lens.html#_Pair"><span class="hs-identifier hs-type">_Pair</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395615"><span class="annot"><a href="#local-6989586621679395615"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679395616"><span class="annot"><a href="#local-6989586621679395616"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-67"></span><span>  </span><span class="annot"><a href="Numeric.Natural.Lens.html#Pair"><span class="hs-identifier hs-var">Pair</span></a></span><span> </span><span id="local-6989586621679395624"><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395624"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679395625"><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395625"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">AReview Natural (Natural, Natural) -&gt; (Natural, Natural) -&gt; Natural
+</span><a href="Numeric.Natural.Lens.html#Pair"><span class="hs-identifier hs-var hs-var hs-var hs-var">Pair</span></a></span></span></span></span><span> </span><span class="annot"><a href="#local-6989586621679396911"><span class="hs-identifier hs-type">x</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679396912"><span class="hs-identifier hs-type">y</span></a></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Lens.Getter.html#view"><span class="hs-identifier hs-type">view</span></a></span><span> </span><span class="annot"><a href="Numeric.Natural.Lens.html#_Pair"><span class="hs-identifier hs-type">_Pair</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396911"><span class="annot"><a href="#local-6989586621679396911"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">,</span><span id="local-6989586621679396912"><span class="annot"><a href="#local-6989586621679396912"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-67"></span><span>  </span><span class="annot"><a href="Numeric.Natural.Lens.html#Pair"><span class="hs-identifier hs-var">Pair</span></a></span><span> </span><span id="local-6989586621679396920"><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396920"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621679396921"><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396921"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">AReview Natural (Natural, Natural) -&gt; (Natural, Natural) -&gt; Natural
 forall b (m :: * -&gt; *) t. MonadReader b m =&gt; AReview t b -&gt; m t
 </span><a href="Control.Lens.Review.html#review"><span class="hs-identifier hs-var">review</span></a></span><span> </span><span class="annot"><span class="annottext">AReview Natural (Natural, Natural)
 Iso' Natural (Natural, Natural)
 </span><a href="Numeric.Natural.Lens.html#_Pair"><span class="hs-identifier hs-var">_Pair</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395624"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Natural
-</span><a href="#local-6989586621679395625"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679396920"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Natural
+</span><a href="#local-6989586621679396921"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-68"></span><span>
 </span><span id="line-69"></span><span class="hs-comment">-- |</span><span>
 </span><span id="line-70"></span><span class="hs-comment">-- @</span><span>
@@ -224,15 +224,15 @@ Iso' Natural (Natural, Natural)
 </span><span id="line-75"></span><span class="hs-keyword">pattern</span><span> </span><span id="Sum"><span id="%24mSum"><span id="%24bSum"><span class="annot"><span class="annottext">$mSum :: forall {r}.
 Natural -&gt; (Either Natural Natural -&gt; r) -&gt; ((# #) -&gt; r) -&gt; r
 $bSum :: Either Natural Natural -&gt; Natural
-</span><a href="Numeric.Natural.Lens.html#Sum"><span class="hs-identifier hs-var hs-var hs-var hs-var">Sum</span></a></span></span></span></span><span> </span><span class="annot"><a href="#local-6989586621679395628"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Lens.Getter.html#view"><span class="hs-identifier hs-type">view</span></a></span><span> </span><span class="annot"><a href="Numeric.Natural.Lens.html#_Sum"><span class="hs-identifier hs-type">_Sum</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621679395628"><span class="annot"><a href="#local-6989586621679395628"><span class="hs-identifier hs-var">s</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-76"></span><span>  </span><span class="annot"><a href="Numeric.Natural.Lens.html#Sum"><span class="hs-identifier hs-var">Sum</span></a></span><span> </span><span id="local-6989586621679395635"><span class="annot"><span class="annottext">Either Natural Natural
-</span><a href="#local-6989586621679395635"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">AReview Natural (Either Natural Natural)
+</span><a href="Numeric.Natural.Lens.html#Sum"><span class="hs-identifier hs-var hs-var hs-var hs-var">Sum</span></a></span></span></span></span><span> </span><span class="annot"><a href="#local-6989586621679396924"><span class="hs-identifier hs-type">s</span></a></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Lens.Getter.html#view"><span class="hs-identifier hs-type">view</span></a></span><span> </span><span class="annot"><a href="Numeric.Natural.Lens.html#_Sum"><span class="hs-identifier hs-type">_Sum</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621679396924"><span class="annot"><a href="#local-6989586621679396924"><span class="hs-identifier hs-var">s</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-76"></span><span>  </span><span class="annot"><a href="Numeric.Natural.Lens.html#Sum"><span class="hs-identifier hs-var">Sum</span></a></span><span> </span><span id="local-6989586621679396931"><span class="annot"><span class="annottext">Either Natural Natural
+</span><a href="#local-6989586621679396931"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">AReview Natural (Either Natural Natural)
 -&gt; Either Natural Natural -&gt; Natural
 forall b (m :: * -&gt; *) t. MonadReader b m =&gt; AReview t b -&gt; m t
 </span><a href="Control.Lens.Review.html#review"><span class="hs-identifier hs-var">review</span></a></span><span> </span><span class="annot"><span class="annottext">AReview Natural (Either Natural Natural)
 Iso' Natural (Either Natural Natural)
 </span><a href="Numeric.Natural.Lens.html#_Sum"><span class="hs-identifier hs-var">_Sum</span></a></span><span> </span><span class="annot"><span class="annottext">Either Natural Natural
-</span><a href="#local-6989586621679395635"><span class="hs-identifier hs-var">s</span></a></span><span>
+</span><a href="#local-6989586621679396931"><span class="hs-identifier hs-var">s</span></a></span><span>
 </span><span id="line-77"></span><span>
 </span><span id="line-78"></span><span class="hs-comment">-- |</span><span>
 </span><span id="line-79"></span><span class="hs-comment">-- @</span><span>
@@ -242,12 +242,12 @@ Iso' Natural (Either Natural Natural)
 </span><span id="line-83"></span><span class="hs-keyword">pattern</span><span> </span><span class="annot"><a href="Numeric.Natural.Lens.html#Naturals"><span class="hs-identifier hs-type">Naturals</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Natural</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Natural</span></span><span>
 </span><span id="line-84"></span><span class="hs-keyword">pattern</span><span> </span><span id="Naturals"><span id="%24mNaturals"><span id="%24bNaturals"><span class="annot"><span class="annottext">$mNaturals :: forall {r}. Natural -&gt; ([Natural] -&gt; r) -&gt; ((# #) -&gt; r) -&gt; r
 $bNaturals :: [Natural] -&gt; Natural
-</span><a href="Numeric.Natural.Lens.html#Naturals"><span class="hs-identifier hs-var hs-var hs-var hs-var">Naturals</span></a></span></span></span></span><span> </span><span class="annot"><a href="#local-6989586621679395638"><span class="hs-identifier hs-type">xs</span></a></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Lens.Getter.html#view"><span class="hs-identifier hs-type">view</span></a></span><span> </span><span class="annot"><a href="Numeric.Natural.Lens.html#_Naturals"><span class="hs-identifier hs-type">_Naturals</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621679395638"><span class="annot"><a href="#local-6989586621679395638"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-85"></span><span>  </span><span class="annot"><a href="Numeric.Natural.Lens.html#Naturals"><span class="hs-identifier hs-var">Naturals</span></a></span><span> </span><span id="local-6989586621679395645"><span class="annot"><span class="annottext">[Natural]
-</span><a href="#local-6989586621679395645"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">AReview Natural [Natural] -&gt; [Natural] -&gt; Natural
+</span><a href="Numeric.Natural.Lens.html#Naturals"><span class="hs-identifier hs-var hs-var hs-var hs-var">Naturals</span></a></span></span></span></span><span> </span><span class="annot"><a href="#local-6989586621679396934"><span class="hs-identifier hs-type">xs</span></a></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Control.Lens.Getter.html#view"><span class="hs-identifier hs-type">view</span></a></span><span> </span><span class="annot"><a href="Numeric.Natural.Lens.html#_Naturals"><span class="hs-identifier hs-type">_Naturals</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621679396934"><span class="annot"><a href="#local-6989586621679396934"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-85"></span><span>  </span><span class="annot"><a href="Numeric.Natural.Lens.html#Naturals"><span class="hs-identifier hs-var">Naturals</span></a></span><span> </span><span id="local-6989586621679396941"><span class="annot"><span class="annottext">[Natural]
+</span><a href="#local-6989586621679396941"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">AReview Natural [Natural] -&gt; [Natural] -&gt; Natural
 forall b (m :: * -&gt; *) t. MonadReader b m =&gt; AReview t b -&gt; m t
 </span><a href="Control.Lens.Review.html#review"><span class="hs-identifier hs-var">review</span></a></span><span> </span><span class="annot"><span class="annottext">AReview Natural [Natural]
 Iso' Natural [Natural]
 </span><a href="Numeric.Natural.Lens.html#_Naturals"><span class="hs-identifier hs-var">_Naturals</span></a></span><span> </span><span class="annot"><span class="annottext">[Natural]
-</span><a href="#local-6989586621679395645"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><a href="#local-6989586621679396941"><span class="hs-identifier hs-var">xs</span></a></span><span>
 </span><span id="line-86"></span></pre></body></html>

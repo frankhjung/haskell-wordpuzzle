@@ -464,7 +464,7 @@ instance GHC.Base.Functor f => GHC.Base.Functor (Control.Lens.Internal.Getter.Al
 instance Data.Functor.Contravariant.Contravariant f => Data.Functor.Contravariant.Contravariant (Control.Lens.Internal.Getter.AlongsideRight f a)
 instance Data.Foldable.Foldable f => Data.Foldable.Foldable (Control.Lens.Internal.Getter.AlongsideRight f a)
 instance Data.Traversable.Traversable f => Data.Traversable.Traversable (Control.Lens.Internal.Getter.AlongsideRight f a)
-instance Data.Semigroup.Foldable.Class.Foldable1 f => Data.Semigroup.Foldable.Class.Foldable1 (Control.Lens.Internal.Getter.AlongsideRight f a)
+instance Data.Foldable1.Foldable1 f => Data.Foldable1.Foldable1 (Control.Lens.Internal.Getter.AlongsideRight f a)
 instance Data.Semigroup.Traversable.Class.Traversable1 f => Data.Semigroup.Traversable.Class.Traversable1 (Control.Lens.Internal.Getter.AlongsideRight f a)
 instance GHC.Base.Functor f => Data.Bifunctor.Bifunctor (Control.Lens.Internal.Getter.AlongsideRight f)
 instance Data.Foldable.Foldable f => Data.Bifoldable.Bifoldable (Control.Lens.Internal.Getter.AlongsideRight f)
@@ -473,7 +473,7 @@ instance GHC.Base.Functor f => GHC.Base.Functor (Control.Lens.Internal.Getter.Al
 instance Data.Functor.Contravariant.Contravariant f => Data.Functor.Contravariant.Contravariant (Control.Lens.Internal.Getter.AlongsideLeft f b)
 instance Data.Foldable.Foldable f => Data.Foldable.Foldable (Control.Lens.Internal.Getter.AlongsideLeft f b)
 instance Data.Traversable.Traversable f => Data.Traversable.Traversable (Control.Lens.Internal.Getter.AlongsideLeft f b)
-instance Data.Semigroup.Foldable.Class.Foldable1 f => Data.Semigroup.Foldable.Class.Foldable1 (Control.Lens.Internal.Getter.AlongsideLeft f b)
+instance Data.Foldable1.Foldable1 f => Data.Foldable1.Foldable1 (Control.Lens.Internal.Getter.AlongsideLeft f b)
 instance Data.Semigroup.Traversable.Class.Traversable1 f => Data.Semigroup.Traversable.Class.Traversable1 (Control.Lens.Internal.Getter.AlongsideLeft f b)
 instance GHC.Base.Functor f => Data.Bifunctor.Bifunctor (Control.Lens.Internal.Getter.AlongsideLeft f)
 instance Data.Foldable.Foldable f => Data.Bifoldable.Bifoldable (Control.Lens.Internal.Getter.AlongsideLeft f)
@@ -5887,7 +5887,13 @@ infixr 8 #
 --   arguments are covariant.
 --   
 --   You can define a <a>Bifunctor</a> by either defining <a>bimap</a> or
---   by defining both <a>first</a> and <a>second</a>.
+--   by defining both <a>first</a> and <a>second</a>. A partially applied
+--   <a>Bifunctor</a> must be a <a>Functor</a> and the <a>second</a> method
+--   must agree with <a>fmap</a>. From this it follows that:
+--   
+--   <pre>
+--   <a>second</a> <a>id</a> = <a>id</a>
+--   </pre>
 --   
 --   If you supply <a>bimap</a>, you should ensure that:
 --   
@@ -5915,7 +5921,9 @@ infixr 8 #
 --   <a>first</a>  (f <a>.</a> g) ≡ <a>first</a>  f <a>.</a> <a>first</a>  g
 --   <a>second</a> (f <a>.</a> g) ≡ <a>second</a> f <a>.</a> <a>second</a> g
 --   </pre>
-class () => Bifunctor (p :: Type -> Type -> Type)
+--   
+--   Since 4.18.0.0 <a>Functor</a> is a superclass of 'Bifunctor.
+class forall a. () => Functor p a => Bifunctor (p :: Type -> Type -> Type)
 
 -- | Map over both arguments at the same time.
 --   
@@ -9111,8 +9119,8 @@ data Traversed a f
 data Sequenced a m
 
 -- | Fold a value using its <a>Foldable</a> instance using explicitly
---   provided <a>Monoid</a> operations. This is like <tt>fold</tt> where
---   the <a>Monoid</a> instance can be manually specified.
+--   provided <a>Monoid</a> operations. This is like <a>fold</a> where the
+--   <a>Monoid</a> instance can be manually specified.
 --   
 --   <pre>
 --   <a>foldBy</a> <a>mappend</a> <a>mempty</a> ≡ <tt>fold</tt>
@@ -12851,8 +12859,6 @@ instance (t GHC.Types.~ Control.Monad.Trans.State.Lazy.StateT s' m' a') => Contr
 instance (t GHC.Types.~ Control.Monad.Trans.State.Strict.StateT s' m' a') => Control.Lens.Wrapped.Rewrapped (Control.Monad.Trans.State.Strict.StateT s m a) t
 instance (t GHC.Types.~ Control.Monad.Trans.Writer.Lazy.WriterT w' m' a') => Control.Lens.Wrapped.Rewrapped (Control.Monad.Trans.Writer.Lazy.WriterT w m a) t
 instance (t GHC.Types.~ Control.Monad.Trans.Writer.Strict.WriterT w' m' a') => Control.Lens.Wrapped.Rewrapped (Control.Monad.Trans.Writer.Strict.WriterT w m a) t
-instance (t GHC.Types.~ Control.Monad.Trans.Error.ErrorT e' m' a') => Control.Lens.Wrapped.Rewrapped (Control.Monad.Trans.Error.ErrorT e m a) t
-instance (t GHC.Types.~ Control.Monad.Trans.List.ListT n b) => Control.Lens.Wrapped.Rewrapped (Control.Monad.Trans.List.ListT m a) t
 instance forall k4 k5 k6 k7 k8 k9 k10 k11 t (p' :: k4 -> k5 -> *) (f' :: k6 -> k4) (g' :: k7 -> k5) (a' :: k6) (b' :: k7) (p :: k8 -> k9 -> *) (f :: k10 -> k8) (g :: k11 -> k9) (a :: k10) (b :: k11). (t GHC.Types.~ Data.Bifunctor.Biff.Biff p' f' g' a' b') => Control.Lens.Wrapped.Rewrapped (Data.Bifunctor.Biff.Biff p f g a b) t
 instance forall k2 k3 k4 k5 t (f' :: k2 -> *) (a' :: k2) (b' :: k3) (f :: k4 -> *) (a :: k4) (b :: k5). (t GHC.Types.~ Data.Bifunctor.Clown.Clown f' a' b') => Control.Lens.Wrapped.Rewrapped (Data.Bifunctor.Clown.Clown f a b) t
 instance forall k1 k2 t (p' :: * -> k1 -> *) (a' :: k1) (p :: * -> k2 -> *) (a :: k2). (t GHC.Types.~ Data.Bifunctor.Fix.Fix p' a') => Control.Lens.Wrapped.Rewrapped (Data.Bifunctor.Fix.Fix p a) t
@@ -13001,8 +13007,6 @@ instance Control.Lens.Wrapped.Wrapped (Control.Monad.Trans.State.Lazy.StateT s m
 instance Control.Lens.Wrapped.Wrapped (Control.Monad.Trans.State.Strict.StateT s m a)
 instance Control.Lens.Wrapped.Wrapped (Control.Monad.Trans.Writer.Lazy.WriterT w m a)
 instance Control.Lens.Wrapped.Wrapped (Control.Monad.Trans.Writer.Strict.WriterT w m a)
-instance Control.Lens.Wrapped.Wrapped (Control.Monad.Trans.Error.ErrorT e m a)
-instance Control.Lens.Wrapped.Wrapped (Control.Monad.Trans.List.ListT m a)
 instance forall k k1 k2 k3 (p :: k -> k1 -> *) (f :: k2 -> k) (g :: k3 -> k1) (a :: k2) (b :: k3). Control.Lens.Wrapped.Wrapped (Data.Bifunctor.Biff.Biff p f g a b)
 instance forall k k1 (f :: k -> *) (a :: k) (b :: k1). Control.Lens.Wrapped.Wrapped (Data.Bifunctor.Clown.Clown f a b)
 instance forall k (p :: * -> k -> *) (a :: k). Control.Lens.Wrapped.Wrapped (Data.Bifunctor.Fix.Fix p a)
@@ -13339,8 +13343,8 @@ class (MonadState s m, MonadState t n) => Zoom m n s t | m -> s, n -> t, m t -> 
 --   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> c) =&gt; <a>Traversal'</a> s t -&gt; <a>StateT</a> t m c -&gt; <a>StateT</a> s m c
 --   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w)             =&gt; <a>Lens'</a> s t      -&gt; <a>RWST</a> r w t m c -&gt; <a>RWST</a> r w s m c
 --   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Monoid</a> c) =&gt; <a>Traversal'</a> s t -&gt; <a>RWST</a> r w t m c -&gt; <a>RWST</a> r w s m c
---   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Error</a> e)  =&gt; <a>Lens'</a> s t      -&gt; <a>ErrorT</a> e (<a>RWST</a> r w t m) c -&gt; <a>ErrorT</a> e (<a>RWST</a> r w s m) c
---   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Monoid</a> c, <a>Error</a> e) =&gt; <a>Traversal'</a> s t -&gt; <a>ErrorT</a> e (<a>RWST</a> r w t m) c -&gt; <a>ErrorT</a> e (<a>RWST</a> r w s m) c
+--   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <tt>Error</tt> e)  =&gt; <a>Lens'</a> s t      -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w t m) c -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w s m) c
+--   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Monoid</a> c, <tt>Error</tt> e) =&gt; <a>Traversal'</a> s t -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w t m) c -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w s m) c
 --   ...
 --   </pre>
 zoom :: Zoom m n s t => LensLike' (Zoomed m c) t s -> m c -> n c
@@ -13365,8 +13369,6 @@ instance (GHC.Base.Monoid w, Control.Lens.Zoom.Zoom m n s t) => Control.Lens.Zoo
 instance Control.Lens.Zoom.Zoom m n s t => Control.Lens.Zoom.Zoom (Control.Monad.Trans.Maybe.MaybeT m) (Control.Monad.Trans.Maybe.MaybeT n) s t
 instance Control.Lens.Zoom.Zoom m n s t => Control.Lens.Zoom.Zoom (Control.Monad.Trans.Except.ExceptT e m) (Control.Monad.Trans.Except.ExceptT e n) s t
 instance (GHC.Base.Functor f, Control.Lens.Zoom.Zoom m n s t) => Control.Lens.Zoom.Zoom (Control.Monad.Trans.Free.FreeT f m) (Control.Monad.Trans.Free.FreeT f n) s t
-instance (Control.Monad.Trans.Error.Error e, Control.Lens.Zoom.Zoom m n s t) => Control.Lens.Zoom.Zoom (Control.Monad.Trans.Error.ErrorT e m) (Control.Monad.Trans.Error.ErrorT e n) s t
-instance Control.Lens.Zoom.Zoom m n s t => Control.Lens.Zoom.Zoom (Control.Monad.Trans.List.ListT m) (Control.Monad.Trans.List.ListT n) s t
 
 
 -- | Smart and naïve generic traversals given <a>Data</a> instances.
@@ -15249,6 +15251,7 @@ _PatSynD :: Prism' Dec (Name, PatSynArgs, PatSynDir, Pat)
 _PatSynSigD :: Prism' Dec (Name, PatSynType)
 _ImplicitParamBindD :: Prism' Dec (String, Exp)
 _DefaultD :: Prism' Dec [Type]
+_TypeDataD :: Prism' Dec (Name, [TyVarBndrVis], Maybe Kind, [Con])
 _Unidir :: Prism' PatSynDir ()
 _ImplBidir :: Prism' PatSynDir ()
 _ExplBidir :: Prism' PatSynDir [Clause]
@@ -19993,7 +19996,13 @@ infixl 4 >$
 --   arguments are covariant.
 --   
 --   You can define a <a>Bifunctor</a> by either defining <a>bimap</a> or
---   by defining both <a>first</a> and <a>second</a>.
+--   by defining both <a>first</a> and <a>second</a>. A partially applied
+--   <a>Bifunctor</a> must be a <a>Functor</a> and the <a>second</a> method
+--   must agree with <a>fmap</a>. From this it follows that:
+--   
+--   <pre>
+--   <a>second</a> <a>id</a> = <a>id</a>
+--   </pre>
 --   
 --   If you supply <a>bimap</a>, you should ensure that:
 --   
@@ -20021,7 +20030,9 @@ infixl 4 >$
 --   <a>first</a>  (f <a>.</a> g) ≡ <a>first</a>  f <a>.</a> <a>first</a>  g
 --   <a>second</a> (f <a>.</a> g) ≡ <a>second</a> f <a>.</a> <a>second</a> g
 --   </pre>
-class () => Bifunctor (p :: Type -> Type -> Type)
+--   
+--   Since 4.18.0.0 <a>Functor</a> is a superclass of 'Bifunctor.
+class forall a. () => Functor p a => Bifunctor (p :: Type -> Type -> Type)
 
 -- | Map over both arguments at the same time.
 --   
@@ -20110,15 +20121,15 @@ data () => (a :: k) :~: (b :: k)
 [Refl] :: forall {k} (a :: k). a :~: a
 infix 4 :~:
 
--- | Identity functor and monad. (a non-strict monad)
-newtype () => Identity a
-Identity :: a -> Identity a
-[runIdentity] :: Identity a -> a
-
 -- | The <a>Const</a> functor.
 newtype () => Const a (b :: k)
 Const :: a -> Const a (b :: k)
 [getConst] :: Const a (b :: k) -> a
+
+-- | Identity functor and monad. (a non-strict monad)
+newtype () => Identity a
+Identity :: a -> Identity a
+[runIdentity] :: Identity a -> a
 
 -- | Every <a>IndexedTraversal</a> is a valid <a>Traversal</a> or
 --   <a>IndexedFold</a>.
@@ -20970,8 +20981,8 @@ class (MonadState s m, MonadState t n) => Zoom m n s t | m -> s, n -> t, m t -> 
 --   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> c) =&gt; <a>Traversal'</a> s t -&gt; <a>StateT</a> t m c -&gt; <a>StateT</a> s m c
 --   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w)             =&gt; <a>Lens'</a> s t      -&gt; <a>RWST</a> r w t m c -&gt; <a>RWST</a> r w s m c
 --   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Monoid</a> c) =&gt; <a>Traversal'</a> s t -&gt; <a>RWST</a> r w t m c -&gt; <a>RWST</a> r w s m c
---   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Error</a> e)  =&gt; <a>Lens'</a> s t      -&gt; <a>ErrorT</a> e (<a>RWST</a> r w t m) c -&gt; <a>ErrorT</a> e (<a>RWST</a> r w s m) c
---   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Monoid</a> c, <a>Error</a> e) =&gt; <a>Traversal'</a> s t -&gt; <a>ErrorT</a> e (<a>RWST</a> r w t m) c -&gt; <a>ErrorT</a> e (<a>RWST</a> r w s m) c
+--   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <tt>Error</tt> e)  =&gt; <a>Lens'</a> s t      -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w t m) c -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w s m) c
+--   <a>zoom</a> :: (<a>Monad</a> m, <a>Monoid</a> w, <a>Monoid</a> c, <tt>Error</tt> e) =&gt; <a>Traversal'</a> s t -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w t m) c -&gt; <tt>ErrorT</tt> e (<a>RWST</a> r w s m) c
 --   ...
 --   </pre>
 zoom :: Zoom m n s t => LensLike' (Zoomed m c) t s -> m c -> n c
@@ -22149,11 +22160,11 @@ Prism :: Prism s t a b -> ReifiedPrism s t a b
 --   type <a>ReifiedPrism'</a> = <a>Simple</a> <a>ReifiedPrism</a>
 --   </pre>
 type ReifiedPrism' s a = ReifiedPrism s s a a
+pattern List :: IsList l => [Item l] -> l
 pattern Empty :: AsEmpty s => s
 pattern Strict :: Strict s t => t -> s
 pattern Lazy :: Strict t s => t -> s
 pattern Wrapped :: Rewrapped s s => Unwrapped s -> s
-pattern List :: IsList l => [Item l] -> l
 pattern Swapped :: Swap p => p b a -> p a b
 pattern Reversed :: Reversing t => t -> t
 pattern Unwrapped :: Rewrapped t t => t -> Unwrapped t
@@ -22716,8 +22727,8 @@ itoList :: FoldableWithIndex i f => f a -> [(i, a)]
 swapped :: Swap p => Iso (p a b) (p c d) (p b a) (p d c)
 
 -- | Fold a value using its <a>Foldable</a> instance using explicitly
---   provided <a>Monoid</a> operations. This is like <tt>fold</tt> where
---   the <a>Monoid</a> instance can be manually specified.
+--   provided <a>Monoid</a> operations. This is like <a>fold</a> where the
+--   <a>Monoid</a> instance can be manually specified.
 --   
 --   <pre>
 --   <a>foldBy</a> <a>mappend</a> <a>mempty</a> ≡ <tt>fold</tt>

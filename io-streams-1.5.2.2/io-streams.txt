@@ -2040,6 +2040,13 @@ ShellCommand :: String -> CmdSpec
 --   filename does not already have an extension. For full details see the
 --   <a>documentation</a> for the Windows <tt>SearchPath</tt> API.</li>
 --   </ul>
+--   
+--   Windows does not have a mechanism for passing multiple arguments. When
+--   using <tt>RawCommand</tt> on Windows, the command line is serialised
+--   into a string, with arguments quoted separately. Command line parsing
+--   is up individual programs, so the default behaviour may not work for
+--   some programs. If you are not getting the desired results, construct
+--   the command line yourself and use <a>ShellCommand</a>.
 RawCommand :: FilePath -> [String] -> CmdSpec
 data () => CreateProcess
 CreateProcess :: CmdSpec -> Maybe FilePath -> Maybe [(String, String)] -> StdStream -> StdStream -> StdStream -> Bool -> Bool -> Bool -> Bool -> Bool -> Bool -> Maybe GroupID -> Maybe UserID -> Bool -> CreateProcess
@@ -2183,7 +2190,8 @@ shell :: String -> CreateProcess
 --   <ul>
 --   <li>The command to run, which must be in the $PATH, or an absolute or
 --   relative path</li>
---   <li>A list of separate command line arguments to the program</li>
+--   <li>A list of separate command line arguments to the program. See
+--   <a>RawCommand</a> for further discussion of Windows semantics.</li>
 --   <li>A string to pass on standard input to the forked process.</li>
 --   </ul>
 readProcess :: FilePath -> [String] -> String -> IO String
