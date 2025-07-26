@@ -1,3 +1,12 @@
+{-|
+  Executable  : wordpuzzle
+  Description : Word Puzzle command line.
+  Copyright   : © Frank Jung, 2017-2025
+  License     : BSD-3-Clause
+  Maintainer  : frankhjung@linux.com
+  Stability   : stable
+  Portability : portable
+-}
 module Main(main) where
 
 import           Data.Version        (showVersion)
@@ -11,14 +20,14 @@ import           Text.Read           (readMaybe)
 import           WordPuzzle          (ValidationError (..), checkLetters,
                                       checkSize, solve, toEither, validate)
 
--- valid command line options
+-- | Valid command line options.
 data Opts = Opts
-              { size       :: Int
-              , letters    :: String
-              , dictionary :: FilePath
+              { size       :: Int       -- ^ Minimum word size
+              , letters    :: String    -- ^ Nine letters to make words
+              , dictionary :: FilePath  -- ^ Dictionary to search
               } deriving (Show)
 
--- applicative structure for parser options
+-- | Applicative structure for parser command line options.
 options :: Parser Opts
 options = Opts
   <$> option readerSize
@@ -41,19 +50,19 @@ options = Opts
      <> value "dictionary"
      <> metavar "FILENAME" )
 
--- read size in range from 1 to 9
-readerSize :: ReadM Int
+-- | Read size in range from 1 to 9 (minimum word size).
+readerSize :: ReadM Int -- ^ Size
 readerSize = eitherReader readSizeOption
 
--- read an alphabetic string
-readerLetters :: ReadM String
+-- | Read an alphabetic string (letters of puzzle).
+readerLetters :: ReadM String -- ^ Nine letters
 readerLetters = eitherReader checkLetters
 
--- read version from cabal configuration
-packageVersion :: String
+-- | Read application version from cabal configuration.
+packageVersion :: String -- ^ Version string
 packageVersion = "Version: " <> showVersion version
 
--- parse arguments
+-- | Parse arguments.
 optsParser :: ParserInfo Opts
 optsParser = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
@@ -70,9 +79,8 @@ readSizeOption ss =
     Just i  -> checkSize i
     Nothing -> Left (show (UnexpectedValue ss))
 
---
--- MAIN
---
+-- | Main.
+-- Calls WordPuzzle.solve with options from command line.
 main :: IO ()
 main = do
   opts <- execParser optsParser

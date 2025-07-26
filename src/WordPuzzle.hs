@@ -2,7 +2,7 @@
   Module      : WordPuzzle
   Description : Word Puzzle supporting functions.
   Copyright   : © Frank Jung, 2017-2025
-  License     : GPL-3
+  License     : BSD-3-Clause
   Maintainer  : frankhjung@linux.com
   Stability   : stable
   Portability : portable
@@ -18,7 +18,6 @@
   Check functions return an 'Either':
 
   > checkXyz :: a -> Either Error a
-
 -}
 
 module WordPuzzle ( WordPuzzle

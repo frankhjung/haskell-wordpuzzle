@@ -47,10 +47,12 @@ test:
 .PHONY: doc
 doc:
 	@echo doc ...
-	@cabal v2-haddock \
+	@cabal haddock \
+		--haddock-executables \
 		--haddock-quickjump \
 		--haddock-hyperlink-sources \
-		lib:$(TARGET)
+		lib:$(TARGET) \
+		exe:$(TARGET)
 
 .PHONY:	bench
 bench:
@@ -75,7 +77,6 @@ setup:
 ifeq (,$(wildcard ${CABAL_CONFIG}))
 	-cabal user-config init
 	-cabal update --only-dependencies
-	-cabal build
 else
 	@echo Using user-config from ${CABAL_CONFIG} ...
 endif
@@ -84,6 +85,6 @@ endif
 clean:
 	@cabal clean
 
-.PHONY: distclean
-distclean: clean
+.PHONY: cleanall
+cleanall: clean
 	@$(RM) tags

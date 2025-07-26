@@ -11,11 +11,12 @@ build:
   image:
     name: frankhjung/haskell:${GHC_VERSION}
   variables:
+    APP_VERSION: 1.0.0
+    CABAL_CONFIG: ${CABAL_DIR}/config
+    CABAL_DIR: ${CI_PROJECT_DIR}/.cabal
+    DOC_DIR: dist-newstyle/build/x86_64-linux/ghc-${GHC_VERSION}/${PROJECT}-${APP_VERSION}/x/${PROJECT}/doc/html/${PROJECT}/${PROJECT}
     GHC_VERSION: 9.6.7
     PROJECT: wordpuzzle
-    CABAL_DIR: ${CI_PROJECT_DIR}/.cabal
-    CABAL_CONFIG: ${CABAL_DIR}/config
-    DOC_DIR: dist-newstyle/build/x86_64-linux/ghc-${GHC_VERSION}/${PROJECT}-*/doc/html/${PROJECT}/
   script:
     - make setup
     - make check
