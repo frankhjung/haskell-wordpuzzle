@@ -76,10 +76,10 @@ endif
 setup:
 ifeq (,$(wildcard ${CABAL_CONFIG}))
 	-cabal user-config init
-	-cabal update --only-dependencies
 else
 	@echo Using user-config from ${CABAL_CONFIG} ...
 endif
+	-cabal update --only-dependencies
 
 .PHONY: clean
 clean:
