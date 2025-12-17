@@ -79,6 +79,10 @@ hasLetters' :: String -> String -> Bool
 --   <li>must contain only valid characters</li>
 --   <li>must not exceed valid character frequency</li>
 --   </ul>
+--   
+--   Example:
+--   
+--   solve (WordPuzzle 4 <tt>a</tt> "abcdefghij" "dictionary.txt")
 solve :: WordPuzzle -> IO ()
 
 -- | Error given on invalid parameter.
