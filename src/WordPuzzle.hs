@@ -55,7 +55,8 @@ data ValidationError =
 
 -- | Show 'ValidationError' as string.
 instance Show ValidationError where
-  show (InvalidSize (en1,en2) an)  = "expected value in range (" ++ show en1 ++ ", " ++ show en2 ++ ") got " ++ show an
+  show (InvalidSize (en1,en2) an)  = "expected value in range ("
+    ++ show en1 ++ ", " ++ show en2 ++ ") got " ++ show an
   show (InvalidLetters ls)  = "expected lowercase letters, got " ++ ls
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
@@ -126,6 +127,10 @@ hasMandatory = elem
 -- * must contain mandatory character
 -- * must contain only valid characters
 -- * must not exceed valid character frequency
+--
+-- Example:
+--
+-- solve (WordPuzzle 4 'a' "abcdefghij" "dictionary.txt")
 solve :: WordPuzzle -> IO ()
 solve wordpuzzle = do
   dict <- readFile (dictionary wordpuzzle)

@@ -67,7 +67,7 @@ optsParser :: ParserInfo Opts
 optsParser = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
-        <> progDesc "Solve word puzzles like those at nineletterword.tompaton.com"
+        <> progDesc "Solve nine letter word puzzles"
         <> footer packageVersion )
 
 -- | Process size read from a command line option.
