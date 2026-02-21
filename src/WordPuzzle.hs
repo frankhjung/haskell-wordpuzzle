@@ -35,7 +35,7 @@ import           Data.Bool                  (bool)
 import           Data.Char                  (isLower)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
-import           Data.List                  (delete)
+import           Data.List                  (delete, nub)
 import           Data.Validation            (Validation (..), toEither)
 
 -- | Represent parameters required for the puzzle.
@@ -43,21 +43,21 @@ data WordPuzzle = WordPuzzle
                   {
                     size       :: Int      -- ^ minimum size of words
                   , mandatory  :: Char     -- ^ mandatory character in word
-                  , letters    :: String   -- ^ letters to make words
+                  , letters    :: String   -- ^ letters to make words (4–9 unique lowercase characters)
                   , dictionary :: FilePath -- ^ dictionary for valid words
                   } deriving (Show)
 
 -- | Error given on invalid parameter.
 data ValidationError =
     InvalidSize (Int, Int) Int      -- ^ expected range and actual size
-    | InvalidLetters String         -- ^ actual letters
+    | InvalidLetters String         -- ^ actual letters (should be 4-9 unique lowercase letters)
     | UnexpectedValue String        -- ^ couldn't parse value
 
 -- | Show 'ValidationError' as string.
 instance Show ValidationError where
   show (InvalidSize (en1,en2) an)  = "expected value in range ("
     ++ show en1 ++ ", " ++ show en2 ++ ") got " ++ show an
-  show (InvalidLetters ls)  = "expected lowercase letters, got " ++ ls
+  show (InvalidLetters ls)  = "expected 4-9 unique lowercase letters, got " ++ ls
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
 -- | Validate program parameters.
@@ -99,15 +99,25 @@ checkSize :: Int                 -- ^ size of word to check
             -> Either String Int -- ^ Left unexpected size or Right size
 checkSize s = bool (Left (show (InvalidSize (1,9) s))) (Right s) (isSize s)
 
--- | Are letters valid?
+-- | Are letters valid?  Valid strings contain between 4 and 9
+-- *unique* lowercase letters.
 --
--- >>> isLetters "abcdefghij"
+-- >>> isLetters "abcd"
 -- True
 --
--- >>> isLetters "abcDefghij"
--- False
+-- >>> isLetters "abca"
+-- False -- repeated character
+--
+-- >>> isLetters "abcdefghij"
+-- False  -- too long
+--
+-- >>> isLetters "abcDefg"
+-- False -- mixed case
 isLetters :: String -> Bool
-isLetters ls = 9 == length ls && all isLower ls
+isLetters ls =
+  inRange (4,9) n && all isLower ls && length (nub ls) == n
+  where
+    n = length ls
 
 -- | Check that letters are lowercase alphabetic characters.
 checkLetters :: String                -- ^ characters to check

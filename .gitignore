@@ -1,6 +1,7 @@
 *.aux
 *.chi
 *.chs.h
+*.code-workspace
 dictionary
 dist
 dist-newstyle

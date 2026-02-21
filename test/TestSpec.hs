@@ -21,15 +21,24 @@ main = hspec $ do
         checkSize 4 `shouldBe` Right 4
 
   describe "checkLetters" $ do
-    context "too few letters" $
+    context "fewer than 4 letters" $
       it "returns Left" $
-        checkLetters "abcdefgh" `shouldBe` Left (show (InvalidLetters "abcdefgh"))
-    context "9 lowercase letters" $
+        checkLetters "abc" `shouldBe` Left (show (InvalidLetters "abc"))
+    context "4 lowercase letters (lower bound)" $
+      it "returns Right" $
+        checkLetters "abcd" `shouldBe` Right "abcd"
+    context "mid-range lowercase letters" $
+      it "returns Right" $
+        checkLetters "abcdefg" `shouldBe` Right "abcdefg"
+    context "9 lowercase letters (upper bound)" $
       it "returns Right" $
         checkLetters "abcdefghi" `shouldBe` Right "abcdefghi"
-    context "9 mixed case letters" $
+    context "mixed case letters" $
       it "returns Left" $
         checkLetters "abcdeFghi" `shouldBe` Left (show (InvalidLetters "abcdeFghi"))
+    context "duplicate characters" $
+      it "returns Left" $
+        checkLetters "abca" `shouldBe` Left (show (InvalidLetters "abca"))
     context "too many letters" $
       it "returns Left" $
         checkLetters "abcdefghij" `shouldBe` Left (show (InvalidLetters "abcdefghij"))

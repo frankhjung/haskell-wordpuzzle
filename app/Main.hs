@@ -23,7 +23,7 @@ import           WordPuzzle          (ValidationError (..), checkLetters,
 -- | Valid command line options.
 data Opts = Opts
               { size       :: Int       -- ^ Minimum word size
-              , letters    :: String    -- ^ Nine letters to make words
+              , letters    :: String    -- ^ Letters to make words (4–9 characters)
               , dictionary :: FilePath  -- ^ Dictionary to search
               } deriving (Show)
 
@@ -40,7 +40,7 @@ options = Opts
   <*> option readerLetters
       ( long "letters"
      <> short 'l'
-     <> help "Nine letters to make words"
+     <> help "Letters to make words (4 to 9 unique lowercase letters)"
      <> metavar "STRING" )
   <*> strOption
       ( long "dictionary"
@@ -55,7 +55,7 @@ readerSize :: ReadM Int -- ^ Size
 readerSize = eitherReader readSizeOption
 
 -- | Read an alphabetic string (letters of puzzle).
-readerLetters :: ReadM String -- ^ Nine letters
+readerLetters :: ReadM String -- ^ from 4 to 9 letters to make words
 readerLetters = eitherReader checkLetters
 
 -- | Read application version from cabal configuration.
@@ -67,7 +67,7 @@ optsParser :: ParserInfo Opts
 optsParser = info (options <**> helper)
          ( header "https://github.com/frankhjung/haskell-wordpuzzle"
         <> fullDesc
-        <> progDesc "Solve nine letter word puzzles"
+        <> progDesc "Solve word puzzles"
         <> footer packageVersion )
 
 -- | Process size read from a command line option.

@@ -60,7 +60,7 @@ bench:
 
 .PHONY:	exec
 exec:
-	cabal exec $(TARGET) -- $(ARGS) +RTS -s
+	cabal exec $(TARGET) -- $(ARGS)
 
 .PHONY:	dictionary
 dictionary:
