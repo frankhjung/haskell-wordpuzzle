@@ -34,14 +34,14 @@ options = Opts
   <$> option readerSize
       ( long "size"
      <> short 's'
-     <> help "Minimum word size (value from 1..9)"
+     <> help "Minimum word size (value from 4..9)"
      <> showDefault
      <> value 4
      <> metavar "INT" )
   <*> option readerLetters
       ( long "letters"
      <> short 'l'
-     <> help "Letters to make words (minimum of 4 lowercase letters)"
+     <> help "4–9 unique lowercase letters to make words"
      <> metavar "STRING" )
   <*> strOption
       ( long "dictionary"
@@ -55,7 +55,7 @@ options = Opts
      <> short 'r'
      <> help "Allow letters to repeat (like Spelling Bee)" )
 
--- | Read size in range from 1 to 9 (minimum word size).
+-- | Read size in range from 4 to 9 (minimum word size).
 readerSize :: ReadM Int -- ^ Size
 readerSize = eitherReader readSizeOption
 

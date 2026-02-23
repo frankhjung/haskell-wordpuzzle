@@ -157,9 +157,18 @@ solve wordpuzzle = do
     go :: WordPuzzle -> [String] -> [String]
     go puzzle = filter (getPredicate (pS <> pM <> pL))
       where
-        pS = Predicate (if repeats puzzle then (>= size puzzle) . length else inRange (size puzzle, 9) . length)
+        pS = Predicate (if repeats puzzle
+                         then (>= size puzzle) . length
+                         else inRange (size puzzle, 9) . length)
         pM = Predicate (hasMandatory (mandatory puzzle))
-        pL = Predicate (if repeats puzzle then spellingBee (letters puzzle) else nineLetters (letters puzzle))
+        -- ensure the supplied pool of letters itself is valid; if not, no
+        -- dictionary words should match the puzzle.
+        validLetters = isLetters (letters puzzle)
+        pL = Predicate $ if validLetters
+                         then if repeats puzzle
+                              then spellingBee (letters puzzle)
+                              else nineLetters (letters puzzle)
+                         else const False
 
 -- | Check if a word contains only characters from a letters list.
 --
@@ -172,9 +181,11 @@ nineLetters ::
      String     -- ^ valid letters
   -> String     -- ^ dictionary word to check
   -> Bool       -- ^ true if dictionary word matches letters
-nineLetters _  []     = True
-nineLetters [] _      = False
-nineLetters (x:xs) ys = nineLetters xs (delete x ys)
+nineLetters ls ys = isLetters ls && go ls ys
+  where
+    go _  []      = True -- if all characters are removed, the word is valid
+    go [] _       = False -- if there are still characters left over, the word is not valid
+    go (x:xs) ys' = go xs (delete x ys') -- if the character is valid, remove it from the word and continue checking
 
 -- | Check if a word contains only characters from a letters list.
 -- Repeating characters are allowed.
@@ -182,7 +193,9 @@ spellingBee ::
      String     -- ^ valid letters
   -> String     -- ^ dictionary word to check
   -> Bool       -- ^ true if dictionary word matches letters
-spellingBee _ []     = True
-spellingBee ls (y:ys)
-  | y `elem` ls = spellingBee ls ys
-  | otherwise   = False
+spellingBee ls ys = isLetters ls && go ls ys
+  where
+    go _ []     = True -- if all characters are removed, the word is valid
+    go ls' (y:ys') -- guard against invalid letter pools
+      | y `elem` ls' = go ls' ys' -- if the character is valid, remove it from the word and continue checking
+      | otherwise    = False -- if the character is not valid, the word does not match

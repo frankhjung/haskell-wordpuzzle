@@ -89,8 +89,9 @@ together.
 
 Validations performed include:
 
-- Minimum word size is 4 letters.
-- Letters string must contain 4 or more lowercase letters.
+- Minimum word size must be between 4 and 9 letters (inclusive).
+- Letters string must contain between 4 and 9 unique lowercase letters (no
+  repeated letters).
 
 ## How to run
 
@@ -108,14 +109,6 @@ Or run using default dictionary:
 make ARGS='-s 6 -l cadevrsoi' exec
 ```
 
-The Validation section should be updated to match the actual constraints in the
-code:
-
-Validations performed include:
-
-- Minimum word size is 4 letters
-- Letters string must contain at least 4 unique lowercase letters
-
 ### Help
 
 Get command line help:
@@ -130,7 +123,7 @@ Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
   Solve word puzzles
 
 Available options:
-  -s,--size INT            Minimum word size (value from 1..9) (default: 4)
+  -s,--size INT            Minimum word size (value from 4..9) (default: 4)
   -l,--letters STRING      Letters to make words (4 to 9 unique lowercase
                            letters)
   -d,--dictionary FILENAME Dictionary to search for words
@@ -158,7 +151,7 @@ Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
 When specifying a dictionary use (default is "dictionary"):
 
 ```bash
-cabal exec wordpuzzle -- wordpuzzle -l cadevrsoi -ddictionary
+cabal exec wordpuzzle -- -l cadevrsoi -ddictionary
 ```
 
 ### Sort Words by Size
@@ -175,57 +168,10 @@ Using [HSpec](https://hspec.github.io/):
 
 ```text
 $ cabal test --test-show-details=direct
-Build profile: -w ghc-9.6.7 -O1
-In order, the following will be built (use -v for more details):
- - wordpuzzle-1.0.0 (test:test) (file README.md changed)
-Preprocessing test suite 'test' for wordpuzzle-1.0.0...
-Building test suite 'test' for wordpuzzle-1.0.0...
-Running 1 test suites...
-Test suite test: RUNNING...
-
-checkSize
-  size outside range
-    returns Left [✔]
-  size outside range
-    returns Left [✔]
-  size in range
-    returns Right [✔]
-checkLetters
-  fewer than 4 letters
-    returns Left [✔]
-  4 lowercase letters (lower bound)
-    returns Right [✔]
-  mid-range lowercase letters
-    returns Right [✔]
-  9 lowercase letters (upper bound)
-    returns Right [✔]
-  mixed case letters
-    returns Left [✔]
-  duplicate characters
-    returns Left [✔]
-  too many letters
-    returns Left [✔]
-nineLetters
-  when word contains valid characters
-    returns true [✔]
-  when word contains a valid subset of characters
-    returns true [✔]
-  when word does not contain valid characters
-    returns false [✔]
-  when word does not contain valid character frequency
-    returns false [✔]
-spellingBee
-  when word contains valid characters
-    returns true [✔]
-  when word does not contain valid characters
-    returns false [✔]
-
-Finished in 0.0017 seconds
-16 examples, 0 failures
+...
+Finished in 0.00xx seconds
+23 examples, 0 failures
 Test suite test: PASS
-Test suite logged to:
-/home/frank/dev/haskell/wordpuzzle/dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.0/t/test/test/wordpuzzle-1.0.0-test.log
-1 of 1 test suites (1 of 1 test cases) passed.
 ```
 
 ## Performance
@@ -254,18 +200,17 @@ Building benchmark 'benchmark' for wordpuzzle-1.0.0...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
-time                 31.54 ns   (30.41 ns .. 32.42 ns)
-                     0.992 R²   (0.986 R² .. 0.997 R²)
-mean                 31.15 ns   (30.08 ns .. 31.81 ns)
-std dev              2.884 ns   (2.132 ns .. 4.036 ns)
-variance introduced by outliers: 90% (severely inflated)
+time                 224.3 ns   (221.5 ns .. 226.6 ns)
+                     0.999 R²   (0.998 R² .. 0.999 R²)
+mean                 224.9 ns   (222.5 ns .. 226.4 ns)
+std dev              6.349 ns   (4.298 ns .. 9.762 ns)
+variance introduced by outliers: 41% (moderately inflated)
 
 benchmarking WordPuzzle/spellingBee
-time                 29.26 ns   (28.85 ns .. 29.65 ns)
-                     0.998 R²   (0.996 R² .. 0.999 R²)
-mean                 28.83 ns   (28.10 ns .. 29.31 ns)
-std dev              1.959 ns   (1.364 ns .. 3.048 ns)
-variance introduced by outliers: 83% (severely inflated)
+time                 171.1 ns   (170.9 ns .. 171.3 ns)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 170.9 ns   (170.8 ns .. 171.1 ns)
+std dev              493.2 ps   (404.7 ps .. 634.4 ps)
 
 Benchmark benchmark: FINISH
 ```

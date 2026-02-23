@@ -47,18 +47,28 @@ main = hspec $ do
         checkLetters "abcdefghij" `shouldBe` Left (show (InvalidLetters "abcdefghij"))
 
   describe "nineLetters" $ do
+    -- use a valid pool (unique letters, length between 4 and 9)
     context "when word contains valid characters" $
       it "returns true" $
-        nineLetters "foobar" "barfoo" `shouldBe` True
+        nineLetters "abcdef" "abcdef" `shouldBe` True
     context "when word contains a valid subset of characters" $
       it "returns true" $
-        nineLetters "foobar" "rof" `shouldBe` True
+        nineLetters "abcdef" "fedc" `shouldBe` True
     context "when word does not contain valid characters" $
       it "returns false" $
-        nineLetters "foobar" "bartez" `shouldBe` False
+        nineLetters "abcdef" "zapd" `shouldBe` False
     context "when word does not contain valid character frequency" $
       it "returns false" $
-        nineLetters "foobar" "baarof" `shouldBe` False
+        nineLetters "abcdef" "aabdefc" `shouldBe` False
+    context "when the letter pool is invalid" $
+      it "returns false" $
+        nineLetters "abca" "abc" `shouldBe` False
+    context "when the letter pool is too short" $
+      it "returns false" $
+        nineLetters "abc" "abc" `shouldBe` False
+    context "when the letter pool has uppercase letters" $
+      it "returns false" $
+        nineLetters "Abcd" "abc" `shouldBe` False
 
   describe "spellingBee" $ do
     context "when word contains valid characters" $
@@ -67,3 +77,12 @@ main = hspec $ do
     context "when word does not contain valid characters" $
       it "returns false" $
         spellingBee "barfo" "bartez" `shouldBe` False
+    context "when the letter pool is invalid" $
+      it "returns false" $
+        spellingBee "abca" "abc" `shouldBe` False
+    context "when the letter pool is too short" $
+      it "returns false" $
+        spellingBee "abc" "abc" `shouldBe` False
+    context "when the letter pool has uppercase letters" $
+      it "returns false" $
+        spellingBee "Abcd" "abc" `shouldBe` False

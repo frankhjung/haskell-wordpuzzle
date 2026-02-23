@@ -8,7 +8,7 @@ main = defaultMain
   [
     bgroup "WordPuzzle"
     [
-      bench "nineLetters" $ nf nineLetters "cadevrsoi"
-    , bench "spellingBee" $ nf spellingBee "mitncao"
+      bench "nineLetters" $ nf (nineLetters "cadevrsoi") "aardvarks"
+    , bench "spellingBee" $ nf (spellingBee "mitncao") "atomic"
     ]
   ]
