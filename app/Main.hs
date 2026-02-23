@@ -22,8 +22,8 @@ import           WordPuzzle          (ValidationError (..), checkLetters,
 
 -- | Valid command line options.
 data Opts = Opts
-              { size       :: Int       -- ^ Minimum word size (4–9 characters)
-              , letters    :: String    -- ^ Letters to make words (4–9 characters)
+              { size       :: Int       -- ^ Minimum word size (4-9 characters)
+              , letters    :: String    -- ^ Letters to make words (4-9 characters)
               , dictionary :: FilePath  -- ^ Dictionary to search
               , repeats    :: Bool      -- ^ Allow letters to repeat
               } deriving (Show)
@@ -34,7 +34,7 @@ options = Opts
   <$> option readerSize
       ( long "size"
      <> short 's'
-     <> help "Minimum word size is (4–9)"
+     <> help "Minimum word size is (4-9)"
      <> showDefault
      <> value 4
      <> metavar "INT" )

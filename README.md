@@ -142,8 +142,6 @@ with repeats allowed:
 
 ```bash
 make ARGS='-s 7 -l mitncao -r' exec
-# prints words using letters "mitncao" with repeats allowed; longer words
-# (longer than the letter pool and longer than 9 characters) are permitted
 ```
 
 ### Help
