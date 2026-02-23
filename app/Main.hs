@@ -14,7 +14,7 @@ import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       execParser, footer, fullDesc, header,
                                       help, helper, info, long, metavar, option,
                                       progDesc, short, showDefault, strOption,
-                                      value, (<**>))
+                                      switch, value, (<**>))
 import           Paths_wordpuzzle    (version)
 import           Text.Read           (readMaybe)
 import           WordPuzzle          (ValidationError (..), checkLetters,
@@ -25,6 +25,7 @@ data Opts = Opts
               { size       :: Int       -- ^ Minimum word size
               , letters    :: String    -- ^ Letters to make words (4–9 characters)
               , dictionary :: FilePath  -- ^ Dictionary to search
+              , repeats    :: Bool      -- ^ Allow letters to repeat
               } deriving (Show)
 
 -- | Applicative structure for parser command line options.
@@ -40,7 +41,7 @@ options = Opts
   <*> option readerLetters
       ( long "letters"
      <> short 'l'
-     <> help "Letters to make words (4 to 9 unique lowercase letters)"
+     <> help "Letters to make words (minimum of 4 lowercase letters)"
      <> metavar "STRING" )
   <*> strOption
       ( long "dictionary"
@@ -49,6 +50,10 @@ options = Opts
      <> showDefault
      <> value "dictionary"
      <> metavar "FILENAME" )
+  <*> switch
+      ( long "repeats"
+     <> short 'r'
+     <> help "Allow letters to repeat (like Spelling Bee)" )
 
 -- | Read size in range from 1 to 9 (minimum word size).
 readerSize :: ReadM Int -- ^ Size
@@ -84,7 +89,7 @@ readSizeOption ss =
 main :: IO ()
 main = do
   opts <- execParser optsParser
-  let validation = validate (size opts) (letters opts) (dictionary opts)
+  let validation = validate (repeats opts) (size opts) (letters opts) (dictionary opts)
   case toEither validation of
     Left errors  -> mapM_ print errors -- Print all validation errors
     Right puzzle -> solve puzzle

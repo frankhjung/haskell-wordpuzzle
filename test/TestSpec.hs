@@ -4,18 +4,21 @@ module Main(main) where
 
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
 import           WordPuzzle (ValidationError (..), checkLetters, checkSize,
-                             hasLetters, hasLetters')
+                             nineLetters, spellingBee)
 
 main :: IO ()
 main = hspec $ do
 
   describe "checkSize" $ do
-    context "size outside range" $
+    context "too small" $
       it "returns Left" $
-        checkSize 0 `shouldBe` Left (show (InvalidSize (1,9) 0))
-    context "size outside range" $
+        checkSize 0 `shouldBe` Left (show (InvalidSize (4,9) 0))
+    context "just below minimum" $
       it "returns Left" $
-        checkSize 10 `shouldBe` Left (show (InvalidSize (1,9) 10))
+        checkSize 3 `shouldBe` Left (show (InvalidSize (4,9) 3))
+    context "too large" $
+      it "returns Left" $
+        checkSize 10 `shouldBe` Left (show (InvalidSize (4,9) 10))
     context "size in range" $
       it "returns Right" $
         checkSize 4 `shouldBe` Right 4
@@ -43,30 +46,24 @@ main = hspec $ do
       it "returns Left" $
         checkLetters "abcdefghij" `shouldBe` Left (show (InvalidLetters "abcdefghij"))
 
-  describe "hasLetters" $ do
+  describe "nineLetters" $ do
     context "when word contains valid characters" $
       it "returns true" $
-        hasLetters "foobar" "barfoo" `shouldBe` True
+        nineLetters "foobar" "barfoo" `shouldBe` True
     context "when word contains a valid subset of characters" $
       it "returns true" $
-        hasLetters "foobar" "rof" `shouldBe` True
+        nineLetters "foobar" "rof" `shouldBe` True
     context "when word does not contain valid characters" $
       it "returns false" $
-        hasLetters "foobar" "bartez" `shouldBe` False
+        nineLetters "foobar" "bartez" `shouldBe` False
     context "when word does not contain valid character frequency" $
       it "returns false" $
-        hasLetters "foobar" "baarof" `shouldBe` False
+        nineLetters "foobar" "baarof" `shouldBe` False
 
-  describe "hasLetters'" $ do
+  describe "spellingBee" $ do
     context "when word contains valid characters" $
       it "returns true" $
-        hasLetters' "foobar" "barfoo" `shouldBe` True
-    context "when word contains a valid subset of characters" $
-      it "returns true" $
-        hasLetters' "foobar" "rof" `shouldBe` True
+        spellingBee "barfo" "barfoo" `shouldBe` True
     context "when word does not contain valid characters" $
       it "returns false" $
-        hasLetters' "foobar" "bartez" `shouldBe` False
-    context "when word does not contain valid character frequency" $
-      it "returns false" $
-        hasLetters' "foobar" "baarof" `shouldBe` False
+        spellingBee "barfo" "bartez" `shouldBe` False

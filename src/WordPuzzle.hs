@@ -23,8 +23,8 @@
 module WordPuzzle ( WordPuzzle
                   , checkSize
                   , checkLetters
-                  , hasLetters
-                  , hasLetters'
+                  , nineLetters
+                  , spellingBee
                   , solve
                   , ValidationError(..)
                   , validate
@@ -41,10 +41,11 @@ import           Data.Validation            (Validation (..), toEither)
 -- | Represent parameters required for the puzzle.
 data WordPuzzle = WordPuzzle
                   {
-                    size       :: Int      -- ^ minimum size of words
+                    size       :: Int      -- ^ minimum size of words (must be between 4 and 9)
                   , mandatory  :: Char     -- ^ mandatory character in word
                   , letters    :: String   -- ^ letters to make words (4–9 unique lowercase characters)
                   , dictionary :: FilePath -- ^ dictionary for valid words
+                  , repeats    :: Bool     -- ^ whether letters can be repeated
                   } deriving (Show)
 
 -- | Error given on invalid parameter.
@@ -61,43 +62,50 @@ instance Show ValidationError where
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
 -- | Validate program parameters.
-validate :: Int -> String -> FilePath -> Validation [ValidationError] WordPuzzle
-validate _ [] _ = Failure [InvalidLetters "empty letters"]
-validate s (m:ls) d =
+validate :: Bool -> Int -> String -> FilePath -> Validation [ValidationError] WordPuzzle
+validate _ _ [] _ = Failure [InvalidLetters "empty letters"]
+validate r s (m:ls) d =
   WordPuzzle <$> validateSize s         -- validate size
              <*> pure m                 -- mandatory letter
              <*> validateLetters (m:ls) -- validate letters
              <*> pure d                 -- dictionary
+             <*> pure r                 -- repeat letters
 
 -- | Validate size of word.
 validateSize :: Int -> Validation [ValidationError] Int
-validateSize s = bool (Failure [InvalidSize (1,9) s]) (Success s) (isSize s)
+validateSize s = bool (Failure [InvalidSize (4,9) s]) (Success s) (isSize s)
 
 
 -- | Validate letters.
 validateLetters :: String -> Validation [ValidationError] String
 validateLetters ls = bool (Failure [InvalidLetters ls]) (Success ls) (isLetters ls)
 
--- | Is size valid?
+-- | Is size valid?  The value must be between 4 and 9 inclusive.
 --
 -- >>> isSize 9
 -- True
 --
 -- >>> isSize 10
 -- False
+--
+-- >>> isSize 3
+-- False
 isSize :: Int -> Bool
-isSize = inRange (1,9)
+isSize = inRange (4,9)
 
--- | Check that mandatory value is in the range from 1 to 9.
+-- | Check that mandatory value is in the range from 4 to 9.
 --
 -- >>> checkSize 10
 -- Left (InvalidSize 10)
 --
 -- >>> checkSize 1
--- Right 1
+-- Left (InvalidSize 1)
+--
+-- >>> checkSize 4
+-- Right 4
 checkSize :: Int                 -- ^ size of word to check
             -> Either String Int -- ^ Left unexpected size or Right size
-checkSize s = bool (Left (show (InvalidSize (1,9) s))) (Right s) (isSize s)
+checkSize s = bool (Left (show (InvalidSize (4,9) s))) (Right s) (isSize s)
 
 -- | Are letters valid?  Valid strings contain between 4 and 9
 -- *unique* lowercase letters.
@@ -149,9 +157,9 @@ solve wordpuzzle = do
     go :: WordPuzzle -> [String] -> [String]
     go puzzle = filter (getPredicate (pS <> pM <> pL))
       where
-        pS = Predicate (inRange (size puzzle, 9) . length)
+        pS = Predicate (if repeats puzzle then (>= size puzzle) . length else inRange (size puzzle, 9) . length)
         pM = Predicate (hasMandatory (mandatory puzzle))
-        pL = Predicate (hasLetters (letters puzzle))
+        pL = Predicate (if repeats puzzle then spellingBee (letters puzzle) else nineLetters (letters puzzle))
 
 -- | Check if a word contains only characters from a letters list.
 --
@@ -160,29 +168,21 @@ solve wordpuzzle = do
 --
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
-hasLetters ::
+nineLetters ::
      String     -- ^ valid letters
   -> String     -- ^ dictionary word to check
   -> Bool       -- ^ true if dictionary word matches letters
-hasLetters _  []     = True
-hasLetters [] _      = False
-hasLetters (x:xs) ys = hasLetters xs (delete x ys)
-
+nineLetters _  []     = True
+nineLetters [] _      = False
+nineLetters (x:xs) ys = nineLetters xs (delete x ys)
 
 -- | Check if a word contains only characters from a letters list.
---
--- Original version using set difference.
---
--- * If all valid characters are removed from the word, and there are still
--- characters left over, then the word is not valid.
---
--- * If all valid characters are removed from the word, and the word is
--- empty, then the word is valid.
-hasLetters' :: String    -- ^ valid letters
-            -> String    -- ^ dictionary word to check
-            -> Bool      -- ^ true if dictionary word matches letters
-hasLetters' _  []     = True
-hasLetters' [] _      = False
-hasLetters' xs (y:ys)
-  | y `elem` xs = hasLetters' (delete y xs) ys
+-- Repeating characters are allowed.
+spellingBee ::
+     String     -- ^ valid letters
+  -> String     -- ^ dictionary word to check
+  -> Bool       -- ^ true if dictionary word matches letters
+spellingBee _ []     = True
+spellingBee ls (y:ys)
+  | y `elem` ls = spellingBee ls ys
   | otherwise   = False
