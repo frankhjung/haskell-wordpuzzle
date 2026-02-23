@@ -110,18 +110,40 @@ Validations performed include:
 
 ## How to run
 
-### Using Make
-
 For example, to call word puzzle with custom letters and dictionary:
 
 ```bash
 make ARGS='-s 6 -l cadevrsoi -d /usr/share/dict/words' exec
 ```
 
+### 9-Letter example
+
+For example, to call word puzzle (no letter repeats, minimum word size 6) with
+custom letters:
+
+```bash
+make ARGS='-s 6 -l cadevrsoi' exec
+```
+
 Or run using default dictionary:
 
 ```bash
 make ARGS='-s 6 -l cadevrsoi' exec
+```
+
+### Spelling Bee (repeats) example
+
+When `--repeats` is enabled the solver allows letters to repeat and there is no
+hard 9‑letter upper bound — longer words from the dictionary may be returned.
+Example (run with repeats enabled):
+
+In this example, the solver will print 7 letter words using letters "mitncao"
+with repeats allowed:
+
+```bash
+make ARGS='-s 7 -l mitncao -r' exec
+# prints words using letters "mitncao" with repeats allowed; longer words
+# (longer than the letter pool and longer than 9 characters) are permitted
 ```
 
 ### Help
