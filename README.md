@@ -4,6 +4,8 @@ Solve 9 letter word puzzles like:
 
 - [Nine Letter Word](http://nineletterword.tompaton.com/adevcrsoi/)
 - [Your Word Life](http://www.yourwiselife.com.au/games/9-letter-word/)
+- [NYT Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee) (using
+  `--repeats`)
 
 ![nineletterword.tompaton.com](doc/nineletterword.png)
 
@@ -11,6 +13,19 @@ Here we are using a subset of the British dictionary from the
 [wbritish](https://packages.debian.org/sid/text/wbritish) package.
 
 ## Documentation
+
+Generated haddock gets written to a build-specific path under `dist-newstyle`.
+The exact subdirectory depends on the GHC version and architecture, so we use a
+glob to copy the now‑famous `wordpuzzle` html output into the repository tree
+for browsing.
+
+```bash
+cp -r \
+  dist-newstyle/build/*/wordpuzzle-*/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* \
+  doc/html/wordpuzzle/
+```
+
+(Alternatively run `make doc`, which performs the copy automatically.)
 
 - [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
@@ -76,6 +91,8 @@ of what this program does is:
   - word is greater than or equal to minimum character length
   - word contains mandatory character (the first letter of the input string)
   - word contains other characters in correct frequencies
+- when `--repeats` is specified there is no 9‑letter upper bound; longer words
+  are allowed, as in the NYT Spelling Bee variant
 
 ## Validation
 
@@ -87,13 +104,11 @@ together.
 
 Validations performed include:
 
-- Minimum word size must be in range 1..9.
-- Letters string must contain 4 to 9 unique lowercase characters.
-- Letters string must not be empty.
+- Minimum word size must be between 4 and 9 letters (inclusive).
+- Letters string must contain between 4 and 9 unique lowercase letters (no
+  repeated letters).
 
 ## How to run
-
-### Using Make
 
 For example, to call word puzzle with custom letters and dictionary:
 
@@ -101,10 +116,34 @@ For example, to call word puzzle with custom letters and dictionary:
 make ARGS='-s 6 -l cadevrsoi -d /usr/share/dict/words' exec
 ```
 
+### 9-Letter example
+
+For example, to call word puzzle (no letter repeats, minimum word size 6) with
+custom letters:
+
+```bash
+make ARGS='-s 6 -l cadevrsoi' exec
+```
+
 Or run using default dictionary:
 
 ```bash
 make ARGS='-s 6 -l cadevrsoi' exec
+```
+
+### Spelling Bee (repeats) example
+
+When `--repeats` is enabled the solver allows letters to repeat and there is no
+hard 9‑letter upper bound — longer words from the dictionary may be returned.
+Example (run with repeats enabled):
+
+In this example, the solver will print 7 letter words using letters "mitncao"
+with repeats allowed:
+
+```bash
+make ARGS='-s 7 -l mitncao -r' exec
+# prints words using letters "mitncao" with repeats allowed; longer words
+# (longer than the letter pool and longer than 9 characters) are permitted
 ```
 
 ### Help
@@ -116,16 +155,17 @@ $ wordpuzzle --help
 https://github.com/frankhjung/haskell-wordpuzzle
 
 Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
-                  [-d|--dictionary FILENAME]
+                  [-d|--dictionary FILENAME] [-r|--repeats]
 
   Solve word puzzles
 
 Available options:
-  -s,--size INT            Minimum word size (value from 1..9) (default: 4)
+  -s,--size INT            Minimum word size (value from 4..9) (default: 4)
   -l,--letters STRING      Letters to make words (4 to 9 unique lowercase
                            letters)
   -d,--dictionary FILENAME Dictionary to search for words
                            (default: "dictionary")
+  -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
 Version: 1.0.0
@@ -134,11 +174,12 @@ Version: 1.0.0
 Or call without command line arguments:
 
 ```bash
-$ wordpuzzle
+$ cabal exec wordpuzzle --
 Missing: (-l|--letters STRING)
 
 Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
-                  [-d|--dictionary FILENAME]
+                  [-d|--dictionary FILENAME] [-r|--repeats]
+
   Solve word puzzles
 ```
 
@@ -147,7 +188,7 @@ Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
 When specifying a dictionary use (default is "dictionary"):
 
 ```bash
-wordpuzzle -l cadevrsoi -ddictionary
+cabal exec wordpuzzle -- -l cadevrsoi -ddictionary
 ```
 
 ### Sort Words by Size
@@ -155,7 +196,7 @@ wordpuzzle -l cadevrsoi -ddictionary
 To show words by size use:
 
 ```bash
-wordpuzzle -l cadevrsoi | gawk '{print length($0), $0;}' | sort -r
+cabal exec wordpuzzle -- -l cadevrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
 ## Unit Tests
@@ -163,49 +204,11 @@ wordpuzzle -l cadevrsoi | gawk '{print length($0), $0;}' | sort -r
 Using [HSpec](https://hspec.github.io/):
 
 ```text
-checkSize
-  size outside range
-    returns Left [✔]
-  size outside range
-    returns Left [✔]
-  size in range
-    returns Right [✔]
-checkLetters
-  fewer than 4 letters
-    returns Left [✔]
-  4 lowercase letters (lower bound)
-    returns Right [✔]
-  mid-range lowercase letters
-    returns Right [✔]
-  9 lowercase letters (upper bound)
-    returns Right [✔]
-  mixed case letters
-    returns Left [✔]
-  duplicate characters
-    returns Left [✔]
-  too many letters
-    returns Left [✔]
-hasLetters
-  when word contains valid characters
-    returns true [✔]
-  when word contains a valid subset of characters
-    returns true [✔]
-  when word does not contain valid characters
-    returns false [✔]
-  when word does not contain valid character frequency
-    returns false [✔]
-hasLetters'
-  when word contains valid characters
-    returns true [✔]
-  when word contains a valid subset of characters
-    returns true [✔]
-  when word does not contain valid characters
-    returns false [✔]
-  when word does not contain valid character frequency
-    returns false [✔]
-
-Finished in 0.0011 seconds
-18 examples, 0 failures
+$ cabal test --test-show-details=direct
+...
+Finished in 0.00xx seconds
+23 examples, 0 failures
+Test suite test: PASS
 ```
 
 ## Performance
@@ -225,22 +228,26 @@ cabal bench
 ```
 
 ```text
-wordpuzzle-1.0.0: benchmarks
+$ cabal bench
+Build profile: -w ghc-9.6.7 -O1
+In order, the following will be built (use -v for more details):
+ - wordpuzzle-1.0.0 (bench:benchmark) (ephemeral targets)
+Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.0...
+Building benchmark 'benchmark' for wordpuzzle-1.0.0...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
-benchmarking WordPuzzle/hasLetters
-time                 26.78 ns   (25.40 ns .. 27.53 ns)
-                     0.978 R²   (0.965 R² .. 0.987 R²)
-mean                 23.21 ns   (21.69 ns .. 25.00 ns)
-std dev              5.142 ns   (4.587 ns .. 5.840 ns)
-variance introduced by outliers: 98% (severely inflated)
+benchmarking WordPuzzle/nineLetters
+time                 224.3 ns   (221.5 ns .. 226.6 ns)
+                     0.999 R²   (0.998 R² .. 0.999 R²)
+mean                 224.9 ns   (222.5 ns .. 226.4 ns)
+std dev              6.349 ns   (4.298 ns .. 9.762 ns)
+variance introduced by outliers: 41% (moderately inflated)
 
-benchmarking WordPuzzle/hasLetters'
-time                 20.32 ns   (19.76 ns .. 21.00 ns)
-                     0.989 R²   (0.981 R² .. 0.996 R²)
-mean                 20.05 ns   (19.37 ns .. 21.02 ns)
-std dev              2.662 ns   (2.067 ns .. 3.625 ns)
-variance introduced by outliers: 95% (severely inflated)
+benchmarking WordPuzzle/spellingBee
+time                 171.1 ns   (170.9 ns .. 171.3 ns)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 170.9 ns   (170.8 ns .. 171.1 ns)
+std dev              493.2 ps   (404.7 ps .. 634.4 ps)
 
 Benchmark benchmark: FINISH
 ```
@@ -250,30 +257,30 @@ Benchmark benchmark: FINISH
 Using the dictionary sited above, the run time performance for the example:
 
 ```text
-$ wordpuzzle -s 4 -l cadevrsoi -ddictionary +RTS -s 1>/dev/null
-     250,717,968 bytes allocated in the heap
-         202,096 bytes copied during GC
-         119,944 bytes maximum residency (5 sample(s))
-          27,816 bytes maximum slop
-               3 MB total memory in use (0 MB lost due to fragmentation)
+$ cabal exec wordpuzzle -- -s 7 -l cadevrsoi -ddictionary +RTS -s 1>/dev/null
+     858,788,568 bytes allocated in the heap
+       5,242,528 bytes copied during GC
+         118,560 bytes maximum residency (2 sample(s))
+          33,600 bytes maximum slop
+               6 MiB total memory in use (0 MiB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0       231 colls,     0 par    0.004s   0.004s     0.0000s    0.0007s
-  Gen  1         5 colls,     0 par    0.001s   0.001s     0.0003s    0.0004s
+  Gen  0       206 colls,     0 par    0.005s   0.005s     0.0000s    0.0001s
+  Gen  1         2 colls,     0 par    0.000s   0.000s     0.0001s    0.0002s
 
   TASKS: 4 (1 bound, 3 peak workers (3 total), using -N1)
 
   SPARKS: 0 (0 converted, 0 overflowed, 0 dud, 0 GC'd, 0 fizzled)
 
-  INIT    time    0.001s  (  0.007s elapsed)
-  MUT     time    0.122s  (  0.134s elapsed)
+  INIT    time    0.000s  (  0.000s elapsed)
+  MUT     time    0.241s  (  0.241s elapsed)
   GC      time    0.005s  (  0.005s elapsed)
-  EXIT    time    0.001s  (  0.004s elapsed)
-  Total   time    0.129s  (  0.150s elapsed)
+  EXIT    time    0.000s  (  0.003s elapsed)
+  Total   time    0.247s  (  0.250s elapsed)
 
-  Alloc rate    2,053,382,211 bytes per MUT second
+  Alloc rate    3,557,834,378 bytes per MUT second
 
-  Productivity  95.5% of total user, 91.8% of total elapsed
+  Productivity  97.7% of total user, 96.4% of total elapsed
 ```
 
 ## Command Line Parsers

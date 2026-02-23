@@ -14,7 +14,7 @@ import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
                                       execParser, footer, fullDesc, header,
                                       help, helper, info, long, metavar, option,
                                       progDesc, short, showDefault, strOption,
-                                      value, (<**>))
+                                      switch, value, (<**>))
 import           Paths_wordpuzzle    (version)
 import           Text.Read           (readMaybe)
 import           WordPuzzle          (ValidationError (..), checkLetters,
@@ -22,9 +22,10 @@ import           WordPuzzle          (ValidationError (..), checkLetters,
 
 -- | Valid command line options.
 data Opts = Opts
-              { size       :: Int       -- ^ Minimum word size
+              { size       :: Int       -- ^ Minimum word size (4–9 characters)
               , letters    :: String    -- ^ Letters to make words (4–9 characters)
               , dictionary :: FilePath  -- ^ Dictionary to search
+              , repeats    :: Bool      -- ^ Allow letters to repeat
               } deriving (Show)
 
 -- | Applicative structure for parser command line options.
@@ -33,14 +34,14 @@ options = Opts
   <$> option readerSize
       ( long "size"
      <> short 's'
-     <> help "Minimum word size (value from 1..9)"
+     <> help "Minimum word size is (4–9)"
      <> showDefault
      <> value 4
      <> metavar "INT" )
   <*> option readerLetters
       ( long "letters"
      <> short 'l'
-     <> help "Letters to make words (4 to 9 unique lowercase letters)"
+     <> help "4-9 unique lowercase letters to make words"
      <> metavar "STRING" )
   <*> strOption
       ( long "dictionary"
@@ -49,14 +50,21 @@ options = Opts
      <> showDefault
      <> value "dictionary"
      <> metavar "FILENAME" )
+  <*> switch
+      ( long "repeats"
+     <> short 'r'
+     <> help "Allow letters to repeat (like Spelling Bee)" )
 
--- | Read size in range from 1 to 9 (minimum word size).
+-- | Read size in range from 4 to 9 (minimum word size).
 readerSize :: ReadM Int -- ^ Size
 readerSize = eitherReader readSizeOption
 
 -- | Read an alphabetic string (letters of puzzle).
 readerLetters :: ReadM String -- ^ from 4 to 9 letters to make words
-readerLetters = eitherReader checkLetters
+readerLetters = eitherReader $ \ls ->
+  case checkLetters ls of
+    Left err -> Left (show err)
+    Right v  -> Right v
 
 -- | Read application version from cabal configuration.
 packageVersion :: String -- ^ Version string
@@ -72,11 +80,13 @@ optsParser = info (options <**> helper)
 
 -- | Process size read from a command line option.
 readSizeOption :: String            -- ^ string value to check as a valid size
-               -> Either String Int -- ^ Left unexpected size or Right size
+               -> Either String Int -- ^ Left error message or Right size
 readSizeOption ss =
   let s = (readMaybe ss :: Maybe Int) in
   case s of
-    Just i  -> checkSize i
+    Just i  -> case checkSize i of
+                 Left err -> Left (show err)
+                 Right v  -> Right v
     Nothing -> Left (show (UnexpectedValue ss))
 
 -- | Main.
@@ -84,7 +94,7 @@ readSizeOption ss =
 main :: IO ()
 main = do
   opts <- execParser optsParser
-  let validation = validate (size opts) (letters opts) (dictionary opts)
+  let validation = validate (repeats opts) (size opts) (letters opts) (dictionary opts)
   case toEither validation of
     Left errors  -> mapM_ print errors -- Print all validation errors
     Right puzzle -> solve puzzle
