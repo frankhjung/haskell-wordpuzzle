@@ -34,14 +34,14 @@ options = Opts
   <$> option readerSize
       ( long "size"
      <> short 's'
-     <> help "Minimum word size (value from 4..9)"
+     <> help "Minimum word size is 4"
      <> showDefault
      <> value 4
      <> metavar "INT" )
   <*> option readerLetters
       ( long "letters"
      <> short 'l'
-     <> help "4–9 unique lowercase letters to make words"
+     <> help "4-9 unique lowercase letters to make words"
      <> metavar "STRING" )
   <*> strOption
       ( long "dictionary"

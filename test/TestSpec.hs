@@ -2,6 +2,7 @@
 
 module Main(main) where
 
+import           Data.Ix    (inRange)
 import           Test.Hspec (context, describe, hspec, it, shouldBe)
 import           WordPuzzle (ValidationError (..), checkLetters, checkSize,
                              nineLetters, spellingBee)
@@ -86,3 +87,15 @@ main = hspec $ do
     context "when the letter pool has uppercase letters" $
       it "returns false" $
         spellingBee "Abcd" "abc" `shouldBe` False
+
+  describe "solver length predicate" $ do
+    let pS :: Bool -> Int -> String -> Bool
+        pS repeats size = if repeats
+                          then (>= size) . length
+                          else inRange (size, 9) . length
+    context "repeats allowed" $
+      it "permits words longer than the letter pool" $
+        pS True 4 "aaaaaaaa" `shouldBe` True
+    context "repeats forbidden" $
+      it "rejects words longer than 9 characters" $
+        pS False 4 "abcdefghij" `shouldBe` False

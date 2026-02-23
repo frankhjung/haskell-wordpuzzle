@@ -93,7 +93,7 @@ validateLetters ls = bool (Failure [InvalidLetters ls]) (Success ls) (isLetters 
 isSize :: Int -> Bool
 isSize = inRange (4,9)
 
--- | Check that the word size (length) is within the valid range from 4 to 9.
+-- | Check that the we have betweem 4 and 9 characters to make words.
 --
 -- >>> checkSize 10
 -- Left "expected value in range (4, 9) got 10"
@@ -141,10 +141,11 @@ hasMandatory = elem
 -- Where each word:
 --
 -- * must be greater than the minimum word length
--- * must be no more than 9 characters long
 -- * must contain mandatory character
 -- * must contain only valid characters
--- * must not exceed valid character frequency
+-- * if repeats are not allowed, must not exceed valid character frequency
+-- * when repeats are enabled there is no upper limit on word length; the word
+--   may be longer than the letter pool itself.
 --
 -- Example:
 --
@@ -161,8 +162,6 @@ solve wordpuzzle = do
                          then (>= size puzzle) . length
                          else inRange (size puzzle, 9) . length)
         pM = Predicate (hasMandatory (mandatory puzzle))
-        -- ensure the supplied pool of letters itself is valid; if not, no
-        -- dictionary words should match the puzzle.
         validLetters = isLetters (letters puzzle)
         pL = Predicate $ if validLetters
                          then if repeats puzzle
@@ -195,7 +194,7 @@ spellingBee ::
   -> Bool       -- ^ true if dictionary word matches letters
 spellingBee ls ys = isLetters ls && go ls ys
   where
-    go _ []     = True -- if all characters are removed, the word is valid
-    go ls' (y:ys') -- guard against invalid letter pools
-      | y `elem` ls' = go ls' ys' -- if the character is valid, remove it from the word and continue checking
-      | otherwise    = False -- if the character is not valid, the word does not match
+    go _ []     = True  -- all characters in the word have been checked and are valid
+    go ls' (y:ys')  -- guard against invalid letter pools
+      | y `elem` ls' = go ls' ys' -- character is valid; continue checking the remaining characters
+      | otherwise    = False -- character is not valid; the word does not match the allowed letters

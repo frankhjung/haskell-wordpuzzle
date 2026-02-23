@@ -14,6 +14,15 @@ Here we are using a subset of the British dictionary from the
 
 ## Documentation
 
+Generated haddock gets written to the
+`dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.0/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/`
+directory. Copy this content to the `doc/html/wordpuzzle` directory for easier
+access.
+
+```bash
+cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.0/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* doc/html/wordpuzzle/
+```
+
 - [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
   - [criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
