@@ -13,13 +13,13 @@ main = hspec $ do
   describe "checkSize" $ do
     context "too small" $
       it "returns Left" $
-        checkSize 0 `shouldBe` Left (show (InvalidSize (4,9) 0))
+        checkSize 0 `shouldBe` Left (InvalidSize (4,9) 0)
     context "just below minimum" $
       it "returns Left" $
-        checkSize 3 `shouldBe` Left (show (InvalidSize (4,9) 3))
+        checkSize 3 `shouldBe` Left (InvalidSize (4,9) 3)
     context "too large" $
       it "returns Left" $
-        checkSize 10 `shouldBe` Left (show (InvalidSize (4,9) 10))
+        checkSize 10 `shouldBe` Left (InvalidSize (4,9) 10)
     context "size in range" $
       it "returns Right" $
         checkSize 4 `shouldBe` Right 4
@@ -27,7 +27,7 @@ main = hspec $ do
   describe "checkLetters" $ do
     context "fewer than 4 letters" $
       it "returns Left" $
-        checkLetters "abc" `shouldBe` Left (show (InvalidLetters "abc"))
+        checkLetters "abc" `shouldBe` Left (InvalidLetters "abc")
     context "4 lowercase letters (lower bound)" $
       it "returns Right" $
         checkLetters "abcd" `shouldBe` Right "abcd"
@@ -39,13 +39,13 @@ main = hspec $ do
         checkLetters "abcdefghi" `shouldBe` Right "abcdefghi"
     context "mixed case letters" $
       it "returns Left" $
-        checkLetters "abcdeFghi" `shouldBe` Left (show (InvalidLetters "abcdeFghi"))
+        checkLetters "abcdeFghi" `shouldBe` Left (InvalidLetters "abcdeFghi")
     context "duplicate characters" $
       it "returns Left" $
-        checkLetters "abca" `shouldBe` Left (show (InvalidLetters "abca"))
+        checkLetters "abca" `shouldBe` Left (InvalidLetters "abca")
     context "too many letters" $
       it "returns Left" $
-        checkLetters "abcdefghij" `shouldBe` Left (show (InvalidLetters "abcdefghij"))
+        checkLetters "abcdefghij" `shouldBe` Left (InvalidLetters "abcdefghij")
 
   describe "nineLetters" $ do
     -- use a valid pool (unique letters, length between 4 and 9)

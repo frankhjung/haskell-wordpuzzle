@@ -14,14 +14,18 @@ Here we are using a subset of the British dictionary from the
 
 ## Documentation
 
-Generated haddock gets written to the
-`dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.0/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/`
-directory. Copy this content to the `doc/html/wordpuzzle` directory for easier
-access.
+Generated haddock gets written to a build-specific path under `dist-newstyle`.
+The exact subdirectory depends on the GHC version and architecture, so we use a
+glob to copy the now‑famous `wordpuzzle` html output into the repository tree
+for browsing.
 
 ```bash
-cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.0/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* doc/html/wordpuzzle/
+cp -r \
+  dist-newstyle/build/*/wordpuzzle-*/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* \
+  doc/html/wordpuzzle/
 ```
+
+(Alternatively run `make doc`, which performs the copy automatically.)
 
 - [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
@@ -87,6 +91,8 @@ of what this program does is:
   - word is greater than or equal to minimum character length
   - word contains mandatory character (the first letter of the input string)
   - word contains other characters in correct frequencies
+- when `--repeats` is specified there is no 9‑letter upper bound; longer words
+  are allowed, as in the NYT Spelling Bee variant
 
 ## Validation
 

@@ -23,14 +23,14 @@
 </span><span id="line-23"></span><span class="annot"><span class="hs-comment">-- | Valid command line options.</span></span><span>
 </span><span id="line-24"></span><span class="hs-keyword">data</span><span> </span><span id="Opts"><span class="annot"><a href="Main.html#Opts"><span class="hs-identifier hs-var">Opts</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Opts"><span class="annot"><a href="Main.html#Opts"><span class="hs-identifier hs-var">Opts</span></a></span></span><span>
 </span><span id="line-25"></span><span>              </span><span class="hs-special">{</span><span> </span><span id="size"><span class="annot"><span class="annottext">Opts -&gt; Int
-</span><a href="Main.html#size"><span class="hs-identifier hs-var hs-var">size</span></a></span></span><span>       </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>       </span><span class="annot"><span class="hs-comment">-- ^ Minimum word size</span></span><span>
+</span><a href="Main.html#size"><span class="hs-identifier hs-var hs-var">size</span></a></span></span><span>       </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>       </span><span class="annot"><span class="hs-comment">-- ^ Minimum word size (4&#8211;9 characters)</span></span><span>
 </span><span id="line-26"></span><span>              </span><span class="hs-special">,</span><span> </span><span id="letters"><span class="annot"><span class="annottext">Opts -&gt; String
 </span><a href="Main.html#letters"><span class="hs-identifier hs-var hs-var">letters</span></a></span></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>    </span><span class="annot"><span class="hs-comment">-- ^ Letters to make words (4&#8211;9 characters)</span></span><span>
 </span><span id="line-27"></span><span>              </span><span class="hs-special">,</span><span> </span><span id="dictionary"><span class="annot"><span class="annottext">Opts -&gt; String
 </span><a href="Main.html#dictionary"><span class="hs-identifier hs-var hs-var">dictionary</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>  </span><span class="annot"><span class="hs-comment">-- ^ Dictionary to search</span></span><span>
 </span><span id="line-28"></span><span>              </span><span class="hs-special">,</span><span> </span><span id="repeats"><span class="annot"><span class="annottext">Opts -&gt; Bool
 </span><a href="Main.html#repeats"><span class="hs-identifier hs-var hs-var">repeats</span></a></span></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>      </span><span class="annot"><span class="hs-comment">-- ^ Allow letters to repeat</span></span><span>
-</span><span id="line-29"></span><span>              </span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679095905"><span id="local-6989586621679095914"><span id="local-6989586621679095918"><span class="annot"><span class="annottext">Int -&gt; Opts -&gt; ShowS
+</span><span id="line-29"></span><span>              </span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679096046"><span id="local-6989586621679096055"><span id="local-6989586621679096059"><span class="annot"><span class="annottext">Int -&gt; Opts -&gt; ShowS
 [Opts] -&gt; ShowS
 Opts -&gt; String
 (Int -&gt; Opts -&gt; ShowS)
@@ -74,7 +74,7 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Mod OptionFields Int
 forall (f :: * -&gt; *) a. String -&gt; Mod f a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#help"><span class="hs-identifier hs-var">help</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Minimum word size is 4&quot;</span></span><span>
+</span><span class="hs-string">&quot;Minimum word size is (4&#8211;9)&quot;</span></span><span>
 </span><span id="line-38"></span><span>     </span><span class="annot"><span class="annottext">Mod OptionFields Int
 -&gt; Mod OptionFields Int -&gt; Mod OptionFields Int
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
@@ -208,22 +208,40 @@ forall a. (String -&gt; Either String a) -&gt; ReadM a
 </span><span id="line-64"></span><span id="readerLetters"><span class="annot"><span class="annottext">readerLetters :: ReadM String
 </span><a href="Main.html#readerLetters"><span class="hs-identifier hs-var hs-var">readerLetters</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(String -&gt; Either String String) -&gt; ReadM String
 forall a. (String -&gt; Either String a) -&gt; ReadM a
-</span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#eitherReader"><span class="hs-identifier hs-var">eitherReader</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; Either String String
-</span><a href="WordPuzzle.html#checkLetters"><span class="hs-identifier hs-var">checkLetters</span></a></span><span>
-</span><span id="line-65"></span><span>
-</span><span id="line-66"></span><span class="annot"><span class="hs-comment">-- | Read application version from cabal configuration.</span></span><span>
-</span><span id="line-67"></span><span class="annot"><a href="Main.html#packageVersion"><span class="hs-identifier hs-type">packageVersion</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-comment">-- ^ Version string</span></span><span>
-</span><span id="line-68"></span><span id="packageVersion"><span class="annot"><span class="annottext">packageVersion :: String
+</span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#eitherReader"><span class="hs-identifier hs-var">eitherReader</span></a></span><span> </span><span class="annot"><span class="annottext">((String -&gt; Either String String) -&gt; ReadM String)
+-&gt; (String -&gt; Either String String) -&gt; ReadM String
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679096067"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679096067"><span class="hs-identifier hs-var">ls</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-65"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">String -&gt; Either ValidationError String
+</span><a href="WordPuzzle.html#checkLetters"><span class="hs-identifier hs-var">checkLetters</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679096067"><span class="hs-identifier hs-var">ls</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-66"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679096068"><span class="annot"><span class="annottext">ValidationError
+</span><a href="#local-6989586621679096068"><span class="hs-identifier hs-var">err</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; Either String String
+forall a b. a -&gt; Either a b
+</span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ValidationError -&gt; String
+forall a. Show a =&gt; a -&gt; String
+</span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">ValidationError
+</span><a href="#local-6989586621679096068"><span class="hs-identifier hs-var">err</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-67"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679096070"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679096070"><span class="hs-identifier hs-var">v</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; Either String String
+forall a b. b -&gt; Either a b
+</span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679096070"><span class="hs-identifier hs-var">v</span></a></span><span>
+</span><span id="line-68"></span><span>
+</span><span id="line-69"></span><span class="annot"><span class="hs-comment">-- | Read application version from cabal configuration.</span></span><span>
+</span><span id="line-70"></span><span class="annot"><a href="Main.html#packageVersion"><span class="hs-identifier hs-type">packageVersion</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-comment">-- ^ Version string</span></span><span>
+</span><span id="line-71"></span><span id="packageVersion"><span class="annot"><span class="annottext">packageVersion :: String
 </span><a href="Main.html#packageVersion"><span class="hs-identifier hs-var hs-var">packageVersion</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Version: &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Version -&gt; String
 </span><span class="hs-identifier hs-var">showVersion</span></span><span> </span><span class="annot"><span class="annottext">Version
 </span><a href="Paths_wordpuzzle.html#version"><span class="hs-identifier hs-var">version</span></a></span><span>
-</span><span id="line-69"></span><span>
-</span><span id="line-70"></span><span class="annot"><span class="hs-comment">-- | Parse arguments.</span></span><span>
-</span><span id="line-71"></span><span class="annot"><a href="Main.html#optsParser"><span class="hs-identifier hs-type">optsParser</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Types.html#ParserInfo"><span class="hs-identifier hs-type">ParserInfo</span></a></span><span> </span><span class="annot"><a href="Main.html#Opts"><span class="hs-identifier hs-type">Opts</span></a></span><span>
-</span><span id="line-72"></span><span id="optsParser"><span class="annot"><span class="annottext">optsParser :: ParserInfo Opts
+</span><span id="line-72"></span><span>
+</span><span id="line-73"></span><span class="annot"><span class="hs-comment">-- | Parse arguments.</span></span><span>
+</span><span id="line-74"></span><span class="annot"><a href="Main.html#optsParser"><span class="hs-identifier hs-type">optsParser</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Types.html#ParserInfo"><span class="hs-identifier hs-type">ParserInfo</span></a></span><span> </span><span class="annot"><a href="Main.html#Opts"><span class="hs-identifier hs-type">Opts</span></a></span><span>
+</span><span id="line-75"></span><span id="optsParser"><span class="annot"><span class="annottext">optsParser :: ParserInfo Opts
 </span><a href="Main.html#optsParser"><span class="hs-identifier hs-var hs-var">optsParser</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser Opts -&gt; InfoMod Opts -&gt; ParserInfo Opts
 forall a. Parser a -&gt; InfoMod a -&gt; ParserInfo a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#info"><span class="hs-identifier hs-var">info</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Parser Opts
@@ -232,95 +250,107 @@ forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f (a -&gt; b) -&gt; f
 </span><span class="hs-operator hs-var">&lt;**&gt;</span></span><span> </span><span class="annot"><span class="annottext">Parser (Opts -&gt; Opts)
 forall a. Parser (a -&gt; a)
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Extra.html#helper"><span class="hs-identifier hs-var">helper</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-73"></span><span>         </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">String -&gt; InfoMod Opts
+</span><span id="line-76"></span><span>         </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">String -&gt; InfoMod Opts
 forall a. String -&gt; InfoMod a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#header"><span class="hs-identifier hs-var">header</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;https://github.com/frankhjung/haskell-wordpuzzle&quot;</span></span><span>
-</span><span id="line-74"></span><span>        </span><span class="annot"><span class="annottext">InfoMod Opts -&gt; InfoMod Opts -&gt; InfoMod Opts
+</span><span id="line-77"></span><span>        </span><span class="annot"><span class="annottext">InfoMod Opts -&gt; InfoMod Opts -&gt; InfoMod Opts
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">InfoMod Opts
 forall a. InfoMod a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#fullDesc"><span class="hs-identifier hs-var">fullDesc</span></a></span><span>
-</span><span id="line-75"></span><span>        </span><span class="annot"><span class="annottext">InfoMod Opts -&gt; InfoMod Opts -&gt; InfoMod Opts
+</span><span id="line-78"></span><span>        </span><span class="annot"><span class="annottext">InfoMod Opts -&gt; InfoMod Opts -&gt; InfoMod Opts
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; InfoMod Opts
 forall a. String -&gt; InfoMod a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#progDesc"><span class="hs-identifier hs-var">progDesc</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Solve word puzzles&quot;</span></span><span>
-</span><span id="line-76"></span><span>        </span><span class="annot"><span class="annottext">InfoMod Opts -&gt; InfoMod Opts -&gt; InfoMod Opts
+</span><span id="line-79"></span><span>        </span><span class="annot"><span class="annottext">InfoMod Opts -&gt; InfoMod Opts -&gt; InfoMod Opts
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; InfoMod Opts
 forall a. String -&gt; InfoMod a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Builder.html#footer"><span class="hs-identifier hs-var">footer</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="Main.html#packageVersion"><span class="hs-identifier hs-var">packageVersion</span></a></span><span> </span><span class="hs-special">)</span><span>
-</span><span id="line-77"></span><span>
-</span><span id="line-78"></span><span class="annot"><span class="hs-comment">-- | Process size read from a command line option.</span></span><span>
-</span><span id="line-79"></span><span class="annot"><a href="Main.html#readSizeOption"><span class="hs-identifier hs-type">readSizeOption</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>            </span><span class="annot"><span class="hs-comment">-- ^ string value to check as a valid size</span></span><span>
-</span><span id="line-80"></span><span>               </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><span class="hs-comment">-- ^ Left unexpected size or Right size</span></span><span>
-</span><span id="line-81"></span><span id="readSizeOption"><span class="annot"><span class="annottext">readSizeOption :: String -&gt; Either String Int
-</span><a href="Main.html#readSizeOption"><span class="hs-identifier hs-var hs-var">readSizeOption</span></a></span></span><span> </span><span id="local-6989586621679095928"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679095928"><span class="hs-identifier hs-var">ss</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-82"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679095931"><span class="annot"><span class="annottext">s :: Maybe Int
-</span><a href="#local-6989586621679095931"><span class="hs-identifier hs-var hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Maybe Int
+</span><span id="line-80"></span><span>
+</span><span id="line-81"></span><span class="annot"><span class="hs-comment">-- | Process size read from a command line option.</span></span><span>
+</span><span id="line-82"></span><span class="annot"><a href="Main.html#readSizeOption"><span class="hs-identifier hs-type">readSizeOption</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>            </span><span class="annot"><span class="hs-comment">-- ^ string value to check as a valid size</span></span><span>
+</span><span id="line-83"></span><span>               </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><span class="hs-comment">-- ^ Left error message or Right size</span></span><span>
+</span><span id="line-84"></span><span id="readSizeOption"><span class="annot"><span class="annottext">readSizeOption :: String -&gt; Either String Int
+</span><a href="Main.html#readSizeOption"><span class="hs-identifier hs-var hs-var">readSizeOption</span></a></span></span><span> </span><span id="local-6989586621679096073"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679096073"><span class="hs-identifier hs-var">ss</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-85"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679096076"><span class="annot"><span class="annottext">s :: Maybe Int
+</span><a href="#local-6989586621679096076"><span class="hs-identifier hs-var hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Maybe Int
 forall a. Read a =&gt; String -&gt; Maybe a
 </span><span class="hs-identifier hs-var">readMaybe</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679095928"><span class="hs-identifier hs-var">ss</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">in</span><span>
-</span><span id="line-83"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe Int
-</span><a href="#local-6989586621679095931"><span class="hs-identifier hs-var">s</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-84"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679095932"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679095932"><span class="hs-identifier hs-var">i</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Either String Int
+</span><a href="#local-6989586621679096073"><span class="hs-identifier hs-var">ss</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">in</span><span>
+</span><span id="line-86"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe Int
+</span><a href="#local-6989586621679096076"><span class="hs-identifier hs-var">s</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-87"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679096077"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096077"><span class="hs-identifier hs-var">i</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Either ValidationError Int
 </span><a href="WordPuzzle.html#checkSize"><span class="hs-identifier hs-var">checkSize</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679095932"><span class="hs-identifier hs-var">i</span></a></span><span>
-</span><span id="line-85"></span><span>    </span><span class="annot"><span class="annottext">Maybe Int
+</span><a href="#local-6989586621679096077"><span class="hs-identifier hs-var">i</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-88"></span><span>                 </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679096078"><span class="annot"><span class="annottext">ValidationError
+</span><a href="#local-6989586621679096078"><span class="hs-identifier hs-var">err</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; Either String Int
+forall a b. a -&gt; Either a b
+</span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ValidationError -&gt; String
+forall a. Show a =&gt; a -&gt; String
+</span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">ValidationError
+</span><a href="#local-6989586621679096078"><span class="hs-identifier hs-var">err</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-89"></span><span>                 </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679096079"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096079"><span class="hs-identifier hs-var">v</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Either String Int
+forall a b. b -&gt; Either a b
+</span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679096079"><span class="hs-identifier hs-var">v</span></a></span><span>
+</span><span id="line-90"></span><span>    </span><span class="annot"><span class="annottext">Maybe Int
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; Either String Int
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ValidationError -&gt; String
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; ValidationError
 </span><a href="WordPuzzle.html#UnexpectedValue"><span class="hs-identifier hs-var">UnexpectedValue</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679095928"><span class="hs-identifier hs-var">ss</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-86"></span><span>
-</span><span id="line-87"></span><span class="hs-comment">-- | Main.</span><span>
-</span><span id="line-88"></span><span class="hs-comment">-- Calls WordPuzzle.solve with options from command line.</span><span>
-</span><span id="line-89"></span><span class="annot"><a href="Main.html#main"><span class="hs-identifier hs-type">main</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-90"></span><span id="main"><span class="annot"><span class="annottext">IO ()
+</span><a href="#local-6989586621679096073"><span class="hs-identifier hs-var">ss</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-91"></span><span>
+</span><span id="line-92"></span><span class="hs-comment">-- | Main.</span><span>
+</span><span id="line-93"></span><span class="hs-comment">-- Calls WordPuzzle.solve with options from command line.</span><span>
+</span><span id="line-94"></span><span class="annot"><a href="Main.html#main"><span class="hs-identifier hs-type">main</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-95"></span><span id="main"><span class="annot"><span class="annottext">IO ()
 </span><a href="Main.html#main"><span class="hs-identifier hs-var hs-var hs-var">main</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-91"></span><span>  </span><span id="local-6989586621679095935"><span class="annot"><span class="annottext">Opts
-</span><a href="#local-6989586621679095935"><span class="hs-identifier hs-var">opts</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParserInfo Opts -&gt; IO Opts
+</span><span id="line-96"></span><span>  </span><span id="local-6989586621679096081"><span class="annot"><span class="annottext">Opts
+</span><a href="#local-6989586621679096081"><span class="hs-identifier hs-var">opts</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParserInfo Opts -&gt; IO Opts
 forall a. ParserInfo a -&gt; IO a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/optparse-applicative-0.18.1.0-c7ed1e5b3f5639ec1660c59b8bdda790754470a42cd1d140f760bb44502eee00/share/doc/html/src/Options.Applicative.Extra.html#execParser"><span class="hs-identifier hs-var">execParser</span></a></span><span> </span><span class="annot"><span class="annottext">ParserInfo Opts
 </span><a href="Main.html#optsParser"><span class="hs-identifier hs-var">optsParser</span></a></span><span>
-</span><span id="line-92"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679095936"><span class="annot"><span class="annottext">validation :: Validation [ValidationError] WordPuzzle
-</span><a href="#local-6989586621679095936"><span class="hs-identifier hs-var hs-var">validation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span id="line-97"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679096082"><span class="annot"><span class="annottext">validation :: Validation [ValidationError] WordPuzzle
+</span><a href="#local-6989586621679096082"><span class="hs-identifier hs-var hs-var">validation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
 -&gt; Int
 -&gt; String
 -&gt; String
 -&gt; Validation [ValidationError] WordPuzzle
 </span><a href="WordPuzzle.html#validate"><span class="hs-identifier hs-var">validate</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Opts -&gt; Bool
 </span><a href="Main.html#repeats"><span class="hs-identifier hs-var">repeats</span></a></span><span> </span><span class="annot"><span class="annottext">Opts
-</span><a href="#local-6989586621679095935"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Opts -&gt; Int
+</span><a href="#local-6989586621679096081"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Opts -&gt; Int
 </span><a href="Main.html#size"><span class="hs-identifier hs-var">size</span></a></span><span> </span><span class="annot"><span class="annottext">Opts
-</span><a href="#local-6989586621679095935"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Opts -&gt; String
+</span><a href="#local-6989586621679096081"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Opts -&gt; String
 </span><a href="Main.html#letters"><span class="hs-identifier hs-var">letters</span></a></span><span> </span><span class="annot"><span class="annottext">Opts
-</span><a href="#local-6989586621679095935"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Opts -&gt; String
+</span><a href="#local-6989586621679096081"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Opts -&gt; String
 </span><a href="Main.html#dictionary"><span class="hs-identifier hs-var">dictionary</span></a></span><span> </span><span class="annot"><span class="annottext">Opts
-</span><a href="#local-6989586621679095935"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-93"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Validation [ValidationError] WordPuzzle
+</span><a href="#local-6989586621679096081"><span class="hs-identifier hs-var">opts</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-98"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Validation [ValidationError] WordPuzzle
 -&gt; Either [ValidationError] WordPuzzle
 forall e a. Validation e a -&gt; Either e a
 </span><a href="file:///home/frank/.cabal/store/ghc-9.6.7/validation-1.1.3-74611a6a1b10aa0ae8ed08932ee87a42f6a01a560caef6aa428b8110328cc17b/share/doc/html/src/Data.Validation.html#toEither"><span class="hs-identifier hs-var">toEither</span></a></span><span> </span><span class="annot"><span class="annottext">Validation [ValidationError] WordPuzzle
-</span><a href="#local-6989586621679095936"><span class="hs-identifier hs-var">validation</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-94"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679095937"><span class="annot"><span class="annottext">[ValidationError]
-</span><a href="#local-6989586621679095937"><span class="hs-identifier hs-var">errors</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(ValidationError -&gt; IO ()) -&gt; [ValidationError] -&gt; IO ()
+</span><a href="#local-6989586621679096082"><span class="hs-identifier hs-var">validation</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-99"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679096083"><span class="annot"><span class="annottext">[ValidationError]
+</span><a href="#local-6989586621679096083"><span class="hs-identifier hs-var">errors</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(ValidationError -&gt; IO ()) -&gt; [ValidationError] -&gt; IO ()
 forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Foldable t, Monad m) =&gt;
 (a -&gt; m b) -&gt; t a -&gt; m ()
 </span><span class="hs-identifier hs-var">mapM_</span></span><span> </span><span class="annot"><span class="annottext">ValidationError -&gt; IO ()
 forall a. Show a =&gt; a -&gt; IO ()
 </span><span class="hs-identifier hs-var">print</span></span><span> </span><span class="annot"><span class="annottext">[ValidationError]
-</span><a href="#local-6989586621679095937"><span class="hs-identifier hs-var">errors</span></a></span><span> </span><span class="hs-comment">-- Print all validation errors</span><span>
-</span><span id="line-95"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679095939"><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679095939"><span class="hs-identifier hs-var">puzzle</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">WordPuzzle -&gt; IO ()
+</span><a href="#local-6989586621679096083"><span class="hs-identifier hs-var">errors</span></a></span><span> </span><span class="hs-comment">-- Print all validation errors</span><span>
+</span><span id="line-100"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679096085"><span class="annot"><span class="annottext">WordPuzzle
+</span><a href="#local-6989586621679096085"><span class="hs-identifier hs-var">puzzle</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">WordPuzzle -&gt; IO ()
 </span><a href="WordPuzzle.html#solve"><span class="hs-identifier hs-var">solve</span></a></span><span> </span><span class="annot"><span class="annottext">WordPuzzle
-</span><a href="#local-6989586621679095939"><span class="hs-identifier hs-var">puzzle</span></a></span><span>
-</span><span id="line-96"></span></pre></body></html>
+</span><a href="#local-6989586621679096085"><span class="hs-identifier hs-var">puzzle</span></a></span><span>
+</span><span id="line-101"></span></pre></body></html>

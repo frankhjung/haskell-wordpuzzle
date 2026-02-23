@@ -53,6 +53,7 @@ data ValidationError =
     InvalidSize (Int, Int) Int      -- ^ expected range and actual size
     | InvalidLetters String         -- ^ actual letters (should be 4-9 unique lowercase letters)
     | UnexpectedValue String        -- ^ couldn't parse value
+    deriving (Eq)
 
 -- | Show 'ValidationError' as string.
 instance Show ValidationError where
@@ -93,19 +94,19 @@ validateLetters ls = bool (Failure [InvalidLetters ls]) (Success ls) (isLetters 
 isSize :: Int -> Bool
 isSize = inRange (4,9)
 
--- | Check that the we have betweem 4 and 9 characters to make words.
+-- | Check that we have between 4 and 9 characters to make words.
 --
 -- >>> checkSize 10
--- Left "expected value in range (4, 9) got 10"
+-- Left (InvalidSize (4, 9) 10)
 --
 -- >>> checkSize 1
--- Left "expected value in range (4, 9) got 1"
+-- Left (InvalidSize (4, 9) 1)
 --
 -- >>> checkSize 4
 -- Right 4
 checkSize :: Int                 -- ^ size of word to check
-            -> Either String Int -- ^ Left unexpected size or Right size
-checkSize s = bool (Left (show (InvalidSize (4, 9) s))) (Right s) (isSize s)
+            -> Either ValidationError Int -- ^ Left unexpected size or Right size
+checkSize s = bool (Left (InvalidSize (4, 9) s)) (Right s) (isSize s)
 
 -- | Are letters valid?  Valid strings contain between 4 and 9
 -- *unique* lowercase letters.
@@ -129,8 +130,8 @@ isLetters ls =
 
 -- | Check that letters are lowercase alphabetic characters.
 checkLetters :: String                -- ^ characters to check
-              -> Either String String -- ^ valid lowercase letters
-checkLetters ls = bool (Left (show (InvalidLetters ls))) (Right ls) (isLetters ls)
+              -> Either ValidationError String -- ^ valid lowercase letters
+checkLetters ls = bool (Left (InvalidLetters ls)) (Right ls) (isLetters ls)
 
 -- | Does word contain the mandatory letter?
 hasMandatory :: Char -> String -> Bool
