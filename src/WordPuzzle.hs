@@ -158,16 +158,27 @@ solve wordpuzzle = do
     go :: WordPuzzle -> [String] -> [String]
     go puzzle = filter (getPredicate (pS <> pM <> pL))
       where
-        pS = Predicate (if repeats puzzle
-                         then (>= size puzzle) . length
-                         else inRange (size puzzle, 9) . length)
-        pM = Predicate (hasMandatory (mandatory puzzle))
-        validLetters = isLetters (letters puzzle)
-        pL = Predicate $ if validLetters
-                         then if repeats puzzle
-                              then spellingBee (letters puzzle)
-                              else nineLetters (letters puzzle)
-                         else const False
+        pS = Predicate $ checkLength (repeats puzzle) (size puzzle)
+        pM = Predicate $ hasMandatory (mandatory puzzle)
+        pL = Predicate $ checkLettersPool (repeats puzzle) (letters puzzle)
+
+-- | Check word length based on whether repeats are allowed.
+checkLength :: Bool -- ^ allow repeats?
+            -> Int  -- ^ minimum word size
+            -> String -- ^ word to check
+            -> Bool -- ^ true if word length is valid
+checkLength True  s = (>= s) . length
+checkLength False s = inRange (s, 9) . length
+
+-- | Check if a word matches the letter pool based on whether repeats are allowed.
+checkLettersPool :: Bool -- ^ allow repeats?
+                  -> String -- ^ valid letters in letter pool
+                  -> String -- ^ word to check
+                  -> Bool -- ^ true if word matches letter pool
+checkLettersPool r ls
+  | not (isLetters ls) = const False
+  | r                  = spellingBee ls
+  | otherwise          = nineLetters ls
 
 -- | Check if a word contains only characters from a letters list.
 --
