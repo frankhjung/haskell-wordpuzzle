@@ -1,7 +1,6 @@
 *.aux
 *.chi
 *.chs.h
-dictionary
 dist
 dist-newstyle
 *.dyn_hi

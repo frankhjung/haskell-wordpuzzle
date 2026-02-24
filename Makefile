@@ -62,15 +62,18 @@ bench:
 exec:
 	cabal exec $(TARGET) -- $(ARGS)
 
-.PHONY:	dictionary
+.PHONY: dictionary
 dictionary:
 ifeq (,$(wildcard /usr/share/dict/british-english-huge))
 	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
-	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
+	@curl -fS -s https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
 else
 	@echo using dictionary from /usr/share/dict/british-english-huge
-	@ln -sf /usr/share/dict/british-english-huge dictionary
+	@cp /usr/share/dict/british-english-huge dictionary
 endif
+	@echo filtering dictionary ...
+	@LC_ALL=C grep -E '^[a-z]{4,}$$' dictionary | sort -u > dictionary.tmp
+	@mv dictionary.tmp dictionary
 
 .PHONY: setup
 setup:

@@ -57,15 +57,18 @@ bench:
 exec:
 	@stack exec -- $(TARGET) $(ARGS) +RTS -s
 
-.PHONY:	dictionary
+.PHONY: dictionary
 dictionary:
-ifneq ("$(wildcard /usr/share/dict/british-english-huge)","")
-	@echo using dictionary from /usr/share/dict/british-english-huge
-	@ln -sf /usr/share/dict/british-english-huge dictionary
-else
+ifeq (,$(wildcard /usr/share/dict/british-english-huge))
 	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
-	@curl https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
+	@curl -fS -s https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
+else
+	@echo using dictionary from /usr/share/dict/british-english-huge
+	@cp /usr/share/dict/british-english-huge dictionary
 endif
+	@echo filtering dictionary ...
+	@LC_ALL=C grep -E '^[a-z]{4,}$$' dictionary | sort -u > dictionary.tmp
+	@mv dictionary.tmp dictionary
 
 .PHONY:	setup
 setup:
@@ -81,7 +84,6 @@ ghci:
 .PHONY:	clean
 clean:
 	@stack clean
-	@cabal clean
 
 .PHONY:	distclean
 distclean: clean

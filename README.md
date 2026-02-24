@@ -39,6 +39,26 @@ cp -r \
 - [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
 - [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
 
+### Running from GitHub Actions
+
+A manual workflow (`.github/workflows/run-wordpuzzle.yml`) is available that
+fetches the release artefact produced by the build pipeline and executes it on a
+minimal runner. Dispatch the workflow from the **Actions** tab and supply the
+following inputs:
+
+- `SIZE` – minimum word size (defaults to 4)
+- `LETTERS` – letters to use (first character becomes the mandatory letter)
+- `REPEATS` – boolean flag to allow repeated letters (Spelling Bee)
+
+The workflow simply mirrors the local command line usage, e.g.:
+
+```bash
+./wordpuzzle --size=6 --letters=cadevrsoi --repeats
+```
+
+See `doc/deployment.md` for more background on how the run pipeline is
+constructed and how the release artefact is packaged.
+
 ## Package Dependencies
 
 To include a package:
@@ -59,7 +79,7 @@ The default [Makefile](Makefile) builds using the
 To build using [stack](https://docs.haskellstack.org/en/stable/):
 
 ```bash
-make -f stack.mak [target]
+make -f stack.mk [target]
 ```
 
 Stack is required for GitHub pipelines as it provides the correct Haskell
