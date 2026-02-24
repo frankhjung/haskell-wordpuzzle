@@ -1,0 +1,52 @@
+---
+name: Run Wordpuzzle
+
+on: # yamllint disable-line rule:truthy
+  workflow_dispatch:
+    inputs:
+      SIZE:
+        description: "Minimum word size"
+        required: false
+        default: "4"
+        type: string
+      LETTERS:
+        description: "Letters to use"
+        required: true
+        type: string
+      REPEATS:
+        description: "Allow repeated letters"
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  run-wordpuzzle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Download release artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download --repo ${{ github.repository }} --pattern "wordpuzzle-release.tar.gz"
+          tar -xzf wordpuzzle-release.tar.gz
+          echo "EXE_PATH=$(pwd)/wordpuzzle" >> "$GITHUB_ENV"
+
+      - name: Run main with size ${{ inputs.SIZE }} and letters ${{ inputs.LETTERS }}
+        env:
+          SIZE: ${{ inputs.SIZE }}
+          LETTERS: ${{ inputs.LETTERS }}
+          REPEATS: ${{ inputs.REPEATS }}
+        run: |
+          # Extract leading integer component from SIZE
+          SIZE_INT="${SIZE%%[^0-9]*}"
+          # Normalize letters to lowercase
+          LETTERS_LOWER="${LETTERS,,}"
+          # Build argument array
+          ARGS=("--size=$SIZE_INT" "--letters=$LETTERS_LOWER")
+          # Add repeats flag if true
+          [[ "$REPEATS" = "true" ]] && ARGS+=(--repeats)
+          # Run the executable with the appropriate arguments
+          ${{ env.EXE_PATH }} --dictionary=./dictionary "${ARGS[@]}"

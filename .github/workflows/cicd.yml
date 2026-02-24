@@ -1,11 +1,10 @@
 ---
-
 name: haskell wordpuzzle
 
-on:   # yamllint disable-line rule:truthy
+on: # yamllint disable-line rule:truthy
   push:
-    branches: ['master', 'feature*']
-    tags-ignore: ['*']
+    branches: ["**"]
+    tags: ["v*"]
   check_run:
     types: [rerequested, requested_action]
 # yamllint enable
@@ -14,15 +13,17 @@ env:
   STACK_ROOT: ${{ github.workspace }}/.stack-work
 
 jobs:
-
   build:
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
 
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     runs-on: ubuntu-latest
 
     steps:
-
       - name: checkout
         uses: actions/checkout@v3
 
@@ -32,19 +33,15 @@ jobs:
           path: ${{ env.STACK_ROOT }}
           key: ${{ github.ref }}
 
-      - name: check
-        run: cabal check
-
       - name: build
-        run: stack build --verbosity info --pedantic --no-test
+        run: stack build --pedantic --no-test
 
       - name: test
-        run: stack test
+        run: stack test --coverage
 
       - name: bench
         run: |
-          stack bench \
-            --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
+          stack bench --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
 
       - name: haddock
         if: github.ref == 'refs/heads/master'
@@ -59,3 +56,21 @@ jobs:
         with:
           branch: gh-pages
           folder: public
+
+      - name: Package release
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          EXE_PATH=$(find $(stack path --local-install-root)/bin -name wordpuzzle | head -n 1)
+          cp "$EXE_PATH" wordpuzzle
+          tar -czf wordpuzzle-release.tar.gz wordpuzzle dictionary
+
+      - name: Create/Update Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: wordpuzzle-release.tar.gz
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
