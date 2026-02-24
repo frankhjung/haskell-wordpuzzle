@@ -1,5 +1,5 @@
 ---
-name: haskell wordpuzzle
+name: cicd
 
 on: # yamllint disable-line rule:truthy
   push:
@@ -39,32 +39,34 @@ jobs:
       - name: test
         run: stack test --coverage
 
-      - name: bench
+      - name: benchmark
         run: |
           stack bench --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
 
-      - name: haddock
+      - name: pages
         if: github.ref == 'refs/heads/master'
         run: |
           stack haddock --haddock-hyperlink-source
           mv $(stack path --local-doc-root)/ public/
           mv ${{ env.STACK_ROOT }}/benchmark.html public/
 
-      - name: publish
-        if: success() && github.ref == 'refs/heads/master'
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: upload pages
+        if: >
+          success()
+          && github.ref == 'refs/heads/main'
+          && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: public
+          path: public
 
-      - name: Package release
+      - name: package release
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           EXE_PATH=$(find $(stack path --local-install-root)/bin -name wordpuzzle | head -n 1)
           cp "$EXE_PATH" wordpuzzle
           tar -czf wordpuzzle-release.tar.gz wordpuzzle dictionary
 
-      - name: Create/Update Release
+      - name: upload release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:

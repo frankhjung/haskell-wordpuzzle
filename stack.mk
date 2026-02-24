@@ -61,14 +61,13 @@ exec:
 dictionary:
 ifeq (,$(wildcard /usr/share/dict/british-english-huge))
 	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
-	@curl -s https://raw.githubusercontent.com/dwyl/english-words/master/words.txt \
-		| LC_ALL=C sort -u > dictionary
+	@curl -fS -s https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
 else
 	@echo using dictionary from /usr/share/dict/british-english-huge
 	@cp /usr/share/dict/british-english-huge dictionary
 endif
 	@echo filtering dictionary ...
-	@LC_ALL=C grep -E '^[a-z]{4,}$$' dictionary > dictionary.tmp
+	@LC_ALL=C grep -E '^[a-z]{4,}$$' dictionary | sort -u > dictionary.tmp
 	@mv dictionary.tmp dictionary
 
 .PHONY:	setup
