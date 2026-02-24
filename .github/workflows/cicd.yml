@@ -31,7 +31,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.STACK_ROOT }}
-          key: ${{ github.ref }}
+          key: stack-${{ hashFiles('stack.yaml') }}-${{ hashFiles('package.yaml') }}
+          restore-keys: |
+            ${{ github.ref }}
+            stack-{{ hashFiles('stack.yaml') }}
 
       - name: build
         run: stack build --pedantic --no-test
