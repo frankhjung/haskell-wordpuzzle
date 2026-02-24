@@ -1,17 +1,48 @@
+spec:
+  inputs:
+    target_tag:
+      type: string
+      default: ""
+      description: "Release tag to run (e.g. v0.2.0)"
+    size:
+      type: string
+      default: "4"
+      description: "Minimum word size"
+    letters:
+      type: string
+      default: ""
+      description: "Letters to use (blank = use dictionary)"
+    repeats:
+      type: string
+      default: "true"
+      description: "Allow repeated letters (true/false)"
 ---
+include:
+  - component: >-
+      gitlab.com/frankhjung1/haskell-wordpuzzle/run-wordpuzzle@master
+
+variables:
+  TARGET_TAG: $[[ inputs.target_tag ]]
+  SIZE: $[[ inputs.size ]]
+  LETTERS: $[[ inputs.letters ]]
+  REPEATS: $[[ inputs.repeats ]]
+
 stages:
   - build
   - deploy
 
 build_and_test:
   stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "web"
   image:
     name: frankhjung/haskell:${GHC_VERSION}
   variables:
     APP_VERSION: 1.0.0
     CABAL_CONFIG: ${CABAL_DIR}/config
     CABAL_DIR: ${CI_PROJECT_DIR}/.cabal
-    DOC_DIR: dist-newstyle/build/x86_64-linux/ghc-${GHC_VERSION}/${PROJECT}-${APP_VERSION}/x/${PROJECT}/doc/html/${PROJECT}/${PROJECT}
+    DOC_DIR: >-
+      dist-newstyle/build/x86_64-linux/ghc-${GHC_VERSION}/${PROJECT}-${APP_VERSION}/x/${PROJECT}/doc/html/${PROJECT}/${PROJECT}
     GHC_VERSION: 9.6.7
     PROJECT: wordpuzzle
   script:
@@ -39,7 +70,7 @@ build_and_test:
 publish_pages:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: $CI_PIPELINE_SOURCE != "web" && $CI_COMMIT_BRANCH == "master"
   image: alpine:latest
   script:
     - echo Publish pages ...
@@ -89,39 +120,3 @@ package_and_release:
           --form "description=${RELEASE_DESC}" \
           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${CI_COMMIT_TAG}"
       fi
-
-run_wordpuzzle:
-  stage: deploy
-  image: ubuntu:latest
-  needs:
-    - job: package_and_release
-      optional: true
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "web"
-      when: manual
-  variables:
-    SIZE: "4"
-    LETTERS: ""
-    REPEATS: "true"
-    TARGET_TAG: "" # Set this when triggering pipeline manually
-  script:
-    - apt-get update && apt-get install -y curl tar ca-certificates
-    - |
-      if [ -z "${TARGET_TAG}" ]; then
-        echo "ERROR: TARGET_TAG not set. Please provide the release tag to run."
-        exit 1
-      fi
-    - echo "Running wordpuzzle for release ${TARGET_TAG}"
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --location \
-      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/wordpuzzle/${TARGET_TAG}/wordpuzzle-release.tar.gz" \
-      --output wordpuzzle-release.tar.gz
-    - tar -xzf wordpuzzle-release.tar.gz
-    - chmod +x wordpuzzle
-    - |
-      SIZE_INT="${SIZE%%[^0-9]*}"
-      LETTERS_LOWER="${LETTERS,,}"
-      ARGS="--size=$SIZE_INT --letters=${LETTERS_LOWER} --dictionary=dictionary"
-      if [ "${REPEATS}" = "true" ]; then ARGS="${ARGS} --repeats"; fi
-      echo "Running wordpuzzle with args: ${ARGS}"
-      ./wordpuzzle ${ARGS}

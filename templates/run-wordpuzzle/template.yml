@@ -1,0 +1,31 @@
+---
+run_wordpuzzle:
+  stage: deploy
+  image: ubuntu:latest
+  needs:
+    - job: package_and_release
+      optional: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: manual
+  script:
+    - apt-get update && apt-get install -y curl tar ca-certificates
+    - |
+      if [ -z "${TARGET_TAG}" ]; then
+        echo "ERROR: TARGET_TAG not set. Please provide the release tag."
+        exit 1
+      fi
+    - echo "Running wordpuzzle for release ${TARGET_TAG}"
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --location \
+      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/wordpuzzle/${TARGET_TAG}/wordpuzzle-release.tar.gz" \
+      --output wordpuzzle-release.tar.gz
+    - tar -xzf wordpuzzle-release.tar.gz
+    - chmod +x wordpuzzle
+    - |
+      SIZE_INT="${SIZE%%[^0-9]*}"
+      LETTERS_LOWER="${LETTERS,,}"
+      ARGS="--size=$SIZE_INT --letters=${LETTERS_LOWER} --dictionary=dictionary"
+      if [ "${REPEATS}" = "true" ]; then ARGS="${ARGS} --repeats"; fi
+      echo "Running wordpuzzle with args: ${ARGS}"
+      ./wordpuzzle ${ARGS}
