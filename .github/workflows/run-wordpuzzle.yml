@@ -1,5 +1,5 @@
 ---
-name: run
+name: run wordpuzzle
 
 on: # yamllint disable-line rule:truthy
   workflow_dispatch:

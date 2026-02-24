@@ -3,29 +3,29 @@ name: cicd
 
 on: # yamllint disable-line rule:truthy
   push:
-    branches: ["**"]
-    tags: ["v*"]
-  check_run:
-    types: [rerequested, requested_action]
+    branches:
+      - "**"
+    tags:
+      - "v*"
+  pull_request:
 # yamllint enable
 
 env:
   STACK_ROOT: ${{ github.workspace }}/.stack-work
 
 jobs:
-  build:
+  cicd:
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       pages: write
       id-token: write
 
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
-
-    runs-on: ubuntu-latest
-
     steps:
       - name: checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       - name: cache
         uses: actions/cache@v3
@@ -40,11 +40,15 @@ jobs:
         run: stack test --coverage
 
       - name: benchmark
-        run: |
-          stack bench --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
+        if: >
+          github.ref == 'refs/heads/master'
+          && github.event_name == 'push'
+        run: stack bench --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
 
       - name: pages
-        if: github.ref == 'refs/heads/master'
+        if: >
+          github.ref == 'refs/heads/master'
+          && github.event_name == 'push'
         run: |
           stack haddock --haddock-hyperlink-source
           mv $(stack path --local-doc-root)/ public/
@@ -52,8 +56,7 @@ jobs:
 
       - name: upload pages
         if: >
-          success()
-          && github.ref == 'refs/heads/main'
+          github.ref == 'refs/heads/master'
           && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
