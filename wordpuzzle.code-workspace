@@ -4,5 +4,10 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"github-actions.workflows.pinned.workflows": [
+			".github/workflows/cicd.yml",
+			".github/workflows/run-wordpuzzle.yml"
+		]
+	}
 }
