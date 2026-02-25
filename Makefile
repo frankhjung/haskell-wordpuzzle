@@ -2,6 +2,7 @@
 
 .DEFAULT_GOAL	:= default
 
+GHC_VERSION	:= 9.6.7
 TARGET	:= wordpuzzle
 CABAL	:= $(TARGET).cabal
 SRCS	:= $(wildcard */*.hs)
@@ -9,63 +10,48 @@ SRCS	:= $(wildcard */*.hs)
 ARGS	?= -s 7 -l cadevrsoi
 
 .PHONY: default
-default: format check build test
+default: format check build test ## Run the default pipeline
 
 .PHONY: help
-help:
-	@echo "Targets:"
-	@echo "  default    format check build test"
-	@echo "  all        format check build test bench doc exec"
-	@echo "  format     format cabal file and sources"
-	@echo "  check      tags lint"
-	@echo "  tags       generate ctags"
-	@echo "  lint       run hlint and cabal check"
-	@echo "  build      cabal build"
-	@echo "  test       cabal test"
-	@echo "  doc        cabal haddock"
-	@echo "  copy       copy haddock output to doc/html"
-	@echo "  bench      cabal bench"
-	@echo "  exec       run $(TARGET) with ARGS"
-	@echo "  dictionary generate dictionary from /usr/share/dict/words"
-	@echo "  setup      init cabal config and update deps"
-	@echo "  clean      cabal clean"
-	@echo "  cleanall   clean and remove tags"
+help: ## Show this help message
+	@echo Available targets:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
 
 .PHONY: all
-all:	format check build test bench doc exec
+all:	format check build test bench doc exec ## Run full pipeline including bench, docs, and exec
 
 .PHONY: format
-format:	$(SRCS)
+format:	$(SRCS) ## Format cabal file and Haskell sources
 	@echo format ...
 	@cabal-fmt --inplace $(CABAL)
 	@stylish-haskell --inplace $(SRCS)
 
 .PHONY: check
-check:	tags lint
+check:	tags lint ## Run static checks
 
 .PHONY: tags
-tags:	$(SRCS)
+tags:	$(SRCS) ## Generate ctags for Haskell sources
 	@echo tags ...
 	@hasktags --ctags --extendedctag $(SRCS)
 
 .PHONY: lint
-lint:	$(SRCS)
+lint:	$(SRCS) ## Run hlint and cabal check
 	@echo lint ...
 	@hlint --cross --color --show $(SRCS)
 	@cabal check
 
 .PHONY: build
-build:  $(SRCS)
+build:  $(SRCS) ## Build project with cabal
 	@echo build ...
 	@cabal build
 
 .PHONY: test
-test:
+test: ## Run test suite
 	@echo test ...
 	@cabal test --test-show-details=direct
 
-.PHONY: doc
-doc:
+.PHONY:	doc
+doc: ## Build Haddock documentation
 	@echo doc ...
 	@cabal haddock \
 		--haddock-executables \
@@ -74,23 +60,23 @@ doc:
 		lib:$(TARGET) \
 		exe:$(TARGET)
 
-.PHONY: copy
-copy: doc
+.PHONY:	copy
+copy: doc ## Copy generated Haddock output to doc/html
 	@echo copying documentation ...
 	@cp -r \
-		dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.0/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* \
-		doc/html/wordpuzzle/
+		dist-newstyle/build/x86_64-linux/ghc-$(GHC_VERSION)/$(TARGET)-1.0.1/x/$(TARGET)/doc/html/$(TARGET)/$(TARGET)/* \
+		doc/html/$(TARGET)/
 
 .PHONY:	bench
-bench:
+bench: ## Run benchmarks
 	@cabal bench
 
 .PHONY:	exec
-exec:
-	cabal exec $(TARGET) -- $(ARGS)
+exec: ## Run $(TARGET) with ARGS
+	@cabal exec $(TARGET) -- $(ARGS)
 
 .PHONY: dictionary
-dictionary:
+dictionary: ## Generate dictionary from /usr/share/dict/words
 ifeq (,$(wildcard /usr/share/dict/words))
 	@echo Warning: /usr/share/dict/words not found, skipping dictionary generation
 else
@@ -99,8 +85,8 @@ else
 	@echo $(shell wc -l < dictionary) words in dictionary
 endif
 
-.PHONY: setup
-setup:
+.PHONY:	setup
+setup: ## Init cabal config and update dependencies
 ifeq (,$(wildcard ${CABAL_CONFIG}))
 	-cabal user-config init
 else
@@ -108,10 +94,11 @@ else
 endif
 	-cabal update --only-dependencies
 
-.PHONY: clean
-clean:
-	@cabal clean
+.PHONY:	ghci
+ghci: ## Open GHCi via cabal repl
+	@cabal repl
 
-.PHONY: cleanall
-cleanall: clean
-	@$(RM) tags
+.PHONY:	clean
+clean: ## Clean build artifacts and tags
+	-cabal clean
+	-$(RM) tags

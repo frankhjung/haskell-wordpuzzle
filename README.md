@@ -1,12 +1,11 @@
-# Haskell 9 Letter Word Puzzle Solver
+# Haskell Word Puzzle Solver
 
-Solve 9 letter word puzzles like:
+Solve word puzzles like:
 
 - [Nine Letter Word](http://nineletterword.tompaton.com/adevcrsoi/)
 - [Your Word Life](http://www.yourwiselife.com.au/games/9-letter-word/)
 - [NYT Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee) (using
-  `--repeats`)
--
+  `--repeats`) -
   [Scientific American Spellements](https://www.scientificamerican.com/game/spellements/)
   (using `--repeats`)
 
@@ -29,7 +28,9 @@ Package metadata for reference:
 
 Generated haddock gets written to a build-specific path under `dist-newstyle`.
 The exact subdirectory depends on the GHC version and architecture, so we use a
-glob to copy the `wordpuzzle` html output into the repository tree for a permanent record. Git pipelines produce the same documentation and deploy it to GitHub Pages and GitLab Pages.
+glob to copy the `wordpuzzle` html output into the repository tree for a
+permanent record. Git pipelines produce the same documentation and deploy it to
+GitHub Pages and GitLab Pages.
 
 ```bash
 cp -r \
@@ -44,7 +45,6 @@ Alternatively run `make copy`, which performs the copy automatically.
   - [criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
 - [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
-  - [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
 
 ## Deployment
 
@@ -76,8 +76,8 @@ The workflow simply mirrors the local command line usage, e.g.:
 ./wordpuzzle --size=6 --letters=cadevrsoi --repeats
 ```
 
-See `doc/deployment.md` for more background on how the run pipeline is
-constructed and how the release artefact is packaged.
+See `doc/github-run-wordpuzzle.md` and `doc/gitlab-run-wordpuzzle.md` for more
+background on how the run pipelines execute the solver with inputs.
 
 ### GitLab Workflow Rules (Global)
 
@@ -97,39 +97,56 @@ These rules determine which jobs run within a created pipeline.
 | :--- | :--- | :--- | :--- |
 | **`build_and_test`** | Automatic events (Push, Tag, Schedule) | Manual "Web" triggers | Builds, tests, and benchmarks the code. Skipped during manual solver runs to save time. |
 | **`publish_pages`** | Push to `master` branch | Web triggers, Tags, Non-master branches | Deploys Haddock documentation and benchmarks to GitLab Pages. |
-| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.0`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
+| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.1`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
 | **`run_wordpuzzle`** | Manual "Web" triggers | Automatic events (Push, Tag) | The interactive solver. Runs only when inputs (`SIZE`, `LETTERS`, etc.) are provided via the "Run pipeline" UI. |
 
 #### GitHub Actions Workflow Diagram
 
 ```mermaid
+---
+config:
+  look: handDrawn
+---
 graph TD
-    A["Push or Tag"] --> B{Branch?}
-    B -->|master + Tag v*| C["Build & Test"]
-    B -->|master + Push| D["Build, Test & Benchmark"]
-    B -->|Other branches| E["Build & Test"]
-    C --> F["Package Release"]
-    D --> G["Deploy Haddock & Benchmark to Pages"]
-    F --> H["Upload Release to GitHub Releases"]
-    E --> I["Complete"]
-    G --> I
-    H --> I
+    subgraph "cicd.yml"
+      A["Push or Tag"] --> B{Branch?}
+      B -->|master + Tag v*| C["Build & Test"]
+      B -->|master + Push| D["Build, Test & Benchmark"]
+      B -->|Other branches| E["Build & Test"]
+      C --> F["Package Release"]
+      D --> G["Deploy Haddock & Benchmark to Pages"]
+      F --> H["Upload Release to GitHub Releases"]
+      E --> I["Complete"]
+      G --> I
+      H --> I
+    end
+    subgraph "run-wordpuzzle.yml"
+      J["Manual Run with Inputs"]
+    end
+    J --> I
 ```
 
 #### GitLab CI Workflow Diagram
 
 ```mermaid
+---
+config:
+  look: handDrawn
+---
 graph TD
-    A["Trigger: Push/Tag/Web"] --> B{Global Rules}
-    B -->|Source == web| C["Manual trigger"]
-    B -->|Push + Open MR| D["Skip"]
-    B -->|Other| E["Proceed"]
-    C --> F{Job Rules}
-    E --> F
-    F -->|build_and_test| G["Build, Test, Benchmark"]
-    F -->|publish_pages| H["Deploy to GitLab Pages"]
-    F -->|package_and_release| I["Package Binary & Release"]
-    F -->|run_wordpuzzle| J["Run Solver with Inputs"]
+    subgraph " .gitlab-ci.yml"
+      A["Trigger: Push/Tag/Web"] --> B{Global Rules}
+      B -->|Source == web| C["Manual trigger"]
+      B -->|Push + Open MR| D["Skip"]
+      B -->|Other| E["Proceed"]
+      E --> F{Job Rules}
+      F -->|build_and_test| G["Build, Test, Benchmark"]
+      F -->|publish_pages| H["Deploy to GitLab Pages"]
+      F -->|package_and_release| I["Package Binary & Release"]
+    end
+    subgraph "template.yml"
+      C --> J["Run Solver with Inputs"]
+    end
     G --> K["Pipeline Complete"]
     H --> K
     I --> K
@@ -153,6 +170,12 @@ or [stack](https://docs.haskellstack.org/en/stable/).
 The default [Makefile](Makefile) builds using the
 [cabal](https://www.haskell.org/cabal/) tool.
 
+To view available make targets and descriptions, run:
+
+```bash
+make help
+```
+
 To build using [stack](https://docs.haskellstack.org/en/stable/):
 
 ```bash
@@ -166,7 +189,8 @@ version.
 
 When updating the GHC version:
 
-1. Run `make cleanall` to remove the old build artifacts.
+1. Run `make clean` to remove build artifacts and tags.
+1. Remove `dist-newstyle/` if you need a fully clean rebuild.
 1. Remove the `cabal.project.freeze` file.
 1. Update the `cabal.project` file with the new LTS version.
 1. Run `cabal update` to update the package list.
@@ -244,7 +268,7 @@ Available options:
   -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
-Version: 1.0.0
+Version: 1.0.1
 ```
 
 Missing arguments:
@@ -322,9 +346,9 @@ cabal bench
 $ cabal bench
 Build profile: -w ghc-9.6.7 -O1
 In order, the following will be built (use -v for more details):
- - wordpuzzle-1.0.0 (bench:benchmark) (ephemeral targets)
-Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.0...
-Building benchmark 'benchmark' for wordpuzzle-1.0.0...
+ - wordpuzzle-1.0.1 (bench:benchmark) (ephemeral targets)
+Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.1...
+Building benchmark 'benchmark' for wordpuzzle-1.0.1...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
@@ -392,7 +416,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 1.0.0 of this project is using [LTS Haskell 22.44
+Version 1.0.1 of this project is using [LTS Haskell 22.44
 (ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph
