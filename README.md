@@ -45,7 +45,6 @@ Alternatively run `make copy`, which performs the copy automatically.
   - [criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
 - [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
-  - [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
 
 ## Deployment
 
@@ -104,33 +103,50 @@ These rules determine which jobs run within a created pipeline.
 #### GitHub Actions Workflow Diagram
 
 ```mermaid
+---
+config:
+  look: handDrawn
+---
 graph TD
-    A["Push or Tag"] --> B{Branch?}
-    B -->|master + Tag v*| C["Build & Test"]
-    B -->|master + Push| D["Build, Test & Benchmark"]
-    B -->|Other branches| E["Build & Test"]
-    C --> F["Package Release"]
-    D --> G["Deploy Haddock & Benchmark to Pages"]
-    F --> H["Upload Release to GitHub Releases"]
-    E --> I["Complete"]
-    G --> I
-    H --> I
+    subgraph "cicd.yml"
+      A["Push or Tag"] --> B{Branch?}
+      B -->|master + Tag v*| C["Build & Test"]
+      B -->|master + Push| D["Build, Test & Benchmark"]
+      B -->|Other branches| E["Build & Test"]
+      C --> F["Package Release"]
+      D --> G["Deploy Haddock & Benchmark to Pages"]
+      F --> H["Upload Release to GitHub Releases"]
+      E --> I["Complete"]
+      G --> I
+      H --> I
+    end
+    subgraph "run-wordpuzzle.yml"
+      J["Manual Run with Inputs"]
+    end
+    J --> I
 ```
 
 #### GitLab CI Workflow Diagram
 
 ```mermaid
+---
+config:
+  look: handDrawn
+---
 graph TD
-    A["Trigger: Push/Tag/Web"] --> B{Global Rules}
-    B -->|Source == web| C["Manual trigger"]
-    B -->|Push + Open MR| D["Skip"]
-    B -->|Other| E["Proceed"]
-    C --> F{Job Rules}
-    E --> F
-    F -->|build_and_test| G["Build, Test, Benchmark"]
-    F -->|publish_pages| H["Deploy to GitLab Pages"]
-    F -->|package_and_release| I["Package Binary & Release"]
-    F -->|run_wordpuzzle| J["Run Solver with Inputs"]
+    subgraph " .gitlab-ci.yml"
+      A["Trigger: Push/Tag/Web"] --> B{Global Rules}
+      B -->|Source == web| C["Manual trigger"]
+      B -->|Push + Open MR| D["Skip"]
+      B -->|Other| E["Proceed"]
+      E --> F{Job Rules}
+      F -->|build_and_test| G["Build, Test, Benchmark"]
+      F -->|publish_pages| H["Deploy to GitLab Pages"]
+      F -->|package_and_release| I["Package Binary & Release"]
+    end
+    subgraph "template.yml"
+      C --> J["Run Solver with Inputs"]
+    end
     G --> K["Pipeline Complete"]
     H --> K
     I --> K
