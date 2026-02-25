@@ -64,7 +64,7 @@ test:
 	@echo test ...
 	@cabal test --test-show-details=direct
 
-.PHONY: doc
+.PHONY:	doc
 doc:
 	@echo doc ...
 	@cabal haddock \
@@ -74,11 +74,11 @@ doc:
 		lib:$(TARGET) \
 		exe:$(TARGET)
 
-.PHONY: copy
+.PHONY:	copy
 copy: doc
 	@echo copying documentation ...
 	@cp -r \
-		dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.0/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* \
+		dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.0.1/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* \
 		doc/html/wordpuzzle/
 
 .PHONY:	bench
@@ -87,7 +87,7 @@ bench:
 
 .PHONY:	exec
 exec:
-	cabal exec $(TARGET) -- $(ARGS)
+	@cabal exec $(TARGET) -- $(ARGS)
 
 .PHONY: dictionary
 dictionary:
@@ -99,7 +99,7 @@ else
 	@echo $(shell wc -l < dictionary) words in dictionary
 endif
 
-.PHONY: setup
+.PHONY:	setup
 setup:
 ifeq (,$(wildcard ${CABAL_CONFIG}))
 	-cabal user-config init
@@ -108,10 +108,14 @@ else
 endif
 	-cabal update --only-dependencies
 
-.PHONY: clean
+.PHONY:	ghci
+ghci:
+	@cabal repl
+
+.PHONY:	clean
 clean:
 	@cabal clean
 
-.PHONY: cleanall
+.PHONY:	cleanall
 cleanall: clean
 	@$(RM) tags

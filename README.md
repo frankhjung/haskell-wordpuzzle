@@ -5,8 +5,7 @@ Solve 9 letter word puzzles like:
 - [Nine Letter Word](http://nineletterword.tompaton.com/adevcrsoi/)
 - [Your Word Life](http://www.yourwiselife.com.au/games/9-letter-word/)
 - [NYT Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee) (using
-  `--repeats`)
--
+  `--repeats`) -
   [Scientific American Spellements](https://www.scientificamerican.com/game/spellements/)
   (using `--repeats`)
 
@@ -29,7 +28,9 @@ Package metadata for reference:
 
 Generated haddock gets written to a build-specific path under `dist-newstyle`.
 The exact subdirectory depends on the GHC version and architecture, so we use a
-glob to copy the `wordpuzzle` html output into the repository tree for a permanent record. Git pipelines produce the same documentation and deploy it to GitHub Pages and GitLab Pages.
+glob to copy the `wordpuzzle` html output into the repository tree for a
+permanent record. Git pipelines produce the same documentation and deploy it to
+GitHub Pages and GitLab Pages.
 
 ```bash
 cp -r \
@@ -97,7 +98,7 @@ These rules determine which jobs run within a created pipeline.
 | :--- | :--- | :--- | :--- |
 | **`build_and_test`** | Automatic events (Push, Tag, Schedule) | Manual "Web" triggers | Builds, tests, and benchmarks the code. Skipped during manual solver runs to save time. |
 | **`publish_pages`** | Push to `master` branch | Web triggers, Tags, Non-master branches | Deploys Haddock documentation and benchmarks to GitLab Pages. |
-| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.0`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
+| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.1`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
 | **`run_wordpuzzle`** | Manual "Web" triggers | Automatic events (Push, Tag) | The interactive solver. Runs only when inputs (`SIZE`, `LETTERS`, etc.) are provided via the "Run pipeline" UI. |
 
 #### GitHub Actions Workflow Diagram
@@ -244,7 +245,7 @@ Available options:
   -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
-Version: 1.0.0
+Version: 1.0.1
 ```
 
 Missing arguments:
@@ -322,9 +323,9 @@ cabal bench
 $ cabal bench
 Build profile: -w ghc-9.6.7 -O1
 In order, the following will be built (use -v for more details):
- - wordpuzzle-1.0.0 (bench:benchmark) (ephemeral targets)
-Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.0...
-Building benchmark 'benchmark' for wordpuzzle-1.0.0...
+ - wordpuzzle-1.0.1 (bench:benchmark) (ephemeral targets)
+Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.1...
+Building benchmark 'benchmark' for wordpuzzle-1.0.1...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
@@ -392,7 +393,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 1.0.0 of this project is using [LTS Haskell 22.44
+Version 1.0.1 of this project is using [LTS Haskell 22.44
 (ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph

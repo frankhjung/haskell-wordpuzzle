@@ -11,6 +11,27 @@ ARGS	?= -s 7 -l cadevrsoi
 .PHONY: default
 default: format check build test
 
+.PHONY: help
+help:
+	@echo "Targets:"
+	@echo "  default    format check build test"
+	@echo "  all        format check build test bench doc exec"
+	@echo "  format     format cabal file and sources"
+	@echo "  check      tags lint"
+	@echo "  tags       generate ctags"
+	@echo "  lint       run hlint and cabal check"
+	@echo "  build      stack build"
+	@echo "  test       stack test"
+	@echo "  doc        stack haddock"
+	@echo "  copy       copy haddock output to doc/html"
+	@echo "  bench      stack bench"
+	@echo "  exec       run $(TARGET) with ARGS"
+	@echo "  dictionary generate dictionary from /usr/share/dict/words"
+	@echo "  setup      stack update/path/query/deps"
+	@echo "  ghci      stack ghci"
+	@echo "  clean      stack clean"
+	@echo "  cleanall   stack purge and remove tags"
+
 .PHONY: all
 all:	format check build test bench doc exec
 
@@ -49,26 +70,31 @@ doc:
 	@echo doc ...
 	@stack haddock --haddock-hyperlink-source
 
+.PHONY:	copy
+copy: doc
+	@echo copying documentation ...
+	@DOC_ROOT=$$(stack path --local-doc-root) && \
+	cp -r \
+	  "$${DOC_ROOT}/wordpuzzle/wordpuzzle"/* \
+	  doc/html/wordpuzzle/
+
 .PHONY:	bench
 bench:
 	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
 .PHONY:	exec
 exec:
-	@stack exec -- $(TARGET) $(ARGS) +RTS -s
+	@stack exec -- $(TARGET) $(ARGS)
 
 .PHONY: dictionary
 dictionary:
-ifeq (,$(wildcard /usr/share/dict/british-english-huge))
-	@echo using dictionary from https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
-	@curl -fS -s https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
+ifeq (,$(wildcard /usr/share/dict/words))
+	@echo Warning: /usr/share/dict/words not found, skipping dictionary generation
 else
-	@echo using dictionary from /usr/share/dict/british-english-huge
-	@cp /usr/share/dict/british-english-huge dictionary
+	@echo filtering 4-letters or more words from dictionary ...
+	@LC_ALL=C grep -E '^[a-z]{4,}$$' /usr/share/dict/words | sort -u > dictionary
+	@echo $(shell wc -l < dictionary) words in dictionary
 endif
-	@echo filtering dictionary ...
-	@LC_ALL=C grep -E '^[a-z]{4,}$$' dictionary | sort -u > dictionary.tmp
-	@mv dictionary.tmp dictionary
 
 .PHONY:	setup
 setup:
@@ -85,8 +111,7 @@ ghci:
 clean:
 	@stack clean
 
-.PHONY:	distclean
-distclean: clean
+.PHONY:	cleanall
+cleanall: clean
 	@stack purge
-	@$(RM) dictionary
 	@$(RM) tags

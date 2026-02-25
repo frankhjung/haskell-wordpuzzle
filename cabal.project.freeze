@@ -153,4 +153,4 @@ constraints: any.Glob ==0.10.2,
              any.zlib ==0.6.3.0,
              zlib -bundled-c-zlib -non-blocking-ffi -pkg-config,
              any.zlib-bindings ==0.1.1.5
-index-state: hackage.haskell.org 2025-06-22T05:15:57Z
+index-state: hackage.haskell.org 2026-02-25T01:23:14Z
