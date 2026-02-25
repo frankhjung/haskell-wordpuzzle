@@ -6,18 +6,30 @@ Solve 9 letter word puzzles like:
 - [Your Word Life](http://www.yourwiselife.com.au/games/9-letter-word/)
 - [NYT Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee) (using
   `--repeats`)
+-
+  [Scientific American Spellements](https://www.scientificamerican.com/game/spellements/)
+  (using `--repeats`)
 
 ![nineletterword.tompaton.com](doc/nineletterword.png)
 
-Here we are using a subset of the British dictionary from the
-[wbritish](https://packages.debian.org/sid/text/wbritish) package.
+The default dictionary used by the project is the Debian `wamerican` word list.
+Package metadata for reference:
 
-## Documentation
+| Field | Value |
+| :--- | :--- |
+| Package | [wamerican](https://packages.debian.org/search?keywords=wamerican) |
+| Version | 2020.12.07-4 |
+| Priority | standard |
+| Section | text |
+| Source | scowl |
+| Maintainer | Don Armstrong <don@debian.org> |
+| Homepage | <http://wordlist.sourceforge.net/> |
+
+## Code Documentation
 
 Generated haddock gets written to a build-specific path under `dist-newstyle`.
 The exact subdirectory depends on the GHC version and architecture, so we use a
-glob to copy the now‑famous `wordpuzzle` html output into the repository tree
-for browsing.
+glob to copy the `wordpuzzle` html output into the repository tree for a permanent record. Git pipelines produce the same documentation and deploy it to GitHub Pages and GitLab Pages.
 
 ```bash
 cp -r \
@@ -25,7 +37,7 @@ cp -r \
   doc/html/wordpuzzle/
 ```
 
-(Alternatively run `make doc`, which performs the copy automatically.)
+Alternatively run `make copy`, which performs the copy automatically.
 
 - [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
   - [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
@@ -34,10 +46,18 @@ cp -r \
   - [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
   - [criterion performance measurements](https://frankhjung1.gitlab.io/haskell-wordpuzzle/benchmark.html)
 
-## Pipelines
+## Deployment
 
-- [GitHub](https://github.com/frankhjung/haskell-wordpuzzle/actions)
-- [GitLab](https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines)
+- GitHub Actions: <https://github.com/frankhjung/haskell-wordpuzzle/actions>
+  - Workflow files: [.github/workflows/cicd.yml](.github/workflows/cicd.yml),
+    [.github/workflows/run-wordpuzzle.yml](.github/workflows/run-wordpuzzle.yml)
+- GitLab CI: <https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines>
+  - Config: [.gitlab-ci.yml](.gitlab-ci.yml)
+
+### Pipeline Rules
+
+Refer to the workflow diagrams below for detailed execution flow across GitHub
+Actions and GitLab CI.
 
 ### Running from GitHub Actions
 
@@ -59,11 +79,68 @@ The workflow simply mirrors the local command line usage, e.g.:
 See `doc/deployment.md` for more background on how the run pipeline is
 constructed and how the release artefact is packaged.
 
+### GitLab Workflow Rules (Global)
+
+These rules determine if a pipeline is created at all.
+
+| Condition | Action | Reason |
+| :--- | :--- | :--- |
+| **Source is "web"** | **Run** | Allows manual execution of the solver pipeline. |
+| **Branch Push + Open Merge Request** | **Skip** | Prevents duplicate pipelines (standard GitLab optimization). |
+| **All other cases** | **Run** | Allows standard push and tag pipelines to proceed. |
+
+### GitLab Job-Specific Rules
+
+These rules determine which jobs run within a created pipeline.
+
+| Job | Trigger Condition | Skip Condition | Description |
+| :--- | :--- | :--- | :--- |
+| **`build_and_test`** | Automatic events (Push, Tag, Schedule) | Manual "Web" triggers | Builds, tests, and benchmarks the code. Skipped during manual solver runs to save time. |
+| **`publish_pages`** | Push to `master` branch | Web triggers, Tags, Non-master branches | Deploys Haddock documentation and benchmarks to GitLab Pages. |
+| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.0`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
+| **`run_wordpuzzle`** | Manual "Web" triggers | Automatic events (Push, Tag) | The interactive solver. Runs only when inputs (`SIZE`, `LETTERS`, etc.) are provided via the "Run pipeline" UI. |
+
+#### GitHub Actions Workflow Diagram
+
+```mermaid
+graph TD
+    A["Push or Tag"] --> B{Branch?}
+    B -->|master + Tag v*| C["Build & Test"]
+    B -->|master + Push| D["Build, Test & Benchmark"]
+    B -->|Other branches| E["Build & Test"]
+    C --> F["Package Release"]
+    D --> G["Deploy Haddock & Benchmark to Pages"]
+    F --> H["Upload Release to GitHub Releases"]
+    E --> I["Complete"]
+    G --> I
+    H --> I
+```
+
+#### GitLab CI Workflow Diagram
+
+```mermaid
+graph TD
+    A["Trigger: Push/Tag/Web"] --> B{Global Rules}
+    B -->|Source == web| C["Manual trigger"]
+    B -->|Push + Open MR| D["Skip"]
+    B -->|Other| E["Proceed"]
+    C --> F{Job Rules}
+    E --> F
+    F -->|build_and_test| G["Build, Test, Benchmark"]
+    F -->|publish_pages| H["Deploy to GitLab Pages"]
+    F -->|package_and_release| I["Package Binary & Release"]
+    F -->|run_wordpuzzle| J["Run Solver with Inputs"]
+    G --> K["Pipeline Complete"]
+    H --> K
+    I --> K
+    J --> K
+```
+
 ## Package Dependencies
 
 To include a package:
 
-- update cabal sections with package with version
+- update the cabal sections with the package and version
 - run `cabal update`
 - run `cabal build`
 - run `make clean default`
@@ -96,25 +173,20 @@ When updating the GHC version:
 1. Run `make` to rebuild the project.
 1. Run `cabal freeze` to create a new `cabal.project.freeze` file.
 
-## Solver
+## Solver Overview
 
-This program is used to list all words from this popular puzzle. A brief outline
-of what this program does is:
+This program solves word puzzles by listing all words that satisfy:
 
-- get user input of:
-  - minimum word length
-  - letters as one string (where the **first** character is the mandatory
-    letter)
-  - (optional) dictionary to use to search for matching words
+- **Input:** minimum word length, letters (with first character mandatory), and
+  optional dictionary file
+- **Match criteria:**
+  - word length ≥ minimum size
+  - contains the mandatory character (first letter)
+  - uses only valid characters in correct frequencies
+- **Special mode:** when `--repeats` is enabled, letters can repeat and there is
+  no 9-letter upper bound
 
-- print each word in dictionary that satisfies:
-  - word is greater than or equal to minimum character length
-  - word contains mandatory character (the first letter of the input string)
-  - word contains other characters in correct frequencies
-- when `--repeats` is specified there is no 9‑letter upper bound; longer words
-  are allowed, as in the NYT Spelling Bee variant
-
-## Validation
+## Validation Rules
 
 The project uses the
 [validation](https://hackage.haskell.org/package/validation) library to provide
@@ -130,43 +202,29 @@ Validations performed include:
 
 ## How to run
 
-For example, to call word puzzle with custom letters and dictionary:
+### Basic usage
+
+Run with custom letters and dictionary:
 
 ```bash
 make ARGS='-s 6 -l cadevrsoi -d /usr/share/dict/words' exec
 ```
 
-### 9-Letter example
-
-For example, to call word puzzle (no letter repeats, minimum word size 6) with
-custom letters:
+Run with default dictionary (4–9 letter words):
 
 ```bash
 make ARGS='-s 6 -l cadevrsoi' exec
 ```
 
-Or run using default dictionary:
-
-```bash
-make ARGS='-s 6 -l cadevrsoi' exec
-```
-
-### Spelling Bee (repeats) example
-
-When `--repeats` is enabled the solver allows letters to repeat and there is no
-hard 9‑letter upper bound — longer words from the dictionary may be returned.
-Example (run with repeats enabled):
-
-In this example, the solver will print 7 letter words using letters "mitncao"
-with repeats allowed:
+Run with letter repeats allowed (Spelling Bee mode):
 
 ```bash
 make ARGS='-s 7 -l mitncao -r' exec
 ```
 
-### Help
+### Command-line help
 
-Get command line help:
+View help and version information:
 
 ```bash
 $ wordpuzzle --help
@@ -189,25 +247,40 @@ Available options:
 Version: 1.0.0
 ```
 
-Or call without command line arguments:
+Missing arguments:
 
 ```bash
 $ cabal exec wordpuzzle --
 Missing: (-l|--letters STRING)
-
-Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
-                  [-d|--dictionary FILENAME] [-r|--repeats]
-
-  Solve word puzzles
 ```
 
-### Default Dictionary
+### Dictionary setup
 
-When specifying a dictionary use (default is "dictionary"):
+Generate the default `dictionary` file:
 
 ```bash
-cabal exec wordpuzzle -- -l cadevrsoi -ddictionary
+make dictionary
 ```
+
+This filters `/usr/share/dict/words` (when available) to extract 4+ letter
+words.
+
+Alternatively, specify a custom dictionary:
+
+```bash
+cabal exec wordpuzzle -- -l cadevrsoi -d dictionary
+```
+
+Or download a larger dictionary:
+
+```bash
+curl -fS -s https://raw.githubusercontent.com/dwyl/english-words/master/words.txt -o dictionary
+LC_ALL=C grep -E '^[a-z]{4,}$$' dictionary | sort -u > dictionary.filtered
+mv dictionary.filtered dictionary
+```
+
+The default dictionary is sourced from the
+[wamerican](https://packages.debian.org/search?keywords=wamerican) package.
 
 ### Sort Words by Size
 
@@ -275,7 +348,7 @@ Benchmark benchmark: FINISH
 Using the dictionary sited above, the run time performance for the example:
 
 ```text
-$ cabal exec wordpuzzle -- -s 7 -l cadevrsoi -ddictionary +RTS -s 1>/dev/null
+$ cabal exec wordpuzzle -- -s 7 -l cadevrsoi -d dictionary +RTS -s 1>/dev/null
      858,788,568 bytes allocated in the heap
        5,242,528 bytes copied during GC
          118,560 bytes maximum residency (2 sample(s))
@@ -320,7 +393,7 @@ The version is dynamically included from the
 configuration file.
 
 Version 1.0.0 of this project is using [LTS Haskell 22.44
-(ghc-9.6.6)](https://www.stackage.org/lts-22.44)
+(ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph
 
