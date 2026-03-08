@@ -73,7 +73,7 @@ build_and_test:
   before_script:
     - mkdir -p release
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    key: ${CI_COMMIT_REF_NAME}
     paths:
       - ${CABAL_DIR}
 
