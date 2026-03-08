@@ -1,6 +1,6 @@
 cabal-version:      3.0
 name:               wordpuzzle
-version:            1.0.1
+version:            1.0.2
 synopsis:           word puzzle solver
 tested-with:        GHC ==9.4.8 || ==9.6.7
 description:
@@ -12,7 +12,7 @@ homepage:
 
 author:             Frank H Jung
 maintainer:         frankhjung@linux.com
-copyright:          Copyright © 2017-2025 Frank H Jung
+copyright:          Copyright © 2017-2026 Frank H Jung
 license:            BSD-3-Clause
 license-file:       LICENSE
 category:           education

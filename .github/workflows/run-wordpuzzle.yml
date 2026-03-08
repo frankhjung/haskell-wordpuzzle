@@ -34,16 +34,20 @@ jobs:
           tar -xzf wordpuzzle-release.tar.gz
           echo "EXE_PATH=$(pwd)/wordpuzzle" >> "$GITHUB_ENV"
 
-      - name: Run main with size ${{ inputs.SIZE }} and letters ${{ inputs.LETTERS }}
+      - name: Prepare inputs
         env:
           SIZE: ${{ inputs.SIZE }}
           LETTERS: ${{ inputs.LETTERS }}
-          REPEATS: ${{ inputs.REPEATS }}
         run: |
           # Extract leading integer component from SIZE
-          SIZE_INT="${SIZE%%[^0-9]*}"
+          echo "SIZE_INT=${SIZE%%[^0-9]*}" >> "$GITHUB_ENV"
           # Normalize letters to lowercase
-          LETTERS_LOWER="${LETTERS,,}"
+          echo "LETTERS_LOWER=${LETTERS,,}" >> "$GITHUB_ENV"
+
+      - name: Run main with size ${{ env.SIZE_INT }}, letters ${{ env.LETTERS_LOWER }}, repeats ${{ inputs.REPEATS }}
+        env:
+          REPEATS: ${{ inputs.REPEATS }}
+        run: |
           # Build argument array
           ARGS=("--size=$SIZE_INT" "--letters=$LETTERS_LOWER")
           # Add repeats flag if true

@@ -7,8 +7,6 @@ TARGET	:= wordpuzzle
 CABAL	:= $(TARGET).cabal
 SRCS	:= $(wildcard */*.hs)
 
-ARGS	?= -s 7 -l cadevrsoi
-
 .PHONY: default
 default: format check build test ## Run the default pipeline
 
@@ -64,7 +62,7 @@ doc: ## Build Haddock documentation
 copy: doc ## Copy generated Haddock output to doc/html
 	@echo copying documentation ...
 	@cp -r \
-		dist-newstyle/build/x86_64-linux/ghc-$(GHC_VERSION)/$(TARGET)-1.0.1/x/$(TARGET)/doc/html/$(TARGET)/$(TARGET)/* \
+		dist-newstyle/build/*/$(TARGET)-*/x/$(TARGET)/doc/html/$(TARGET)/$(TARGET)/* \
 		doc/html/$(TARGET)/
 
 .PHONY:	bench
@@ -73,15 +71,20 @@ bench: ## Run benchmarks
 
 .PHONY:	exec
 exec: ## Run $(TARGET) with ARGS
-	@cabal exec $(TARGET) -- $(ARGS)
+	@echo Run 9-letter puzzle with cadevrsoi ...
+	@cabal exec $(TARGET) -- -s 7 -l cadevrsoi
+	@echo Run Spelling Bee with cadevrsoi ...
+	@cabal exec $(TARGET) -- -s 9 -l cadevrsoi -r
 
 .PHONY: dictionary
-dictionary: ## Generate dictionary from /usr/share/dict/words
+dictionary: ## Generate dictionary file from /usr/share/dict/words, filtering for 4+ letter words and excluding Roman numerals
 ifeq (,$(wildcard /usr/share/dict/words))
 	@echo Warning: /usr/share/dict/words not found, skipping dictionary generation
 else
 	@echo filtering 4-letters or more words from dictionary ...
-	@LC_ALL=C grep -E '^[a-z]{4,}$$' /usr/share/dict/words | sort -u > dictionary
+	@LC_ALL=C grep -E '^[a-z]{4,}$$' /usr/share/dict/words \
+	  | grep -Ev '^m{0,3}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$$' \
+	  | sort -u > dictionary
 	@echo $(shell wc -l < dictionary) words in dictionary
 endif
 

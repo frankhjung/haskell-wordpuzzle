@@ -97,7 +97,7 @@ These rules determine which jobs run within a created pipeline.
 | :--- | :--- | :--- | :--- |
 | **`build_and_test`** | Automatic events (Push, Tag, Schedule) | Manual "Web" triggers | Builds, tests, and benchmarks the code. Skipped during manual solver runs to save time. |
 | **`publish_pages`** | Push to `master` branch | Web triggers, Tags, Non-master branches | Deploys Haddock documentation and benchmarks to GitLab Pages. |
-| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.1`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
+| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.2`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
 | **`run_wordpuzzle`** | Manual "Web" triggers | Automatic events (Push, Tag) | The interactive solver. Runs only when inputs (`SIZE`, `LETTERS`, etc.) are provided via the "Run pipeline" UI. |
 
 #### GitHub Actions Workflow Diagram
@@ -260,15 +260,14 @@ Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
   Solve word puzzles
 
 Available options:
-  -s,--size INT            Minimum word size (value from 4..9) (default: 4)
-  -l,--letters STRING      Letters to make words (4 to 9 unique lowercase
-                           letters)
+  -s,--size INT            Minimum word size is (4-9) (default: 4)
+  -l,--letters STRING      4-9 unique lowercase letters to make words
   -d,--dictionary FILENAME Dictionary to search for words
                            (default: "dictionary")
   -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
-Version: 1.0.1
+Version: 1.0.2
 ```
 
 Missing arguments:
@@ -322,7 +321,7 @@ Using [HSpec](https://hspec.github.io/):
 $ cabal test --test-show-details=direct
 ...
 Finished in 0.00xx seconds
-23 examples, 0 failures
+25 examples, 0 failures
 Test suite test: PASS
 ```
 
@@ -346,9 +345,9 @@ cabal bench
 $ cabal bench
 Build profile: -w ghc-9.6.7 -O1
 In order, the following will be built (use -v for more details):
- - wordpuzzle-1.0.1 (bench:benchmark) (ephemeral targets)
-Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.1...
-Building benchmark 'benchmark' for wordpuzzle-1.0.1...
+ - wordpuzzle-1.0.2 (bench:benchmark) (ephemeral targets)
+Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.2...
+Building benchmark 'benchmark' for wordpuzzle-1.0.2...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
@@ -416,7 +415,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 1.0.1 of this project is using [LTS Haskell 22.44
+Version 1.0.2 of this project is using [LTS Haskell 22.44
 (ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph
