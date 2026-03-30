@@ -446,11 +446,12 @@ Included in this repository is generated documentation for the current version.
 - [haddock function documentation](./doc/html/wordpuzzle/index.html)
 - [criterion performance benchmarks](./doc/benchmark.html)
 
-## Other Implementations
+## My WordPuzzle Solver Implementations
 
-- [Clojure](https://gitlab.com/frankhjung1/clojure-wordpuzzle)
-- [Haskell](https://gitlab.com/frankhjung1/haskell-wordpuzzle)
-- [Java](https://gitlab.com/frankhjung1/java-wordpuzzle)
-- [Kotlin](https://gitlab.com/frankhjung1/kotlin-wordpuzzle)
-- [Go](https://gitlab.com/frankhjung1/go-wordpuzzle)
-- [Python](https://gitlab.com/frankhjung1/python-wordpuzzle)
+- [Clojure](https://github.com/frankhjung/clojure-wordpuzzle)
+- [Flutter](https://github.com/frankhjung/haskell-wordpuzzle)
+- [Go](https://github.com/frankhjung/go-wordpuzzle)
+- [Haskell](https://github.com/frankhjung/haskell-wordpuzzle)
+- [Java](https://github.com/frankhjung/java-wordpuzzle)
+- [Kotlin](https://github.com/frankhjung/kotlin-wordpuzzle)
+- [Python](https://github.com/frankhjung/python-wordpuzzle)
