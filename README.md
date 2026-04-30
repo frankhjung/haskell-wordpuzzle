@@ -185,6 +185,27 @@ make -f stack.mk [target]
 Stack is required for GitHub pipelines as it provides the correct Haskell
 version.
 
+## Dictionary Conversion Utility
+
+Use [filter-words.sh](filter-words.sh) to generate a normalized `dictionary`
+file from a user-specified word list.
+
+### Usage
+
+```bash
+./filter-words.sh /path/to/words-file
+```
+
+The script applies the following filters before writing to `dictionary`:
+
+- keeps only lowercase alphabetic words (`a-z`) with length >= 4
+- removes Roman numerals
+- removes hyphenated words
+- removes words with uppercase letters (proper nouns/abbreviations)
+- removes words containing numbers
+
+It also prints the number of words written to `dictionary`.
+
 ### Upgrading GHC
 
 When updating the GHC version:
