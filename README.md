@@ -372,17 +372,17 @@ Building benchmark 'benchmark' for wordpuzzle-1.0.2...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
-time                 224.3 ns   (221.5 ns .. 226.6 ns)
-                     0.999 R²   (0.998 R² .. 0.999 R²)
-mean                 224.9 ns   (222.5 ns .. 226.4 ns)
-std dev              6.349 ns   (4.298 ns .. 9.762 ns)
-variance introduced by outliers: 41% (moderately inflated)
+time                 50.69 ns   (50.50 ns .. 50.94 ns)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 50.59 ns   (50.53 ns .. 50.74 ns)
+std dev              278.3 ps   (119.5 ps .. 536.3 ps)
 
 benchmarking WordPuzzle/spellingBee
-time                 171.1 ns   (170.9 ns .. 171.3 ns)
+time                 151.5 ns   (151.2 ns .. 152.1 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 170.9 ns   (170.8 ns .. 171.1 ns)
-std dev              493.2 ps   (404.7 ps .. 634.4 ps)
+mean                 151.8 ns   (151.5 ns .. 153.2 ns)
+std dev              2.154 ns   (650.5 ps .. 4.759 ns)
+variance introduced by outliers: 16% (moderately inflated)
 
 Benchmark benchmark: FINISH
 ```
@@ -393,29 +393,29 @@ Using the dictionary sited above, the run time performance for the example:
 
 ```text
 $ cabal exec wordpuzzle -- -s 7 -l cadevrsoi -d dictionary +RTS -s 1>/dev/null
-     858,788,568 bytes allocated in the heap
-       5,242,528 bytes copied during GC
-         118,560 bytes maximum residency (2 sample(s))
+     113,482,464 bytes allocated in the heap
+         679,384 bytes copied during GC
+          78,952 bytes maximum residency (2 sample(s))
           33,600 bytes maximum slop
                6 MiB total memory in use (0 MiB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0       206 colls,     0 par    0.005s   0.005s     0.0000s    0.0001s
+  Gen  0        26 colls,     0 par    0.001s   0.001s     0.0000s    0.0001s
   Gen  1         2 colls,     0 par    0.000s   0.000s     0.0001s    0.0002s
 
   TASKS: 4 (1 bound, 3 peak workers (3 total), using -N1)
 
   SPARKS: 0 (0 converted, 0 overflowed, 0 dud, 0 GC'd, 0 fizzled)
 
-  INIT    time    0.000s  (  0.000s elapsed)
-  MUT     time    0.241s  (  0.241s elapsed)
-  GC      time    0.005s  (  0.005s elapsed)
-  EXIT    time    0.000s  (  0.003s elapsed)
-  Total   time    0.247s  (  0.250s elapsed)
+  INIT    time    0.001s  (  0.001s elapsed)
+  MUT     time    0.028s  (  0.028s elapsed)
+  GC      time    0.001s  (  0.001s elapsed)
+  EXIT    time    0.001s  (  0.001s elapsed)
+  Total   time    0.030s  (  0.030s elapsed)
 
-  Alloc rate    3,557,834,378 bytes per MUT second
+  Alloc rate    4,121,178,763 bytes per MUT second
 
-  Productivity  97.7% of total user, 96.4% of total elapsed
+  Productivity  92.0% of total user, 90.8% of total elapsed
 ```
 
 ## Command Line Parsers

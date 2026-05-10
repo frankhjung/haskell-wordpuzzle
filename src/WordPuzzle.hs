@@ -31,12 +31,15 @@ module WordPuzzle ( WordPuzzle
                   , toEither
                   ) where
 
+import           Data.Bits                  ((.&.), (.|.), shiftL)
+import qualified Data.ByteString.Char8      as BS
 import           Data.Bool                  (bool)
-import           Data.Char                  (isLower)
+import           Data.Char                  (isLower, ord)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
-import           Data.List                  (delete, nub)
+import           Data.List                  (nub)
 import           Data.Validation            (Validation (..), toEither)
+import qualified System.IO.Streams          as Streams
 
 -- | Represent parameters required for the puzzle.
 data WordPuzzle = WordPuzzle
@@ -115,8 +118,8 @@ isLetters ls =
     n = length ls
 
 -- | Does word contain the mandatory letter?
-hasMandatory :: Char -> String -> Bool
-hasMandatory = elem
+hasMandatory :: Char -> BS.ByteString -> Bool
+hasMandatory = BS.elem
 
 -- | Solve word puzzle given a dictionary of words.
 --
@@ -133,34 +136,37 @@ hasMandatory = elem
 --
 -- solve (WordPuzzle 4 'a' "abcdefghij" "dictionary.txt")
 solve :: WordPuzzle -> IO ()
-solve wordpuzzle = do
-  dict <- readFile (dictionary wordpuzzle)
-  mapM_ putStrLn $ go wordpuzzle (lines dict)
+solve wordpuzzle = Streams.withFileAsInput (dictionary wordpuzzle) $ \is -> do
+  lines_is <- Streams.lines is
+  filtered_is <- Streams.filter (getPredicate (pS <> pM <> pL)) lines_is
+  consume filtered_is
   where
-    go :: WordPuzzle -> [String] -> [String]
-    go puzzle = filter (getPredicate (pS <> pM <> pL))
-      where
-        pS = Predicate $ checkLength (repeats puzzle) (size puzzle)
-        pM = Predicate $ hasMandatory (mandatory puzzle)
-        pL = Predicate $ checkLettersPool (repeats puzzle) (letters puzzle)
+    pS = Predicate $ checkLength (repeats wordpuzzle) (size wordpuzzle)
+    pM = Predicate $ hasMandatory (mandatory wordpuzzle)
+    pL = Predicate $ checkLettersPool (repeats wordpuzzle) (letters wordpuzzle)
+    consume is = do
+      m <- Streams.read is
+      case m of
+        Nothing -> return ()
+        Just x  -> BS.putStrLn x >> consume is
 
 -- | Check word length based on whether repeats are allowed.
 checkLength :: Bool -- ^ allow repeats?
             -> Int  -- ^ minimum word size
-            -> String -- ^ word to check
+            -> BS.ByteString -- ^ word to check
             -> Bool -- ^ true if word length is valid
-checkLength True  s = (>= s) . length
-checkLength False s = inRange (s, 9) . length
+checkLength True  s = (>= s) . BS.length
+checkLength False s = inRange (s, 9) . BS.length
 
 -- | Check if a word matches the letter pool based on whether repeats are allowed.
+--
+-- Assumes that the letter pool is valid (see 'isLetters').
 checkLettersPool :: Bool -- ^ allow repeats?
                   -> String -- ^ valid letters in letter pool
-                  -> String -- ^ word to check
+                  -> BS.ByteString -- ^ word to check
                   -> Bool -- ^ true if word matches letter pool
-checkLettersPool r ls
-  | not (isLetters ls) = const False
-  | r                  = spellingBee ls
-  | otherwise          = nineLetters ls
+checkLettersPool True  ls = spellingBee ls
+checkLettersPool False ls = nineLetters ls
 
 -- | Check if a word contains only characters from a letters list.
 --
@@ -169,25 +175,26 @@ checkLettersPool r ls
 --
 -- * If all valid characters are removed from the word, and the word is
 -- empty, then the word is valid.
+--
+-- Assumes that the letter pool is valid (see 'isLetters').
 nineLetters ::
-     String     -- ^ valid letters
-  -> String     -- ^ dictionary word to check
-  -> Bool       -- ^ true if dictionary word matches letters
-nineLetters ls ys = isLetters ls && go ls ys
+     String        -- ^ valid letters
+  -> BS.ByteString -- ^ dictionary word to check
+  -> Bool          -- ^ true if dictionary word matches letters
+nineLetters ls ys = go (0 :: Int) ys
   where
-    go _  []      = True -- if all characters are removed, the word is valid
-    go [] _       = False -- if there are still characters left over, the word is not valid
-    go (x:xs) ys' = go xs (delete x ys') -- if the character is valid, remove it from the word and continue checking
+    go !mask bs = case BS.uncons bs of
+      Nothing -> True
+      Just (c, rest) ->
+        let bit = 1 `shiftL` (ord c - ord 'a')
+        in (c `elem` ls) && (mask .&. bit == 0) && go (mask .|. bit) rest
 
 -- | Check if a word contains only characters from a letters list.
 -- Repeating characters are allowed.
+--
+-- Assumes that the letter pool is valid (see 'isLetters').
 spellingBee ::
-     String     -- ^ valid letters
-  -> String     -- ^ dictionary word to check
-  -> Bool       -- ^ true if dictionary word matches letters
-spellingBee ls ys = isLetters ls && go ls ys
-  where
-    go _ []     = True  -- all characters in the word have been checked and are valid
-    go ls' (y:ys')  -- guard against invalid letter pools
-      | y `elem` ls' = go ls' ys' -- character is valid; continue checking the remaining characters
-      | otherwise    = False -- character is not valid; the word does not match the allowed letters
+     String        -- ^ valid letters
+  -> BS.ByteString -- ^ dictionary word to check
+  -> Bool          -- ^ true if dictionary word matches letters
+spellingBee ls ys = BS.all (`elem` ls) ys

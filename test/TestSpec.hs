@@ -2,11 +2,13 @@
 
 module Main(main) where
 
-import           Data.Ix         (inRange)
-import           Data.Validation (Validation (..))
-import           Test.Hspec      (context, describe, hspec, it, shouldBe)
-import           WordPuzzle      (ValidationError (..), nineLetters,
-                                  spellingBee, validateLetters, validateSize)
+import qualified Data.ByteString.Char8 as BS
+import           Data.Ix               (inRange)
+import           Data.Validation       (Validation (..))
+import           Test.Hspec            (context, describe, hspec, it, shouldBe)
+import           WordPuzzle            (ValidationError (..), nineLetters,
+                                        spellingBee, validateLetters,
+                                        validateSize)
 
 main :: IO ()
 main = hspec $ do
@@ -62,15 +64,6 @@ main = hspec $ do
     context "when word does not contain valid character frequency" $
       it "returns false" $
         nineLetters "abcdef" "aabdefc" `shouldBe` False
-    context "when the letter pool is invalid" $
-      it "returns false" $
-        nineLetters "abca" "abc" `shouldBe` False
-    context "when the letter pool is too short" $
-      it "returns false" $
-        nineLetters "abc" "abc" `shouldBe` False
-    context "when the letter pool has uppercase letters" $
-      it "returns false" $
-        nineLetters "Abcd" "abc" `shouldBe` False
 
   describe "spellingBee" $ do
     context "when word contains valid characters" $
@@ -79,21 +72,12 @@ main = hspec $ do
     context "when word does not contain valid characters" $
       it "returns false" $
         spellingBee "barfo" "bartez" `shouldBe` False
-    context "when the letter pool is invalid" $
-      it "returns false" $
-        spellingBee "abca" "abc" `shouldBe` False
-    context "when the letter pool is too short" $
-      it "returns false" $
-        spellingBee "abc" "abc" `shouldBe` False
-    context "when the letter pool has uppercase letters" $
-      it "returns false" $
-        spellingBee "Abcd" "abc" `shouldBe` False
 
   describe "solver length predicate" $ do
-    let pS :: Bool -> Int -> String -> Bool
+    let pS :: Bool -> Int -> BS.ByteString -> Bool
         pS repeats size = if repeats
-                          then (>= size) . length
-                          else inRange (size, 9) . length
+                          then (>= size) . BS.length
+                          else inRange (size, 9) . BS.length
     context "repeats allowed" $
       it "permits words longer than the letter pool" $
         pS True 4 "aaaaaaaa" `shouldBe` True
