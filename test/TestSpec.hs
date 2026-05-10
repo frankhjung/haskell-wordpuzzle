@@ -2,50 +2,51 @@
 
 module Main(main) where
 
-import           Data.Ix    (inRange)
-import           Test.Hspec (context, describe, hspec, it, shouldBe)
-import           WordPuzzle (ValidationError (..), checkLetters, checkSize,
-                             nineLetters, spellingBee)
+import           Data.Ix         (inRange)
+import           Data.Validation (Validation (..))
+import           Test.Hspec      (context, describe, hspec, it, shouldBe)
+import           WordPuzzle      (ValidationError (..), nineLetters,
+                                  spellingBee, validateLetters, validateSize)
 
 main :: IO ()
 main = hspec $ do
 
-  describe "checkSize" $ do
+  describe "validateSize" $ do
     context "too small" $
-      it "returns Left" $
-        checkSize 0 `shouldBe` Left (InvalidSize (4,9) 0)
+      it "returns Failure" $
+        validateSize 0 `shouldBe` Failure [InvalidSize (4,9) 0]
     context "just below minimum" $
-      it "returns Left" $
-        checkSize 3 `shouldBe` Left (InvalidSize (4,9) 3)
+      it "returns Failure" $
+        validateSize 3 `shouldBe` Failure [InvalidSize (4,9) 3]
     context "too large" $
-      it "returns Left" $
-        checkSize 10 `shouldBe` Left (InvalidSize (4,9) 10)
+      it "returns Failure" $
+        validateSize 10 `shouldBe` Failure [InvalidSize (4,9) 10]
     context "size in range" $
-      it "returns Right" $
-        checkSize 4 `shouldBe` Right 4
+      it "returns Success" $
+        validateSize 4 `shouldBe` Success 4
 
-  describe "checkLetters" $ do
+  describe "validateLetters" $ do
     context "fewer than 4 letters" $
-      it "returns Left" $
-        checkLetters "abc" `shouldBe` Left (InvalidLetters "abc")
+      it "returns Failure" $
+        validateLetters "abc" `shouldBe` Failure [InvalidLetters "abc"]
     context "4 lowercase letters (lower bound)" $
-      it "returns Right" $
-        checkLetters "abcd" `shouldBe` Right "abcd"
+      it "returns Success" $
+        validateLetters "abcd" `shouldBe` Success "abcd"
     context "mid-range lowercase letters" $
-      it "returns Right" $
-        checkLetters "abcdefg" `shouldBe` Right "abcdefg"
+      it "returns Success" $
+        validateLetters "abcdefg" `shouldBe` Success "abcdefg"
     context "9 lowercase letters (upper bound)" $
-      it "returns Right" $
-        checkLetters "abcdefghi" `shouldBe` Right "abcdefghi"
+      it "returns Success" $
+        validateLetters "abcdefghi" `shouldBe` Success "abcdefghi"
     context "mixed case letters" $
-      it "returns Left" $
-        checkLetters "abcdeFghi" `shouldBe` Left (InvalidLetters "abcdeFghi")
+      it "returns Failure" $
+        validateLetters "abcdeFghi" `shouldBe` Failure [InvalidLetters "abcdeFghi"]
     context "duplicate characters" $
-      it "returns Left" $
-        checkLetters "abca" `shouldBe` Left (InvalidLetters "abca")
+      it "returns Failure" $
+        validateLetters "abca" `shouldBe` Failure [InvalidLetters "abca"]
     context "too many letters" $
-      it "returns Left" $
-        checkLetters "abcdefghij" `shouldBe` Left (InvalidLetters "abcdefghij")
+      it "returns Failure" $
+        validateLetters "abcdefghij" `shouldBe` Failure [InvalidLetters "abcdefghij"]
 
   describe "nineLetters" $ do
     -- use a valid pool (unique letters, length between 4 and 9)

@@ -15,14 +15,14 @@
 
   > isXyz :: a -> Bool
 
-  Check functions return an 'Either':
+  Validate functions return a 'Validation':
 
-  > checkXyz :: a -> Either Error a
+  > validateXyz :: a -> Validation [ValidationError] a
 -}
 
 module WordPuzzle ( WordPuzzle
-                  , checkSize
-                  , checkLetters
+                  , validateSize
+                  , validateLetters
                   , nineLetters
                   , spellingBee
                   , solve
@@ -94,20 +94,6 @@ validateLetters ls = bool (Failure [InvalidLetters ls]) (Success ls) (isLetters 
 isSize :: Int -> Bool
 isSize = inRange (4,9)
 
--- | Check that we have between 4 and 9 characters to make words.
---
--- >>> checkSize 10
--- Left (InvalidSize (4, 9) 10)
---
--- >>> checkSize 1
--- Left (InvalidSize (4, 9) 1)
---
--- >>> checkSize 4
--- Right 4
-checkSize :: Int                 -- ^ size of word to check
-            -> Either ValidationError Int -- ^ Left unexpected size or Right size
-checkSize s = bool (Left (InvalidSize (4, 9) s)) (Right s) (isSize s)
-
 -- | Are letters valid?  Valid strings contain between 4 and 9
 -- *unique* lowercase letters.
 --
@@ -127,11 +113,6 @@ isLetters ls =
   inRange (4,9) n && all isLower ls && length (nub ls) == n
   where
     n = length ls
-
--- | Check that letters are lowercase alphabetic characters.
-checkLetters :: String                -- ^ characters to check
-              -> Either ValidationError String -- ^ valid lowercase letters
-checkLetters ls = bool (Left (InvalidLetters ls)) (Right ls) (isLetters ls)
 
 -- | Does word contain the mandatory letter?
 hasMandatory :: Char -> String -> Bool

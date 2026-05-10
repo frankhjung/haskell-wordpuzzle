@@ -10,15 +10,13 @@
 module Main(main) where
 
 import           Data.Version        (showVersion)
-import           Options.Applicative (Parser, ParserInfo, ReadM, eitherReader,
-                                      execParser, footer, fullDesc, header,
-                                      help, helper, info, long, metavar, option,
-                                      progDesc, short, showDefault, strOption,
-                                      switch, value, (<**>))
+import           Options.Applicative (Parser, ParserInfo, auto, execParser,
+                                      footer, fullDesc, header, help, helper,
+                                      info, long, metavar, option, progDesc,
+                                      short, showDefault, strOption, switch,
+                                      value, (<**>))
 import           Paths_wordpuzzle    (version)
-import           Text.Read           (readMaybe)
-import           WordPuzzle          (ValidationError (..), checkLetters,
-                                      checkSize, solve, toEither, validate)
+import           WordPuzzle          (solve, toEither, validate)
 
 -- | Valid command line options.
 data Opts = Opts
@@ -31,14 +29,14 @@ data Opts = Opts
 -- | Applicative structure for parser command line options.
 options :: Parser Opts
 options = Opts
-  <$> option readerSize
+  <$> option auto
       ( long "size"
      <> short 's'
      <> help "Minimum word size is (4-9)"
      <> showDefault
      <> value 4
      <> metavar "INT" )
-  <*> option readerLetters
+  <*> strOption
       ( long "letters"
      <> short 'l'
      <> help "4-9 unique lowercase letters to make words"
@@ -55,17 +53,6 @@ options = Opts
      <> short 'r'
      <> help "Allow letters to repeat (like Spelling Bee)" )
 
--- | Read size in range from 4 to 9 (minimum word size).
-readerSize :: ReadM Int -- ^ Size
-readerSize = eitherReader readSizeOption
-
--- | Read an alphabetic string (letters of puzzle).
-readerLetters :: ReadM String -- ^ from 4 to 9 letters to make words
-readerLetters = eitherReader $ \ls ->
-  case checkLetters ls of
-    Left err -> Left (show err)
-    Right v  -> Right v
-
 -- | Read application version from cabal configuration.
 packageVersion :: String -- ^ Version string
 packageVersion = "Version: " <> showVersion version
@@ -77,17 +64,6 @@ optsParser = info (options <**> helper)
         <> fullDesc
         <> progDesc "Solve word puzzles"
         <> footer packageVersion )
-
--- | Process size read from a command line option.
-readSizeOption :: String            -- ^ string value to check as a valid size
-               -> Either String Int -- ^ Left error message or Right size
-readSizeOption ss =
-  let s = (readMaybe ss :: Maybe Int) in
-  case s of
-    Just i  -> case checkSize i of
-                 Left err -> Left (show err)
-                 Right v  -> Right v
-    Nothing -> Left (show (UnexpectedValue ss))
 
 -- | Main.
 -- Calls WordPuzzle.solve with options from command line.
