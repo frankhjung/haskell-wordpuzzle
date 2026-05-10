@@ -20,20 +20,21 @@
   > validateXyz :: a -> Validation [ValidationError] a
 -}
 
-module WordPuzzle ( WordPuzzle
+module WordPuzzle ( WordPuzzle(..)
                   , validateSize
                   , validateLetters
                   , nineLetters
                   , spellingBee
                   , solve
+                  , solver
                   , ValidationError(..)
                   , validate
                   , toEither
                   ) where
 
-import           Data.Bits                  ((.&.), (.|.), shiftL)
-import qualified Data.ByteString.Char8      as BS
+import           Data.Bits                  (shiftL, (.&.), (.|.))
 import           Data.Bool                  (bool)
+import qualified Data.ByteString.Char8      as BS
 import           Data.Char                  (isLower, ord)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
@@ -138,17 +139,22 @@ hasMandatory = BS.elem
 solve :: WordPuzzle -> IO ()
 solve wordpuzzle = Streams.withFileAsInput (dictionary wordpuzzle) $ \is -> do
   lines_is <- Streams.lines is
-  filtered_is <- Streams.filter (getPredicate (pS <> pM <> pL)) lines_is
+  filtered_is <- solver wordpuzzle lines_is
   consume filtered_is
   where
-    pS = Predicate $ checkLength (repeats wordpuzzle) (size wordpuzzle)
-    pM = Predicate $ hasMandatory (mandatory wordpuzzle)
-    pL = Predicate $ checkLettersPool (repeats wordpuzzle) (letters wordpuzzle)
     consume is = do
       m <- Streams.read is
       case m of
         Nothing -> return ()
         Just x  -> BS.putStrLn x >> consume is
+
+-- | Filter words from an input stream based on the puzzle constraints.
+solver :: WordPuzzle -> Streams.InputStream BS.ByteString -> IO (Streams.InputStream BS.ByteString)
+solver puzzle = Streams.filter (getPredicate (pS <> pM <> pL))
+  where
+    pS = Predicate $ checkLength (repeats puzzle) (size puzzle)
+    pM = Predicate $ hasMandatory (mandatory puzzle)
+    pL = Predicate $ checkLettersPool (repeats puzzle) (letters puzzle)
 
 -- | Check word length based on whether repeats are allowed.
 checkLength :: Bool -- ^ allow repeats?
@@ -181,13 +187,13 @@ nineLetters ::
      String        -- ^ valid letters
   -> BS.ByteString -- ^ dictionary word to check
   -> Bool          -- ^ true if dictionary word matches letters
-nineLetters ls ys = go (0 :: Int) ys
+nineLetters ls = go (0 :: Int)
   where
     go !mask bs = case BS.uncons bs of
       Nothing -> True
       Just (c, rest) ->
         let bit = 1 `shiftL` (ord c - ord 'a')
-        in (c `elem` ls) && (mask .&. bit == 0) && go (mask .|. bit) rest
+        in c `elem` ls && mask .&. bit == 0 && go (mask .|. bit) rest
 
 -- | Check if a word contains only characters from a letters list.
 -- Repeating characters are allowed.
@@ -197,4 +203,4 @@ spellingBee ::
      String        -- ^ valid letters
   -> BS.ByteString -- ^ dictionary word to check
   -> Bool          -- ^ true if dictionary word matches letters
-spellingBee ls ys = BS.all (`elem` ls) ys
+spellingBee ls = BS.all (`elem` ls)

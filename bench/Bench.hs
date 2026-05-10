@@ -1,7 +1,7 @@
 module Main(main) where
 
-import qualified Data.ByteString.Char8 as BS
 import           Criterion.Main        (bench, bgroup, defaultMain, nf)
+import qualified Data.ByteString.Char8 as BS
 import           WordPuzzle            (nineLetters, spellingBee)
 
 main :: IO ()

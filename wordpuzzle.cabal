@@ -1,6 +1,6 @@
 cabal-version:      3.0
 name:               wordpuzzle
-version:            1.0.2
+version:            1.0.3
 synopsis:           word puzzle solver
 tested-with:        GHC ==9.4.8 || ==9.6.7
 description:
@@ -44,12 +44,12 @@ library
     , validation  ^>=1.1
 
 executable wordpuzzle
-  import:           shared-properties
-  hs-source-dirs:   app
-  main-is:          Main.hs
-  ghc-options:      -threaded
-  autogen-modules:  Paths_wordpuzzle
-  other-modules:    Paths_wordpuzzle
+  import:          shared-properties
+  hs-source-dirs:  app
+  main-is:         Main.hs
+  ghc-options:     -threaded
+  autogen-modules: Paths_wordpuzzle
+  other-modules:   Paths_wordpuzzle
   build-depends:
     , base                  ^>=4.18.3
     , bytestring
@@ -58,25 +58,26 @@ executable wordpuzzle
     , wordpuzzle
 
 test-suite test
-  import:           shared-properties
-  hs-source-dirs:   test
-  main-is:          TestSpec.hs
-  type:             exitcode-stdio-1.0
+  import:         shared-properties
+  hs-source-dirs: test
+  main-is:        TestSpec.hs
+  type:           exitcode-stdio-1.0
   build-depends:
     , base        ^>=4.18.3
     , bytestring
     , hspec       ^>=2.11
-    , validation  ^>=1.1
+    , io-streams
+    , validation
     , wordpuzzle
 
 benchmark benchmark
-  import:           shared-properties
-  hs-source-dirs:   bench
-  main-is:          Bench.hs
-  type:             exitcode-stdio-1.0
+  import:         shared-properties
+  hs-source-dirs: bench
+  main-is:        Bench.hs
+  type:           exitcode-stdio-1.0
   build-depends:
     , base        ^>=4.18.3
     , bytestring
     , criterion   ^>=1.6
-    , validation  ^>=1.1
+    , validation
     , wordpuzzle

@@ -288,7 +288,7 @@ Available options:
   -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
-Version: 1.0.2
+Version: 1.0.3
 ```
 
 Missing arguments:
@@ -342,7 +342,7 @@ Using [HSpec](https://hspec.github.io/):
 $ cabal test --test-show-details=direct
 ...
 Finished in 0.00xx seconds
-25 examples, 0 failures
+21 examples, 0 failures
 Test suite test: PASS
 ```
 
@@ -366,23 +366,22 @@ cabal bench
 $ cabal bench
 Build profile: -w ghc-9.6.7 -O1
 In order, the following will be built (use -v for more details):
- - wordpuzzle-1.0.2 (bench:benchmark) (ephemeral targets)
-Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.2...
-Building benchmark 'benchmark' for wordpuzzle-1.0.2...
+ - wordpuzzle-1.0.3 (bench:benchmark) (ephemeral targets)
+Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.3...
+Building benchmark 'benchmark' for wordpuzzle-1.0.3...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
-time                 50.69 ns   (50.50 ns .. 50.94 ns)
+time                 46.18 ns   (46.11 ns .. 46.30 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 50.59 ns   (50.53 ns .. 50.74 ns)
-std dev              278.3 ps   (119.5 ps .. 536.3 ps)
+mean                 46.34 ns   (46.21 ns .. 46.84 ns)
+std dev              789.7 ps   (233.5 ps .. 1.604 ns)
 
 benchmarking WordPuzzle/spellingBee
-time                 151.5 ns   (151.2 ns .. 152.1 ns)
+time                 149.2 ns   (149.0 ns .. 149.6 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 151.8 ns   (151.5 ns .. 153.2 ns)
-std dev              2.154 ns   (650.5 ps .. 4.759 ns)
-variance introduced by outliers: 16% (moderately inflated)
+mean                 149.3 ns   (149.0 ns .. 149.8 ns)
+std dev              1.373 ns   (910.2 ps .. 2.325 ns)
 
 Benchmark benchmark: FINISH
 ```
@@ -436,7 +435,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 1.0.2 of this project is using [LTS Haskell 22.44
+Version 1.0.3 of this project is using [LTS Haskell 22.44
 (ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph
@@ -450,6 +449,10 @@ stack dot --external | dot -Tpng -o doc/dependencies.png
 ![Dependencies Graph](doc/dependencies.png)
 
 ## References
+
+## Glossary
+
+- [Glossary](GLOSSARY.md)
 
 ### Haskell Build
 

@@ -5,10 +5,11 @@ module Main(main) where
 import qualified Data.ByteString.Char8 as BS
 import           Data.Ix               (inRange)
 import           Data.Validation       (Validation (..))
+import qualified System.IO.Streams     as Streams
 import           Test.Hspec            (context, describe, hspec, it, shouldBe)
-import           WordPuzzle            (ValidationError (..), nineLetters,
-                                        spellingBee, validateLetters,
-                                        validateSize)
+import           WordPuzzle            (ValidationError (..), WordPuzzle (..),
+                                        nineLetters, solver, spellingBee,
+                                        validateLetters, validateSize)
 
 main :: IO ()
 main = hspec $ do
@@ -63,7 +64,7 @@ main = hspec $ do
         nineLetters "abcdef" "zapd" `shouldBe` False
     context "when word does not contain valid character frequency" $
       it "returns false" $
-        nineLetters "abcdef" "aabdefc" `shouldBe` False
+        nineLetters "abcdef" "abadefc" `shouldBe` False
 
   describe "spellingBee" $ do
     context "when word contains valid characters" $
@@ -75,12 +76,27 @@ main = hspec $ do
 
   describe "solver length predicate" $ do
     let pS :: Bool -> Int -> BS.ByteString -> Bool
-        pS repeats size = if repeats
-                          then (>= size) . BS.length
-                          else inRange (size, 9) . BS.length
+        pS r s = if r
+                 then (>= s) . BS.length
+                 else inRange (s, 9) . BS.length
     context "repeats allowed" $
       it "permits words longer than the letter pool" $
         pS True 4 "aaaaaaaa" `shouldBe` True
     context "repeats forbidden" $
       it "rejects words longer than 9 characters" $
         pS False 4 "abcdefghij" `shouldBe` False
+
+  describe "solver" $ do
+    it "filters words in nine letters mode" $ do
+      let puzzle = WordPuzzle 4 'a' "abcd" "dictionary" False
+      is <- Streams.fromList ["abcd", "bcde", "aabc", "aaaa", "abcde"]
+      os <- solver puzzle is
+      res <- Streams.toList os
+      res `shouldBe` ["abcd"]
+
+    it "filters words in spelling bee mode" $ do
+      let puzzle = WordPuzzle 4 'a' "abcd" "dictionary" True
+      is <- Streams.fromList ["abcd", "bcde", "aabc", "aaaa", "abcde"]
+      os <- solver puzzle is
+      res <- Streams.toList os
+      res `shouldBe` ["abcd", "aabc", "aaaa"]
