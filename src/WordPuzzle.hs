@@ -1,7 +1,7 @@
 {-|
   Module      : WordPuzzle
   Description : Word Puzzle supporting functions.
-  Copyright   : © Frank Jung, 2017-2025
+  Copyright   : © Frank Jung, 2017-2026
   License     : BSD-3-Clause
   Maintainer  : frankhjung@linux.com
   Stability   : stable
@@ -135,18 +135,23 @@ hasMandatory = BS.elem
 --
 -- Example:
 --
+-- @
 -- solve (WordPuzzle 4 'a' "abcdefghij" "dictionary.txt")
+-- @
+--
+-- Method:
+--
+-- * open file
+-- * split into lines
+-- * filter
+-- * print each
+-- * force traversal to EOF
 solve :: WordPuzzle -> IO ()
 solve wordpuzzle = Streams.withFileAsInput (dictionary wordpuzzle) $ \is -> do
   lines_is <- Streams.lines is
   filtered_is <- solver wordpuzzle lines_is
-  consume filtered_is
-  where
-    consume is = do
-      m <- Streams.read is
-      case m of
-        Nothing -> return ()
-        Just x  -> BS.putStrLn x >> consume is
+  printed_is <- Streams.mapM_ BS.putStrLn filtered_is
+  Streams.skipToEof printed_is
 
 -- | Filter words from an input stream based on the puzzle constraints.
 solver :: WordPuzzle -> Streams.InputStream BS.ByteString -> IO (Streams.InputStream BS.ByteString)
@@ -164,7 +169,8 @@ checkLength :: Bool -- ^ allow repeats?
 checkLength True  s = (>= s) . BS.length
 checkLength False s = inRange (s, 9) . BS.length
 
--- | Check if a word matches the letter pool based on whether repeats are allowed.
+-- | Check if a word matches the letter pool based on whether repeats
+-- are allowed.
 --
 -- Assumes that the letter pool is valid (see 'isLetters').
 checkLettersPool :: Bool -- ^ allow repeats?
@@ -176,24 +182,34 @@ checkLettersPool False ls = nineLetters ls
 
 -- | Check if a word contains only characters from a letters list.
 --
--- * If all valid characters are removed from the word, and there are still
--- characters left over, then the word is not valid.
+-- Uses a strict left fold over the input word with accumulator @(mask, ok)@:
 --
--- * If all valid characters are removed from the word, and the word is
--- empty, then the word is valid.
+-- * @mask@ is a bitset of already seen letters.
+--
+-- * @ok@ tracks whether all checks have passed so far.
+--
+-- For each character, the fold:
+--
+-- * fails if the character is not in the valid letter pool,
+--
+-- * fails if the character bit is already set (repeated letter),
+--
+-- * otherwise sets the bit and continues.
 --
 -- Assumes that the letter pool is valid (see 'isLetters').
 nineLetters ::
      String        -- ^ valid letters
   -> BS.ByteString -- ^ dictionary word to check
   -> Bool          -- ^ true if dictionary word matches letters
-nineLetters ls = go (0 :: Int)
+nineLetters ls = snd . BS.foldl' step (0 :: Int, True)
   where
-    go !mask bs = case BS.uncons bs of
-      Nothing -> True
-      Just (c, rest) ->
-        let bit = 1 `shiftL` (ord c - ord 'a')
-        in c `elem` ls && mask .&. bit == 0 && go (mask .|. bit) rest
+    step (mask, ok) c
+      | not ok            = (mask, False) -- already failed, skip checks
+      | c `notElem` ls    = (mask, False) -- character not in letter pool
+      | mask .&. bit /= 0 = (mask, False) -- character already seen (repeated)
+      | otherwise         = (mask .|. bit, True) -- continue with bit set
+      where
+        bit = 1 `shiftL` (ord c - ord 'a')  -- bit position for character
 
 -- | Check if a word contains only characters from a letters list.
 -- Repeating characters are allowed.

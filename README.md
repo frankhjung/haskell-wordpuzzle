@@ -363,7 +363,11 @@ cabal bench
 ```
 
 ```text
-$ cabal bench
+$ make bench
+Configuration is affected by the following files:
+- cabal.project
+- cabal.project.freeze
+- cabal.project.local
 Build profile: -w ghc-9.6.7 -O1
 In order, the following will be built (use -v for more details):
  - wordpuzzle-1.0.3 (bench:benchmark) (ephemeral targets)
@@ -372,16 +376,16 @@ Building benchmark 'benchmark' for wordpuzzle-1.0.3...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
-time                 46.18 ns   (46.11 ns .. 46.30 ns)
+time                 42.19 ns   (42.15 ns .. 42.22 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 46.34 ns   (46.21 ns .. 46.84 ns)
-std dev              789.7 ps   (233.5 ps .. 1.604 ns)
+mean                 42.18 ns   (42.16 ns .. 42.21 ns)
+std dev              85.96 ps   (63.63 ps .. 136.6 ps)
 
 benchmarking WordPuzzle/spellingBee
-time                 149.2 ns   (149.0 ns .. 149.6 ns)
+time                 146.4 ns   (146.1 ns .. 146.8 ns)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 149.3 ns   (149.0 ns .. 149.8 ns)
-std dev              1.373 ns   (910.2 ps .. 2.325 ns)
+mean                 146.6 ns   (146.4 ns .. 146.8 ns)
+std dev              715.3 ps   (540.8 ps .. 1.006 ns)
 
 Benchmark benchmark: FINISH
 ```
@@ -392,14 +396,18 @@ Using the dictionary sited above, the run time performance for the example:
 
 ```text
 $ cabal exec wordpuzzle -- -s 7 -l cadevrsoi -d dictionary +RTS -s 1>/dev/null
-     113,482,464 bytes allocated in the heap
-         679,384 bytes copied during GC
-          78,952 bytes maximum residency (2 sample(s))
-          33,600 bytes maximum slop
+Configuration is affected by the following files:
+- cabal.project
+- cabal.project.freeze
+- cabal.project.local
+      22,011,824 bytes allocated in the heap
+          64,072 bytes copied during GC
+         114,336 bytes maximum residency (2 sample(s))
+          29,688 bytes maximum slop
                6 MiB total memory in use (0 MiB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0        26 colls,     0 par    0.001s   0.001s     0.0000s    0.0001s
+  Gen  0         4 colls,     0 par    0.000s   0.000s     0.0000s    0.0001s
   Gen  1         2 colls,     0 par    0.000s   0.000s     0.0001s    0.0002s
 
   TASKS: 4 (1 bound, 3 peak workers (3 total), using -N1)
@@ -407,14 +415,14 @@ $ cabal exec wordpuzzle -- -s 7 -l cadevrsoi -d dictionary +RTS -s 1>/dev/null
   SPARKS: 0 (0 converted, 0 overflowed, 0 dud, 0 GC'd, 0 fizzled)
 
   INIT    time    0.001s  (  0.001s elapsed)
-  MUT     time    0.028s  (  0.028s elapsed)
-  GC      time    0.001s  (  0.001s elapsed)
-  EXIT    time    0.001s  (  0.001s elapsed)
-  Total   time    0.030s  (  0.030s elapsed)
+  MUT     time    0.011s  (  0.012s elapsed)
+  GC      time    0.000s  (  0.000s elapsed)
+  EXIT    time    0.001s  (  0.008s elapsed)
+  Total   time    0.013s  (  0.020s elapsed)
 
-  Alloc rate    4,121,178,763 bytes per MUT second
+  Alloc rate    1,916,538,320 bytes per MUT second
 
-  Productivity  92.0% of total user, 90.8% of total elapsed
+  Productivity  86.0% of total user, 56.7% of total elapsed
 ```
 
 ## Command Line Parsers
