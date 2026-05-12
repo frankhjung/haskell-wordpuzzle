@@ -326,6 +326,8 @@ mv dictionary.filtered dictionary
 The default dictionary is sourced from the
 [wamerican](https://packages.debian.org/search?keywords=wamerican) package.
 
+See also the dictionary filter script: [filter-words.sh](filter-words.sh).
+
 ### Sort Words by Size
 
 To show words by size use:
