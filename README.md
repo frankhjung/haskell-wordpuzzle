@@ -9,7 +9,7 @@ Solve word puzzles like:
   [Scientific American Spellements](https://www.scientificamerican.com/game/spellements/)
   (using `--repeats`)
 
-![nineletterword.tompaton.com](doc/nineletterword.png)
+![nineletterword.tompaton.com](docs/nineletterword.png)
 
 The default dictionary used by the project is the Debian `wamerican` word list.
 Package metadata for reference:
@@ -33,9 +33,7 @@ permanent record. Git pipelines produce the same documentation and deploy it to
 GitHub Pages and GitLab Pages.
 
 ```bash
-cp -r \
-  dist-newstyle/build/*/wordpuzzle-*/x/wordpuzzle/doc/html/wordpuzzle/wordpuzzle/* \
-  doc/html/wordpuzzle/
+cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-*/doc/html/ docs/
 ```
 
 Alternatively run `make copy`, which performs the copy automatically.
@@ -76,7 +74,7 @@ The workflow simply mirrors the local command line usage, e.g.:
 ./wordpuzzle --size=6 --letters=cadevrsoi --repeats
 ```
 
-See `doc/github-run-wordpuzzle.md` and `doc/gitlab-run-wordpuzzle.md` for more
+See `docs/github-run-wordpuzzle.md` and `docs/gitlab-run-wordpuzzle.md` for more
 background on how the run pipelines execute the solver with inputs.
 
 ### GitLab Workflow Rules (Global)
@@ -326,6 +324,8 @@ mv dictionary.filtered dictionary
 The default dictionary is sourced from the
 [wamerican](https://packages.debian.org/search?keywords=wamerican) package.
 
+See also the dictionary filter script: [filter-words.sh](filter-words.sh).
+
 ### Sort Words by Size
 
 To show words by size use:
@@ -451,15 +451,14 @@ Version 1.0.3 of this project is using [LTS Haskell 22.44
 To produce a package dependencies graph, run:
 
 ```bash
-stack dot --external | dot -Tpng -o doc/dependencies.png
+stack dot --external | dot -Tpng -o docs/dependencies.png
 ```
 
-![Dependencies Graph](doc/dependencies.png)
+![Dependencies Graph](docs/dependencies.png)
 
 ## References
 
-## Glossary
-
+- [Design Document](docs/design.md)
 - [Glossary](GLOSSARY.md)
 
 ### Haskell Build
@@ -475,8 +474,8 @@ Documentation is built using [Haddock](https://www.haskell.org/haddock/).
 
 Included in this repository is generated documentation for the current version.
 
-- [haddock function documentation](./doc/html/wordpuzzle/index.html)
-- [criterion performance benchmarks](./doc/benchmark.html)
+- [haddock function documentation](docs/html/wordpuzzle/index.html)
+- [criterion performance benchmarks](docs/benchmark.html)
 
 ## My WordPuzzle Solver Implementations
 

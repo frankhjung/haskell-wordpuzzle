@@ -59,11 +59,9 @@ doc: ## Build Haddock documentation
 		exe:$(TARGET)
 
 .PHONY:	copy
-copy: doc ## Copy generated Haddock output to doc/html
+copy: doc ## Copy generated Haddock output to docs/html
 	@echo copying documentation ...
-	@cp -r \
-		dist-newstyle/build/*/$(TARGET)-*/x/$(TARGET)/doc/html/$(TARGET)/$(TARGET)/* \
-		doc/html/$(TARGET)/
+	@cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/$(TARGET)-*/doc/html/ docs/
 
 .PHONY:	bench
 bench: ## Run benchmarks
