@@ -485,4 +485,5 @@ Included in this repository is generated documentation for the current version.
 - [Haskell](https://github.com/frankhjung/haskell-wordpuzzle)
 - [Java](https://github.com/frankhjung/java-wordpuzzle)
 - [Kotlin](https://github.com/frankhjung/kotlin-wordpuzzle)
+- [Lean](https://github.com/frankhjung/lean-wordpuzzle)
 - [Python](https://github.com/frankhjung/python-wordpuzzle)
