@@ -16,7 +16,7 @@ import           Options.Applicative (Parser, ParserInfo, auto, execParser,
                                       short, showDefault, strOption, switch,
                                       value, (<**>))
 import           Paths_wordpuzzle    (version)
-import           WordPuzzle          (solve, toEither, validate)
+import           WordPuzzle          (mkWordPuzzle, solve, toEither)
 
 -- | Valid command line options.
 data Opts = Opts
@@ -70,7 +70,9 @@ optsParser = info (options <**> helper)
 main :: IO ()
 main = do
   opts <- execParser optsParser
-  let validation = validate (repeats opts) (size opts) (letters opts) (dictionary opts)
+  let validation = mkWordPuzzle
+        (repeats opts) (size opts)
+        (letters opts) (dictionary opts)
   case toEither validation of
     Left errors  -> mapM_ print errors -- Print all validation errors
     Right puzzle -> solve puzzle

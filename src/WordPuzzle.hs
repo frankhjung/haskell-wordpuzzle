@@ -20,7 +20,10 @@
   > validateXyz :: a -> Validation [ValidationError] a
 -}
 
-module WordPuzzle ( WordPuzzle(..)
+module WordPuzzle ( WordPuzzle
+                  , mkWordPuzzle
+                  , size, mandatory, letters
+                  , dictionary, repeats
                   , validateSize
                   , validateLetters
                   , nineLetters
@@ -28,7 +31,6 @@ module WordPuzzle ( WordPuzzle(..)
                   , solve
                   , solver
                   , ValidationError(..)
-                  , validate
                   , toEither
                   ) where
 
@@ -50,7 +52,7 @@ data WordPuzzle = WordPuzzle
                   , letters    :: String   -- ^ letters to make words (4–9 unique lowercase characters)
                   , dictionary :: FilePath -- ^ dictionary for valid words
                   , repeats    :: Bool     -- ^ whether letters can be repeated
-                  } deriving (Show)
+                  } deriving (Eq, Show)
 
 -- | Error given on invalid parameter.
 data ValidationError =
@@ -66,15 +68,20 @@ instance Show ValidationError where
   show (InvalidLetters ls)  = "expected 4-9 unique lowercase letters, got " ++ ls
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
 
--- | Validate program parameters.
-validate :: Bool -> Int -> String -> FilePath -> Validation [ValidationError] WordPuzzle
-validate _ _ [] _ = Failure [InvalidLetters "empty letters"]
-validate r s (m:ls) d =
-  WordPuzzle <$> validateSize s         -- validate size
-             <*> pure m                 -- mandatory letter
-             <*> validateLetters (m:ls) -- validate letters
+-- | Smart constructor for 'WordPuzzle'.
+--
+-- The data constructor is not exported from this module.
+-- Use this function to create a validated 'WordPuzzle'.
+mkWordPuzzle :: Bool -> Int -> String -> FilePath
+             -> Validation [ValidationError] WordPuzzle
+mkWordPuzzle _ _ [] _ =
+  Failure [InvalidLetters "empty letters"]
+mkWordPuzzle r s (m:ls) d =
+  WordPuzzle <$> validateSize s         -- size
+             <*> pure m                 -- mandatory
+             <*> validateLetters (m:ls) -- letters
              <*> pure d                 -- dictionary
-             <*> pure r                 -- repeat letters
+             <*> pure r                 -- repeats
 
 -- | Validate size of word.
 validateSize :: Int -> Validation [ValidationError] Int

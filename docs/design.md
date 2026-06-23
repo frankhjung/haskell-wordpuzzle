@@ -73,16 +73,20 @@ The architecture separates command-line parsing from core domain logic.
 ### 4.2 Data models
 
 * `WordPuzzle`: A record containing the parameters of a specific run: `size`,
-  `mandatory`, `letters`, `dictionary`, and `repeats`.
+  `mandatory`, `letters`, `dictionary`, and `repeats`. The data constructor is
+  hidden from external modules; all construction must go through the
+  `mkWordPuzzle` smart constructor, which validates inputs before returning a
+  value.
 * `ValidationError`: A sum type encapsulating parsing errors: `InvalidSize`,
   `InvalidLetters`, and `UnexpectedValue`.
 
 ### 4.3 Execution flow
 
 1. **Initialisation**: The user invokes the executable with CLI arguments.
-2. **Validation**: `Main.hs` parses the arguments. If validation fails, all
-   errors are printed to stderr and the program halts. If successful, a
-   `WordPuzzle` object is instantiated.
+2. **Validation**: `Main.hs` parses the arguments and passes them to
+   `mkWordPuzzle`, the smart constructor. If validation fails, all errors are
+   printed to stderr and the program halts. If successful, a validated
+   `WordPuzzle` value is returned.
 3. **Stream processing**: `WordPuzzle.solve` opens the dictionary file using
    `System.IO.Streams.withFileAsInput`.
 4. **Transformation**: The raw byte stream is converted to a stream of lines.
@@ -115,6 +119,15 @@ The architecture separates command-line parsing from core domain logic.
   validation (where one rule depends on the success of another) more
   complex, dependent validation is explicitly not envisioned for this tool.
   This allows us to maintain simple and exhaustive error reporting.
+
+* **Smart constructor pattern vs. open constructor**: Exporting the raw
+  `WordPuzzle` data constructor would allow consumers to bypass validation and
+  create values with invalid invariants (e.g. size 0, uppercase letters). By
+  hiding the constructor and exporting only `mkWordPuzzle`, we ensure every
+  `WordPuzzle` value is validated at construction time. This mirrors Lean 4's
+  `private mk` pattern using standard Haskell (no extensions). The trade-off
+  is that test code cannot directly construct values and must use the smart
+  constructor or a helper that extracts the `Success` case.
 
 ## 6. Evaluation and future considerations
 

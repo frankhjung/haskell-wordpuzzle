@@ -10,7 +10,24 @@ consists of a **Mandatory Letter**, a **Letter Pool**, and a **Word Size**.
 The central data structure used in the Haskell implementation to store the
 parsed command-line arguments. It includes the minimum word size, the mandatory
 character, the valid letter pool, the file path to the dictionary, and a flag
-indicating if repeated letters are allowed.
+indicating if repeated letters are allowed. The data constructor is not exported;
+all construction must go through the `mkWordPuzzle` smart constructor, which
+validates inputs before returning a value.
+
+## Smart Constructor
+
+A design pattern where the raw data constructor is hidden from external modules
+and only a validating factory function is exported. This ensures that every
+value of the type satisfies its invariants. In Haskell, this is achieved by
+omitting the constructor from the module export list. The technique mirrors
+Lean 4's `private mk` pattern.
+
+## mkWordPuzzle
+
+The smart constructor for the `WordPuzzle` type. It validates the word size and
+letter pool before constructing a value, returning
+`Validation [ValidationError] WordPuzzle`. This is the only way to create a
+`WordPuzzle` value from outside the `WordPuzzle` module.
 
 ## Mandatory Letter
 

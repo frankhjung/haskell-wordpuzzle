@@ -237,6 +237,11 @@ comprehensive error reporting for command line parameters. Instead of stopping
 at the first error, it collects all validation failures and reports them
 together.
 
+The `WordPuzzle` type uses the **smart constructor pattern**: the raw data
+constructor is hidden from external modules, and all construction goes through
+`mkWordPuzzle`, which performs validation before returning a value. This mirrors
+Lean 4's `private mk` approach using standard Haskell (no extensions required).
+
 Validations performed include:
 
 - Minimum word size must be between 4 and 9 letters (inclusive).
@@ -286,7 +291,7 @@ Available options:
   -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
-Version: 1.0.3
+Version: 1.1.0
 ```
 
 Missing arguments:
@@ -443,7 +448,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 1.0.3 of this project is using [LTS Haskell 22.44
+Version 1.1.0 of this project is using [LTS Haskell 22.44
 (ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph
