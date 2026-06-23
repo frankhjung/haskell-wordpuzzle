@@ -463,11 +463,6 @@ stack dot --external | dot -Tpng -o docs/dependencies.png
 
 ![Dependencies Graph](docs/dependencies.png)
 
-## References
-
-- [Design Document](docs/design.md)
-- [Glossary](GLOSSARY.md)
-
 ### Haskell Build
 
 Either of the following build tools can be used:
@@ -484,6 +479,14 @@ Included in this repository is generated documentation for the current version.
 - [haddock function documentation](docs/html/wordpuzzle/index.html)
 - [criterion performance benchmarks](docs/benchmark.html)
 
+## Project Resources
+
+- [Change Log](CHANGELOG.md)
+- [Comparing Lean 4 with Haskell](https://frankhjung.blogspot.com/2026/06/comparing-lean-4-with-haskell.html)
+- [Design Document](docs/design.md)
+- [Glossary](GLOSSARY.md)
+- [LICENSE](LICENSE)
+
 ## My WordPuzzle Solver Implementations
 
 - [Clojure](https://github.com/frankhjung/clojure-wordpuzzle)
@@ -492,5 +495,5 @@ Included in this repository is generated documentation for the current version.
 - [Haskell](https://github.com/frankhjung/haskell-wordpuzzle)
 - [Java](https://github.com/frankhjung/java-wordpuzzle)
 - [Kotlin](https://github.com/frankhjung/kotlin-wordpuzzle)
-- [Lean](https://github.com/frankhjung/lean-wordpuzzle)
+- [Lean 4](https://github.com/frankhjung/lean-wordpuzzle)
 - [Python](https://github.com/frankhjung/python-wordpuzzle)

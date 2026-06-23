@@ -140,11 +140,3 @@ on:
   a plugin architecture or domain-specific language for defining custom puzzle
   predicates.
 
-## 7. Changes
-
-Previously, the mandatory character was hardcoded as the first character of the
-`letters` argument. This has been updated to:
-
-* Require a separate `-m` argument.
-* Verify that the mandatory letter is present in the `letters` pool.
-* Validate that both are lowercase alphabetical characters.

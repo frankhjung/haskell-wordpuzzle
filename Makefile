@@ -50,7 +50,7 @@ test: ## Run test suite
 	@cabal test --test-show-details=direct
 
 .PHONY:	doc
-doc: ## Build Haddock documentation
+doc: ## Generate Haddock documentation
 	@echo doc ...
 	@cabal haddock \
 		--haddock-executables \
@@ -60,7 +60,7 @@ doc: ## Build Haddock documentation
 		exe:$(TARGET)
 
 .PHONY:	copy
-copy: doc ## Copy generated Haddock output to docs/html
+copy: doc ## Copy Haddock documentation to doc/html
 	@echo copying documentation ...
 	@cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/$(TARGET)-*/doc/html/ docs/
 
@@ -102,5 +102,5 @@ ghci: ## Open GHCi via cabal repl
 
 .PHONY:	clean
 clean: ## Clean build artifacts and tags
-	-cabal clean
-	-$(RM) tags
+	@cabal clean
+	@$(RM) tags
