@@ -6,7 +6,7 @@ TARGET	:= wordpuzzle
 CABAL	:= $(TARGET).cabal
 SRCS	:= $(wildcard */*.hs)
 
-ARGS	?= -s 7 -l cadevrsoi
+ARGS	?= -s 7 -m c -l cadevrsoi
 
 .PHONY: default
 default: format check build test

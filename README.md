@@ -65,13 +65,14 @@ minimal runner. Dispatch the workflow from the **Actions** tab and supply the
 following inputs:
 
 - `SIZE` – minimum word size (defaults to 4)
-- `LETTERS` – letters to use (first character becomes the mandatory letter)
+- `MANDATORY` – mandatory lowercase letter to include
+- `LETTERS` – letters to use
 - `REPEATS` – boolean flag to allow repeated letters (Spelling Bee)
 
 The workflow simply mirrors the local command line usage, e.g.:
 
 ```bash
-./wordpuzzle --size=6 --letters=cadevrsoi --repeats
+./wordpuzzle --size=6 --mandatory=c --letters=cadevrsoi --repeats
 ```
 
 See `docs/github-run-wordpuzzle.md` and `docs/gitlab-run-wordpuzzle.md` for more
@@ -255,19 +256,19 @@ Validations performed include:
 Run with custom letters and dictionary:
 
 ```bash
-make ARGS='-s 6 -l cadevrsoi -d /usr/share/dict/words' exec
+make ARGS='-s 6 -m c -l cadevrsoi -d /usr/share/dict/words' exec
 ```
 
 Run with default dictionary (4–9 letter words):
 
 ```bash
-make ARGS='-s 6 -l cadevrsoi' exec
+make ARGS='-s 6 -m c -l cadevrsoi' exec
 ```
 
 Run with letter repeats allowed (Spelling Bee mode):
 
 ```bash
-make ARGS='-s 7 -l mitncao -r' exec
+make ARGS='-s 7 -m m -l mitncao -r' exec
 ```
 
 ### Command-line help
@@ -278,27 +279,28 @@ View help and version information:
 $ wordpuzzle --help
 https://github.com/frankhjung/haskell-wordpuzzle
 
-Usage: wordpuzzle [-s|--size INT] (-l|--letters STRING)
+Usage: wordpuzzle [-s|--size INT] (-m|--mandatory CHAR) (-l|--letters STRING)
                   [-d|--dictionary FILENAME] [-r|--repeats]
 
   Solve word puzzles
 
 Available options:
   -s,--size INT            Minimum word size is (4-9) (default: 4)
+  -m,--mandatory CHAR      Mandatory lowercase letter
   -l,--letters STRING      4-9 unique lowercase letters to make words
   -d,--dictionary FILENAME Dictionary to search for words
                            (default: "dictionary")
   -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
-Version: 1.1.0
+Version: 1.1.1
 ```
 
 Missing arguments:
 
 ```bash
 $ cabal exec wordpuzzle --
-Missing: (-l|--letters STRING)
+Missing: (-m|--mandatory CHAR) (-l|--letters STRING)
 ```
 
 ### Dictionary setup
@@ -315,7 +317,7 @@ words.
 Alternatively, specify a custom dictionary:
 
 ```bash
-cabal exec wordpuzzle -- -l cadevrsoi -d dictionary
+cabal exec wordpuzzle -- -m c -l cadevrsoi -d dictionary
 ```
 
 Or download a larger dictionary:
@@ -336,7 +338,7 @@ See also the dictionary filter script: [filter-words.sh](filter-words.sh).
 To show words by size use:
 
 ```bash
-cabal exec wordpuzzle -- -l cadevrsoi | gawk '{print length($0), $0;}' | sort -r
+cabal exec wordpuzzle -- -m c -l cadevrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
 ## Unit Tests
@@ -400,7 +402,7 @@ Benchmark benchmark: FINISH
 Using the dictionary sited above, the run time performance for the example:
 
 ```text
-$ cabal exec wordpuzzle -- -s 7 -l cadevrsoi -d dictionary +RTS -s 1>/dev/null
+$ cabal exec wordpuzzle -- -s 7 -m c -l cadevrsoi -d dictionary +RTS -s 1>/dev/null
 Configuration is affected by the following files:
 - cabal.project
 - cabal.project.freeze
@@ -448,7 +450,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 1.1.0 of this project is using [LTS Haskell 22.44
+Version 1.1.1 of this project is using [LTS Haskell 22.44
 (ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph

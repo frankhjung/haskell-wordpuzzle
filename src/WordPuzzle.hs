@@ -59,6 +59,8 @@ data ValidationError =
     InvalidSize (Int, Int) Int      -- ^ expected range and actual size
     | InvalidLetters String         -- ^ actual letters (should be 4-9 unique lowercase letters)
     | UnexpectedValue String        -- ^ couldn't parse value
+    | InvalidMandatory Char         -- ^ mandatory character not lowercase a-z
+    | MandatoryNotInLetters Char String -- ^ mandatory character not in letters
     deriving (Eq)
 
 -- | Show 'ValidationError' as string.
@@ -67,29 +69,38 @@ instance Show ValidationError where
     ++ show en1 ++ ", " ++ show en2 ++ ") got " ++ show an
   show (InvalidLetters ls)  = "expected 4-9 unique lowercase letters, got " ++ ls
   show (UnexpectedValue xs) = "unexpected value " ++ xs ++ " for parameter"
+  show (InvalidMandatory c) = "expected lowercase letter for mandatory, got " ++ show c
+  show (MandatoryNotInLetters c ls) = "mandatory letter " ++ show c ++ " not in letters " ++ show ls
 
 -- | Smart constructor for 'WordPuzzle'.
 --
 -- The data constructor is not exported from this module.
 -- Use this function to create a validated 'WordPuzzle'.
-mkWordPuzzle :: Bool -> Int -> String -> FilePath
+mkWordPuzzle :: Bool -> Int -> Char -> String -> FilePath
              -> Validation [ValidationError] WordPuzzle
-mkWordPuzzle _ _ [] _ =
-  Failure [InvalidLetters "empty letters"]
-mkWordPuzzle r s (m:ls) d =
-  WordPuzzle <$> validateSize s         -- size
-             <*> pure m                 -- mandatory
-             <*> validateLetters (m:ls) -- letters
-             <*> pure d                 -- dictionary
-             <*> pure r                 -- repeats
+mkWordPuzzle r s m ls d =
+  WordPuzzle <$> validateSize s
+             <*> validateMandatory m
+             <*> validateLetters ls
+             <*> pure d
+             <*> pure r
+             <* validateMandatoryInLetters m ls
+
+-- | Validate mandatory character.
+validateMandatory :: Char -> Validation [ValidationError] Char
+validateMandatory m = bool (Failure [InvalidMandatory m]) (Success m) (isLower m)
+
+-- | Validate mandatory character is in letters.
+validateMandatoryInLetters :: Char -> String -> Validation [ValidationError] ()
+validateMandatoryInLetters m ls = bool (Failure [MandatoryNotInLetters m ls]) (Success ()) (isLower m && m `elem` ls)
 
 -- | Validate size of word.
 validateSize :: Int -> Validation [ValidationError] Int
 validateSize s = bool (Failure [InvalidSize (4,9) s]) (Success s) (isSize s)
 
-
 -- | Validate letters.
 validateLetters :: String -> Validation [ValidationError] String
+validateLetters "" = Failure [InvalidLetters "empty letters"]
 validateLetters ls = bool (Failure [InvalidLetters ls]) (Success ls) (isLetters ls)
 
 -- | Is size valid?  The value must be between 4 and 9 inclusive.
@@ -124,10 +135,6 @@ isLetters ls =
   inRange (4,9) n && all isLower ls && length (nub ls) == n
   where
     n = length ls
-
--- | Does word contain the mandatory letter?
-hasMandatory :: Char -> BS.ByteString -> Bool
-hasMandatory = BS.elem
 
 -- | Solve word puzzle given a dictionary of words.
 --
@@ -175,6 +182,10 @@ checkLength :: Bool -- ^ allow repeats?
             -> Bool -- ^ true if word length is valid
 checkLength True  s = (>= s) . BS.length
 checkLength False s = inRange (s, 9) . BS.length
+
+-- | Does word contain the mandatory letter?
+hasMandatory :: Char -> BS.ByteString -> Bool
+hasMandatory = BS.elem
 
 -- | Check if a word matches the letter pool based on whether repeats
 -- are allowed.

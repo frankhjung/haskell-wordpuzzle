@@ -16,7 +16,8 @@ dist-newstyle
 .markdownlint.yaml
 *.o
 *.prof
-public
+public/
+.stack/
 .stack-work/
 *.swp
 tags

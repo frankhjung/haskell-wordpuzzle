@@ -13,6 +13,10 @@ on: # yamllint disable-line rule:truthy
         description: "Letters to use"
         required: true
         type: string
+      MANDATORY:
+        description: "Mandatory letter"
+        required: true
+        type: string
       REPEATS:
         description: "Allow repeated letters"
         required: false
@@ -38,19 +42,22 @@ jobs:
         env:
           SIZE: ${{ inputs.SIZE }}
           LETTERS: ${{ inputs.LETTERS }}
+          MANDATORY: ${{ inputs.MANDATORY }}
         run: |
           # Extract leading integer component from SIZE
           echo "SIZE_INT=${SIZE%%[^0-9]*}" >> "$GITHUB_ENV"
           # Normalize letters to lowercase
           echo "LETTERS_LOWER=${LETTERS,,}" >> "$GITHUB_ENV"
+          # Normalize mandatory to lowercase
+          echo "MANDATORY_LOWER=${MANDATORY,,}" >> "$GITHUB_ENV"
 
-      - name: Run main with size ${{ env.SIZE_INT }}, letters ${{ env.LETTERS_LOWER }}, repeats ${{ inputs.REPEATS }}
+      - name: Run main with size ${{ env.SIZE_INT }}, mandatory ${{ env.MANDATORY_LOWER }}, letters ${{ env.LETTERS_LOWER }}, repeats ${{ inputs.REPEATS }}
         env:
           REPEATS: ${{ inputs.REPEATS }}
         run: |
           # Build argument array
-          ARGS=("--size=$SIZE_INT" "--letters=$LETTERS_LOWER")
+          ARGS=("-s" "$SIZE_INT" "-m" "$MANDATORY_LOWER" "-l" "$LETTERS_LOWER")
           # Add repeats flag if true
-          [[ "$REPEATS" = "true" ]] && ARGS+=(--repeats)
+          [[ "$REPEATS" = "true" ]] && ARGS+=("-r")
           # Run the executable with the appropriate arguments
-          ${{ env.EXE_PATH }} --dictionary=./dictionary "${ARGS[@]}"
+          ${{ env.EXE_PATH }} -d ./dictionary "${ARGS[@]}"

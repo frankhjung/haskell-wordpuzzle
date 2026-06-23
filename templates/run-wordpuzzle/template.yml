@@ -25,7 +25,8 @@ run_wordpuzzle:
     - |
       SIZE_INT="${SIZE%%[^0-9]*}"
       LETTERS_LOWER=$(echo "${LETTERS}" | tr '[:upper:]' '[:lower:]')
-      ARGS="--size=${SIZE_INT} --letters=${LETTERS_LOWER} --dictionary=dictionary"
-      if [ "${REPEATS}" = "true" ]; then ARGS="${ARGS} --repeats"; fi
+      MANDATORY_LOWER=$(echo "${MANDATORY}" | tr '[:upper:]' '[:lower:]')
+      ARGS="-s ${SIZE_INT} -m ${MANDATORY_LOWER} -l ${LETTERS_LOWER} -d dictionary"
+      if [ "${REPEATS}" = "true" ]; then ARGS="${ARGS} -r"; fi
       echo "Running wordpuzzle with args: ${ARGS}"
       ./wordpuzzle ${ARGS}

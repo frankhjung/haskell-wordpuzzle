@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-|
   Executable  : wordpuzzle
   Description : Word Puzzle command line.
@@ -10,21 +11,34 @@
 module Main(main) where
 
 import           Data.Version        (showVersion)
-import           Options.Applicative (Parser, ParserInfo, auto, execParser,
-                                      footer, fullDesc, header, help, helper,
-                                      info, long, metavar, option, progDesc,
-                                      short, showDefault, strOption, switch,
-                                      value, (<**>))
+import           Options.Applicative (Parser, ParserInfo, ReadM, auto,
+                                      eitherReader, execParser, footer,
+                                      fullDesc, header, help, helper, info,
+                                      long, metavar, option, progDesc, short,
+                                      showDefault, strOption, switch, value,
+                                      (<**>))
 import           Paths_wordpuzzle    (version)
 import           WordPuzzle          (mkWordPuzzle, solve, toEither)
 
 -- | Valid command line options.
 data Opts = Opts
               { size       :: Int       -- ^ Minimum word size (4-9 characters)
+              , mandatory  :: Char      -- ^ Mandatory lowercase letter
               , letters    :: String    -- ^ Letters to make words (4-9 characters)
               , dictionary :: FilePath  -- ^ Dictionary to search
               , repeats    :: Bool      -- ^ Allow letters to repeat
               } deriving (Show)
+
+-- | Read application version from cabal configuration.
+packageVersion :: String -- ^ Version string
+packageVersion = "Version: " <> showVersion version
+
+-- | Custom reader for parsing a single character.
+charReader :: ReadM Char
+charReader = eitherReader $
+  \case
+    [c] -> Right c
+    _   -> Left "expected a single character"
 
 -- | Applicative structure for parser command line options.
 options :: Parser Opts
@@ -36,6 +50,11 @@ options = Opts
      <> showDefault
      <> value 4
      <> metavar "INT" )
+  <*> option charReader
+      ( long "mandatory"
+     <> short 'm'
+     <> help "Mandatory lowercase letter"
+     <> metavar "CHAR" )
   <*> strOption
       ( long "letters"
      <> short 'l'
@@ -53,10 +72,6 @@ options = Opts
      <> short 'r'
      <> help "Allow letters to repeat (like Spelling Bee)" )
 
--- | Read application version from cabal configuration.
-packageVersion :: String -- ^ Version string
-packageVersion = "Version: " <> showVersion version
-
 -- | Parse arguments.
 optsParser :: ParserInfo Opts
 optsParser = info (options <**> helper)
@@ -71,7 +86,7 @@ main :: IO ()
 main = do
   opts <- execParser optsParser
   let validation = mkWordPuzzle
-        (repeats opts) (size opts)
+        (repeats opts) (size opts) (mandatory opts)
         (letters opts) (dictionary opts)
   case toEither validation of
     Left errors  -> mapM_ print errors -- Print all validation errors

@@ -31,8 +31,8 @@ dictionary against puzzle-specific constraints.
 
 * **Input parameters**:
   * Accept a minimum word size constraint (between four and nine inclusive).
+  * Accept a mandatory letter constraint (single lowercase letter).
   * Accept a string of allowed letters (four to nine unique lowercase letters).
-    The first character is designated as the mandatory letter.
   * Provide an optional dictionary file path (defaulting to "dictionary").
   * Support a "repeats" toggle to allow letters to be reused.
 * **Validation**: Collect and report all input validation errors rather than
@@ -78,7 +78,8 @@ The architecture separates command-line parsing from core domain logic.
   `mkWordPuzzle` smart constructor, which validates inputs before returning a
   value.
 * `ValidationError`: A sum type encapsulating parsing errors: `InvalidSize`,
-  `InvalidLetters`, and `UnexpectedValue`.
+  `InvalidLetters`, `UnexpectedValue`, `InvalidMandatory`, and
+  `MandatoryNotInLetters`.
 
 ### 4.3 Execution flow
 
@@ -138,3 +139,12 @@ on:
   coupled to existing rules, a strictly long-term goal could involve introducing
   a plugin architecture or domain-specific language for defining custom puzzle
   predicates.
+
+## 7. Changes
+
+Previously, the mandatory character was hardcoded as the first character of the
+`letters` argument. This has been updated to:
+
+* Require a separate `-m` argument.
+* Verify that the mandatory letter is present in the `letters` pool.
+* Validate that both are lowercase alphabetical characters.

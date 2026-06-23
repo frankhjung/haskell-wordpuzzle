@@ -71,9 +71,9 @@ bench: ## Run benchmarks
 .PHONY:	exec
 exec: ## Run $(TARGET) with ARGS
 	@echo Run 9-letter puzzle with cadevrsoi ...
-	@cabal exec $(TARGET) -- -s 7 -l cadevrsoi
+	@cabal exec $(TARGET) -- -s 7 -m c -l cadevrsoi
 	@echo Run Spelling Bee with cadevrsoi ...
-	@cabal exec $(TARGET) -- -s 9 -l cadevrsoi -r
+	@cabal exec $(TARGET) -- -s 9 -m c -l cadevrsoi -r
 
 .PHONY: dictionary
 dictionary: ## Generate dictionary file from /usr/share/dict/words, filtering for 4+ letter words and excluding Roman numerals

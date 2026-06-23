@@ -31,7 +31,7 @@ letter pool before constructing a value, returning
 
 ## Mandatory Letter
 
-The specific character that MUST be present in every valid word found.
+The specific character that MUST be present in every valid word found. Passed to the solver via the `-m` argument.
 
 ## Letter Pool
 
@@ -76,13 +76,14 @@ default behaviour when **Repeats** are not allowed.
 ## Validation Error
 
 An error produced when invalid parameters are provided to the puzzle, such as an
-invalid **Word Size** or **Letter Pool**.
+invalid **Word Size**, **Letter Pool**, or **Mandatory Letter**.
 
 ## Command-Line Parser
 
 The application uses the `optparse-applicative` library to parse command-line
 arguments. It provides an applicative interface for defining the parameters
-(`size`, `letters`, `dictionary`, `repeats`) and generating help text.
+(`size`, `mandatory`, `letters`, `dictionary`, `repeats`) and generating help
+text.
 
 ## CI/CD Workflows
 

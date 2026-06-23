@@ -2,7 +2,7 @@ spec:
   inputs:
     target_tag:
       type: string
-      default: "v1.1.0"
+      default: "v1.1.1"
       regex: ^v\d\.\d+(\.\d+)$
       description: "Release tag to run"
     size:
@@ -14,6 +14,11 @@ spec:
       default: ""
       regex: "^[a-z]*$"
       description: "Letters to use"
+    mandatory:
+      type: string
+      default: "a"
+      regex: "^[a-z]$"
+      description: "Mandatory letter"
     repeats:
       type: boolean
       default: true
@@ -27,6 +32,7 @@ variables:
   TARGET_TAG: $[[ inputs.target_tag ]]
   SIZE: $[[ inputs.size ]]
   LETTERS: $[[ inputs.letters ]]
+  MANDATORY: $[[ inputs.mandatory ]]
   REPEATS: $[[ inputs.repeats ]]
 
 workflow:

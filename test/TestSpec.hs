@@ -72,33 +72,49 @@ main = hspec $ do
   describe "mkWordPuzzle" $ do
     context "valid inputs" $
       it "returns Success" $
-        toEither (mkWordPuzzle False 4 "abcd" "dict")
+        toEither (mkWordPuzzle False 4 'a' "abcd" "dict")
           `shouldBe`
             Right (unsafeMk $
-              mkWordPuzzle False 4 "abcd" "dict")
+              mkWordPuzzle False 4 'a' "abcd" "dict")
     context "invalid size" $
       it "returns Failure with InvalidSize" $
-        toEither (mkWordPuzzle False 2 "abcd" "dict")
+        toEither (mkWordPuzzle False 2 'a' "abcd" "dict")
           `shouldBe`
             Left [InvalidSize (4,9) 2]
     context "invalid letters" $
       it "returns Failure with InvalidLetters" $
         toEither
-          (mkWordPuzzle False 4 "AB" "dict")
+          (mkWordPuzzle False 4 'A' "AB" "dict")
             `shouldBe`
-              Left [InvalidLetters "AB"]
+              Left [ InvalidMandatory 'A'
+                   , InvalidLetters "AB"
+                   , MandatoryNotInLetters 'A' "AB" ]
     context "empty letters" $
       it "returns Failure with InvalidLetters" $
-        toEither (mkWordPuzzle False 4 "" "dict")
+        toEither (mkWordPuzzle False 4 'a' "" "dict")
           `shouldBe`
-            Left [InvalidLetters "empty letters"]
+            Left [ InvalidLetters "empty letters"
+                 , MandatoryNotInLetters 'a' "" ]
     context "multiple errors accumulated" $
-      it "collects both size and letter errors" $
-        toEither (mkWordPuzzle False 2 "AB" "dict")
+      it "collects size, mandatory, and letter errors" $
+        toEither (mkWordPuzzle False 2 'B' "AB" "dict")
           `shouldBe`
             Left [ InvalidSize (4,9) 2
+                 , InvalidMandatory 'B'
                  , InvalidLetters "AB"
+                 , MandatoryNotInLetters 'B' "AB"
                  ]
+    context "mandatory not lowercase" $
+      it "returns Failure with InvalidMandatory" $
+        toEither (mkWordPuzzle False 4 'A' "abcd" "dict")
+          `shouldBe`
+            Left [ InvalidMandatory 'A'
+                 , MandatoryNotInLetters 'A' "abcd" ]
+    context "mandatory not in letters" $
+      it "returns Failure with MandatoryNotInLetters" $
+        toEither (mkWordPuzzle False 4 'e' "abcd" "dict")
+          `shouldBe`
+            Left [MandatoryNotInLetters 'e' "abcd"]
 
   describe "nineLetters" $ do
     -- use a valid pool (unique letters, 4-9)
@@ -144,7 +160,7 @@ main = hspec $ do
   describe "solver" $ do
     it "filters words in nine letters mode" $ do
       let puzzle = unsafeMk $
-            mkWordPuzzle False 4 "abcd" "dictionary"
+            mkWordPuzzle False 4 'a' "abcd" "dictionary"
       is <- Streams.fromList
         ["abcd", "bcde", "aabc", "aaaa", "abcde"]
       os <- solver puzzle is
@@ -153,7 +169,7 @@ main = hspec $ do
 
     it "filters words in spelling bee mode" $ do
       let puzzle = unsafeMk $
-            mkWordPuzzle True 4 "abcd" "dictionary"
+            mkWordPuzzle True 4 'a' "abcd" "dictionary"
       is <- Streams.fromList
         ["abcd", "bcde", "aabc", "aaaa", "abcde"]
       os <- solver puzzle is

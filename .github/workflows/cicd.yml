@@ -37,7 +37,6 @@ jobs:
             stack-{{ hashFiles('stack.yaml') }}
 
       - name: build
-        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         run: stack build --pedantic --no-test
 
       - name: test
@@ -45,10 +44,11 @@ jobs:
         run: stack test --coverage
 
       - name: benchmark
-        if: >
-          github.ref == 'refs/heads/master'
-          && github.event_name == 'push'
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         run: stack bench --benchmark-arguments '-o ${{ env.STACK_ROOT }}/benchmark.html'
+
+      - name: exec
+        run: stack exec -- wordpuzzle -s 7 -m c -l cadevrsoi
 
       - name: pages
         if: >
