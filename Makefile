@@ -62,7 +62,7 @@ doc: ## Generate Haddock documentation
 .PHONY:	copy
 copy: doc ## Copy Haddock documentation to doc/html
 	@echo copying documentation ...
-	@cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/$(TARGET)-*/doc/html/ docs/
+	@cp -r dist-newstyle/build/x86_64-linux/ghc-$(GHC_VERSION)/$(TARGET)-*/doc/html/ docs/
 
 .PHONY:	bench
 bench: ## Run benchmarks
@@ -88,7 +88,7 @@ else
 endif
 
 .PHONY:	setup
-setup: ## Init cabal config and update dependencies
+setup: ## Initialize cabal config and update dependencies
 ifeq (,$(wildcard ${CABAL_CONFIG}))
 	-cabal user-config init
 else
