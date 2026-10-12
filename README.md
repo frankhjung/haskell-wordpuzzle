@@ -497,3 +497,5 @@ Included in this repository is generated documentation for the current version.
 - [Kotlin](https://github.com/frankhjung/kotlin-wordpuzzle)
 - [Lean 4](https://github.com/frankhjung/lean-wordpuzzle)
 - [Python](https://github.com/frankhjung/python-wordpuzzle)
+- [TypeScript](https://github.com/frankhjung/typescript-wordpuzzle)
+
