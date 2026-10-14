@@ -5,8 +5,8 @@ Solve word puzzles like:
 - [Nine Letter Word](http://nineletterword.tompaton.com/adevcrsoi/)
 - [Your Word Life](http://www.yourwiselife.com.au/games/9-letter-word/)
 - [NYT Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee) (using
-  `--repeats`) -
-  [Scientific American Spellements](https://www.scientificamerican.com/game/spellements/)
+  `--repeats`)
+- [Scientific American Spellements](https://www.scientificamerican.com/game/spellements/)
   (using `--repeats`)
 
 ![nineletterword.tompaton.com](docs/nineletterword.png)
@@ -24,216 +24,130 @@ Package metadata for reference:
 | Maintainer | Don Armstrong <don@debian.org> |
 | Homepage | <http://wordlist.sourceforge.net/> |
 
-## Code Documentation
-
-Generated haddock gets written to a build-specific path under `dist-newstyle`.
-The exact subdirectory depends on the GHC version and architecture, so we use a
-glob to copy the `wordpuzzle` html output into the repository tree for a
-permanent record. Git pipelines produce the same documentation and deploy it to
-GitHub Pages and GitLab Pages.
-
-```bash
-cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-*/doc/html/ docs/
-```
-
-Alternatively run `make copy`, which performs the copy automatically.
-
-- [GitHub](https://frankhjung.github.io/haskell-wordpuzzle/)
-  - [haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
-  - [criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
-- [GitLab](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
-  - [haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
-
-## Deployment
-
-- GitHub Actions: <https://github.com/frankhjung/haskell-wordpuzzle/actions>
-  - Workflow files: [.github/workflows/cicd.yml](.github/workflows/cicd.yml),
-    [.github/workflows/run-wordpuzzle.yml](.github/workflows/run-wordpuzzle.yml)
-- GitLab CI: <https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines>
-  - Config: [.gitlab-ci.yml](.gitlab-ci.yml)
-
-### Pipeline Rules
-
-Refer to the workflow diagrams below for detailed execution flow across GitHub
-Actions and GitLab CI.
-
-### Running from GitHub Actions
-
-A manual workflow (`.github/workflows/run-wordpuzzle.yml`) is available that
-fetches the release artefact produced by the build pipeline and executes it on a
-minimal runner. Dispatch the workflow from the **Actions** tab and supply the
-following inputs:
-
-- `SIZE` – minimum word size (defaults to 4)
-- `MANDATORY` – mandatory lowercase letter to include
-- `LETTERS` – letters to use
-- `REPEATS` – boolean flag to allow repeated letters (Spelling Bee)
-
-The workflow simply mirrors the local command line usage, e.g.:
-
-```bash
-./wordpuzzle --size=6 --mandatory=c --letters=cadevrsoi --repeats
-```
-
-See `docs/github-run-wordpuzzle.md` and `docs/gitlab-run-wordpuzzle.md` for more
-background on how the run pipelines execute the solver with inputs.
-
-### GitLab Workflow Rules (Global)
-
-These rules determine if a pipeline is created at all.
-
-| Condition | Action | Reason |
-| :--- | :--- | :--- |
-| **Source is "web"** | **Run** | Allows manual execution of the solver pipeline. |
-| **Branch Push + Open Merge Request** | **Skip** | Prevents duplicate pipelines (standard GitLab optimization). |
-| **All other cases** | **Run** | Allows standard push and tag pipelines to proceed. |
-
-### GitLab Job-Specific Rules
-
-These rules determine which jobs run within a created pipeline.
-
-| Job | Trigger Condition | Skip Condition | Description |
-| :--- | :--- | :--- | :--- |
-| **`build_and_test`** | Automatic events (Push, Tag, Schedule) | Manual "Web" triggers | Builds, tests, and benchmarks the code. Skipped during manual solver runs to save time. |
-| **`publish_pages`** | Push to `master` branch | Web triggers, Tags, Non-master branches | Deploys Haddock documentation and benchmarks to GitLab Pages. |
-| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.2`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
-| **`run_wordpuzzle`** | Manual "Web" triggers | Automatic events (Push, Tag) | The interactive solver. Runs only when inputs (`SIZE`, `LETTERS`, etc.) are provided via the "Run pipeline" UI. |
-
-#### GitHub Actions Workflow Diagram
-
-```mermaid
----
-config:
-  look: handDrawn
----
-graph TD
-    subgraph "cicd.yml"
-      A["Push or Tag"] --> B{Branch?}
-      B -->|master + Tag v*| C["Build & Test"]
-      B -->|master + Push| D["Build, Test & Benchmark"]
-      B -->|Other branches| E["Build & Test"]
-      C --> F["Package Release"]
-      D --> G["Deploy Haddock & Benchmark to Pages"]
-      F --> H["Upload Release to GitHub Releases"]
-      E --> I["Complete"]
-      G --> I
-      H --> I
-    end
-    subgraph "run-wordpuzzle.yml"
-      J["Manual Run with Inputs"]
-    end
-    J --> I
-```
-
-#### GitLab CI Workflow Diagram
-
-```mermaid
----
-config:
-  look: handDrawn
----
-graph TD
-    subgraph " .gitlab-ci.yml"
-      A["Trigger: Push/Tag/Web"] --> B{Global Rules}
-      B -->|Source == web| C["Manual trigger"]
-      B -->|Push + Open MR| D["Skip"]
-      B -->|Other| E["Proceed"]
-      E --> F{Job Rules}
-      F -->|build_and_test| G["Build, Test, Benchmark"]
-      F -->|publish_pages| H["Deploy to GitLab Pages"]
-      F -->|package_and_release| I["Package Binary & Release"]
-    end
-    subgraph "template.yml"
-      C --> J["Run Solver with Inputs"]
-    end
-    G --> K["Pipeline Complete"]
-    H --> K
-    I --> K
-    J --> K
-```
-
-## Package Dependencies
-
-To include a package:
-
-- update the cabal sections with the package and version
-- run `cabal update`
-- run `cabal build`
-- run `make clean default`
-
-## Build
-
-This project can be built using either [cabal](https://www.haskell.org/cabal/)
-or [stack](https://docs.haskellstack.org/en/stable/).
-
-The default [Makefile](Makefile) builds using the
-[cabal](https://www.haskell.org/cabal/) tool.
-
-To view available make targets and descriptions, run:
-
-```bash
-make help
-```
-
-To build using [stack](https://docs.haskellstack.org/en/stable/):
-
-```bash
-make -f stack.mk [target]
-```
-
-Stack is required for GitHub pipelines as it provides the correct Haskell
-version.
-
-## Dictionary Conversion Utility
-
-Use [filter-words.sh](filter-words.sh) to generate a normalized `dictionary`
-file from a user-specified word list.
-
-### Usage
-
-```bash
-./filter-words.sh /path/to/words-file
-```
-
-The script applies the following filters before writing to `dictionary`:
-
-- keeps only lowercase alphabetic words (`a-z`) with length >= 4
-- removes Roman numerals
-- removes hyphenated words
-- removes words with uppercase letters (proper nouns/abbreviations)
-- removes words containing numbers
-
-It also prints the number of words written to `dictionary`.
-
-### Upgrading GHC
-
-When updating the GHC version:
-
-1. Run `make clean` to remove build artifacts and tags.
-1. Remove `dist-newstyle/` if you need a fully clean rebuild.
-1. Remove the `cabal.project.freeze` file.
-1. Update the `cabal.project` file with the new LTS version.
-1. Run `cabal update` to update the package list.
-1. Run `make` to rebuild the project.
-1. Run `cabal freeze` to create a new `cabal.project.freeze` file.
-
 ## Solver Overview
 
 This program solves word puzzles by listing all words that satisfy:
 
-- **Input:** minimum word length, letters (with first character mandatory), and
-  optional dictionary file
+- **Input:** Minimum word length, letters (with first character mandatory), and
+  an optional dictionary file.
 - **Match criteria:**
-  - word length ≥ minimum size
-  - contains the mandatory character (first letter)
-  - uses only valid characters in correct frequencies
-- **Special mode:** when `--repeats` is enabled, letters can repeat and there is
-  no 9-letter upper bound
-- **Performance:** letter membership uses a precomputed 26-bit integer bitmask
+  - Word length ≥ minimum size.
+  - Contains the mandatory character.
+  - Uses only valid characters from the pool in correct frequencies.
+- **Modes:**
+  - **Standard (9-letter) mode:** Letters cannot repeat beyond their occurrence
+    in the pool, and word length is bounded between 4 and 9 letters.
+  - **Spelling Bee mode (`--repeats`):** Letters can be reused infinitely, and
+    there is no 9-letter upper bound.
+- **Performance:** Letter membership uses a precomputed 26-bit integer bitmask
   (`poolMask`) for constant-time bitwise filtering without heap allocations (see
   [Bitmask and PoolMask Optimisation](docs/pool-mask.md)).
 
-## Validation Rules
+## Architecture
+
+The application is structured into decoupled layers separating command-line
+option parsing, domain invariant validation, and stream-based word filtering.
+
+- **CLI Layer (`app/Main.hs`):** Utilises `optparse-applicative` for
+  declarative command-line parsing. Command-line inputs are extracted into an
+  intermediate `Opts` record and forwarded to the domain smart constructor.
+- **Domain & Validation Layer (`src/WordPuzzle.hs`):** Encapsulates puzzle
+  configuration within the `WordPuzzle` record. Construction is guarded by the
+  `mkWordPuzzle` smart constructor using `Data.Validation` to accumulate all
+  validation errors. It also precomputes the 26-bit integer `poolMask`.
+- **Stream Processing Pipeline (`src/WordPuzzle.hs`):** Built upon `io-streams`
+  (`System.IO.Streams`). Rather than reading the entire dictionary into memory,
+  the dictionary file is streamed as a sequence of `ByteString` lines.
+- **Predicate Filtering:** Contravariant `Predicate` instances (`pS <> pM <>
+  pL`) combine length constraints, mandatory letter checks, and bitwise pool
+  checks (`nineLetters` or `spellingBee`). Surviving words are pushed directly
+  to standard output.
+
+### Component Diagram
+
+```mermaid
+---
+config:
+  look: handDrawn
+---
+graph TD
+    subgraph CLI ["CLI Layer (app/Main.hs)"]
+        Args["CLI Arguments"] --> Parser["optparse-applicative"]
+        Parser --> OptsRec["Opts Record"]
+    end
+
+    subgraph Core ["Domain & Validation (src/WordPuzzle.hs)"]
+        OptsRec --> MkPuzzle["mkWordPuzzle (Smart Constructor)"]
+        Val["Data.Validation"] -.->|accumulate errors| MkPuzzle
+        MkPuzzle -->|precompute once| Mask["poolMask (26-bit Int)"]
+        MkPuzzle --> ValidPuzzle["WordPuzzle Record"]
+    end
+
+    subgraph Pipeline ["Stream Pipeline (io-streams)"]
+        DictFile[("Dictionary File")] --> FileStream["Streams.withFileAsInput"]
+        FileStream --> LineStream["Streams.lines (ByteString)"]
+        ValidPuzzle --> Solver["solver Engine"]
+        LineStream --> Solver
+
+        subgraph Predicates ["Composite Predicate (Contravariant)"]
+            LenCheck["Length Check (pS)"]
+            MandCheck["Mandatory Letter (pM)"]
+            BitCheck["Bitmask Check (pL: nineLetters / spellingBee)"]
+            Mask -.-> BitCheck
+        end
+
+        Solver --> Predicates
+        Predicates --> FilteredStream["Filtered ByteString Stream"]
+    end
+
+    FilteredStream --> Stdout["Standard Output (Streams.skipToEof)"]
+    MkPuzzle -->|on failure| Stderr["Standard Error (Validation Errors)"]
+```
+
+### Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant Main as Main (CLI)
+    participant Parser as optparse-applicative
+    participant WP as WordPuzzle
+    participant Streams as System.IO.Streams
+    participant Dict as Dictionary File
+    participant Stdout as Standard Output
+
+    User->>Main: Invoke wordpuzzle with arguments
+    Main->>Parser: execParser optsParser
+    Parser-->>Main: Return Opts record
+    Main->>WP: mkWordPuzzle repeats size mandatory letters dict
+    critical Validate Inputs
+        WP->>WP: validateSize, validateMandatory, validateLetters
+        WP->>WP: maskOf letters (precomputes poolMask)
+    end
+    alt Validation Failed (Left errors)
+        WP-->>Main: Left [ValidationError]
+        Main->>User: Print all validation errors to stderr
+    else Validation Succeeded (Right puzzle)
+        WP-->>Main: Right WordPuzzle
+        Main->>WP: solve puzzle
+        WP->>Streams: withFileAsInput dictionary
+        Streams->>Dict: Open file handle
+        Streams->>Streams: lines (ByteString stream)
+        WP->>WP: solver puzzle (pS <> pM <> pL)
+        loop Stream Processing (word by word)
+            Streams->>WP: Test word against composite Predicate
+            WP->>WP: Check length, mandatory char, bitmask pool
+            opt Word matches all criteria
+                WP->>Stdout: putStrLn word
+            end
+        end
+        WP->>Streams: skipToEof & close handle
+        Streams->>Dict: Close file handle
+    end
+```
+
+### Validation Rules
 
 The project uses the
 [validation](https://hackage.haskell.org/package/validation) library to provide
@@ -251,10 +165,12 @@ Validations performed include:
 - Minimum word size must be between 4 and 9 letters (inclusive).
 - Letters string must contain between 4 and 9 unique lowercase letters (no
   repeated letters).
+- Mandatory character must be a lowercase letter.
+- Mandatory character must be present within the letter pool.
 
-## How to run
+## Usage
 
-### Basic usage
+### Basic Usage
 
 Run with custom letters and dictionary:
 
@@ -274,7 +190,7 @@ Run with letter repeats allowed (Spelling Bee mode):
 make ARGS='-s 7 -m m -l mitncao -r' exec
 ```
 
-### Command-line help
+### Command-Line Help
 
 View help and version information:
 
@@ -299,14 +215,14 @@ Available options:
 Version: 1.1.2
 ```
 
-Missing arguments:
+Missing arguments report required options:
 
 ```bash
 $ cabal exec wordpuzzle --
 Missing: (-m|--mandatory CHAR) (-l|--letters STRING)
 ```
 
-### Dictionary setup
+### Dictionary Setup
 
 Generate the default `dictionary` file:
 
@@ -334,19 +250,74 @@ mv dictionary.filtered dictionary
 The default dictionary is sourced from the
 [wamerican](https://packages.debian.org/search?keywords=wamerican) package.
 
-See also the dictionary filter script: [filter-words.sh](filter-words.sh).
+The [filter-words.sh](filter-words.sh) shell script normalises a user-supplied
+word list into a clean dictionary by applying the following filters:
+
+- Keeps only lowercase alphabetic words (`a-z`) with length >= 4.
+- Removes Roman numerals.
+- Removes hyphenated words.
+- Removes words with uppercase letters (proper nouns/abbreviations).
+- Removes words containing numbers.
+
+```bash
+./filter-words.sh /path/to/words-file
+```
 
 ### Sort Words by Size
 
-To show words by size use:
+To sort matching words by size:
 
 ```bash
 cabal exec wordpuzzle -- -m c -l cadevrsoi | gawk '{print length($0), $0;}' | sort -r
 ```
 
+## Build
+
+This project can be built using either [cabal](https://www.haskell.org/cabal/)
+or [stack](https://docs.haskellstack.org/en/stable/).
+
+The default [Makefile](Makefile) builds using the
+[cabal](https://www.haskell.org/cabal/) tool.
+
+To view available make targets and descriptions, run:
+
+```bash
+make help
+```
+
+To build using [stack](https://docs.haskellstack.org/en/stable/):
+
+```bash
+make -f stack.mk [target]
+```
+
+Stack is required for GitHub pipelines as it provides the correct Haskell
+version.
+
+### Package Dependencies
+
+To include a package:
+
+- Update the cabal sections with the package and version.
+- Run `cabal update`.
+- Run `cabal build`.
+- Run `make clean default`.
+
+### Upgrading GHC
+
+When updating the GHC version:
+
+1. Run `make clean` to remove build artefacts and tags.
+2. Remove `dist-newstyle/` if you need a fully clean rebuild.
+3. Remove the `cabal.project.freeze` file.
+4. Update the `cabal.project` file with the new LTS version.
+5. Run `cabal update` to update the package list.
+6. Run `make` to rebuild the project.
+7. Run `cabal freeze` to create a new `cabal.project.freeze` file.
+
 ## Unit Tests
 
-Using [HSpec](https://hspec.github.io/):
+Unit tests are written using [Hspec](https://hspec.github.io/):
 
 ```text
 $ cabal test --test-show-details=direct
@@ -413,7 +384,7 @@ Benchmark benchmark: FINISH
 
 ### Execution Summary
 
-Using the dictionary sited above, the run time performance for the example:
+Using the dictionary cited above, the runtime performance for the example:
 
 ```text
 $ cabal exec wordpuzzle -- -s 7 -m c -l cadevrsoi -d dictionary +RTS -s 1>/dev/null
@@ -446,10 +417,149 @@ Configuration is affected by the following files:
   Productivity  86.0% of total user, 56.7% of total elapsed
 ```
 
-## Command Line Parsers
+## Code Documentation
 
-Apart from solving a simple word puzzle this project also explores the following
-command line parsers:
+Generated Haddock documentation is written to a build-specific path under
+`dist-newstyle`. The exact subdirectory depends on the GHC version and
+architecture. We use a glob to copy the `wordpuzzle` HTML output into the
+repository tree for a permanent record. Git pipelines produce the same
+documentation and deploy it to GitHub Pages and GitLab Pages.
+
+```bash
+cp -r dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-*/doc/html/ docs/
+```
+
+Alternatively run `make copy`, which performs the copy automatically.
+
+- [GitHub Pages](https://frankhjung.github.io/haskell-wordpuzzle/)
+  - [Haddock function documentation](https://frankhjung.github.io/haskell-wordpuzzle/index.html)
+  - [Criterion performance measurements](https://frankhjung.github.io/haskell-wordpuzzle/benchmark.html)
+- [GitLab Pages](https://frankhjung1.gitlab.io/haskell-wordpuzzle/)
+  - [Haddock function documentation](https://frankhjung1.gitlab.io/haskell-wordpuzzle/index.html)
+
+### Dependencies Graph
+
+To produce a package dependencies graph, run:
+
+```bash
+stack dot --external | dot -Tpng -o docs/dependencies.png
+```
+
+![Dependencies Graph](docs/dependencies.png)
+
+## Deployment
+
+- GitHub Actions: <https://github.com/frankhjung/haskell-wordpuzzle/actions>
+  - Workflow files: [.github/workflows/cicd.yml](.github/workflows/cicd.yml),
+    [.github/workflows/run-wordpuzzle.yml](.github/workflows/run-wordpuzzle.yml)
+- GitLab CI: <https://gitlab.com/frankhjung1/haskell-wordpuzzle/pipelines>
+  - Config: [.gitlab-ci.yml](.gitlab-ci.yml)
+
+### Running from GitHub Actions
+
+A manual workflow (`.github/workflows/run-wordpuzzle.yml`) is available that
+fetches the release artefact produced by the build pipeline and executes it on a
+minimal runner. Dispatch the workflow from the **Actions** tab and supply the
+following inputs:
+
+- `SIZE` – minimum word size (defaults to 4)
+- `MANDATORY` – mandatory lowercase letter to include
+- `LETTERS` – letters to use
+- `REPEATS` – boolean flag to allow repeated letters (Spelling Bee)
+
+The workflow mirrors local command-line usage:
+
+```bash
+./wordpuzzle --size=6 --mandatory=c --letters=cadevrsoi --repeats
+```
+
+See [docs/github-run-wordpuzzle.md](docs/github-run-wordpuzzle.md) and
+[docs/gitlab-run-wordpuzzle.md](docs/gitlab-run-wordpuzzle.md) for more
+background on how the run pipelines execute the solver with inputs.
+
+### Pipeline Rules
+
+Refer to the workflow diagrams below for detailed execution flow across GitHub
+Actions and GitLab CI.
+
+#### GitLab Workflow Rules (Global)
+
+These rules determine if a pipeline is created at all.
+
+| Condition | Action | Reason |
+| :--- | :--- | :--- |
+| **Source is "web"** | **Run** | Allows manual execution of the solver pipeline. |
+| **Branch Push + Open Merge Request** | **Skip** | Prevents duplicate pipelines (standard GitLab optimisation). |
+| **All other cases** | **Run** | Allows standard push and tag pipelines to proceed. |
+
+#### GitLab Job-Specific Rules
+
+These rules determine which jobs run within a created pipeline.
+
+| Job | Trigger Condition | Skip Condition | Description |
+| :--- | :--- | :--- | :--- |
+| **`build_and_test`** | Automatic events (Push, Tag, Schedule) | Manual "Web" triggers | Builds, tests, and benchmarks the code. Skipped during manual solver runs to save time. |
+| **`publish_pages`** | Push to `master` branch | Web triggers, Tags, Non-master branches | Deploys Haddock documentation and benchmarks to GitLab Pages. |
+| **`package_and_release`** | Tag starting with `v` (e.g., `v1.0.2`) | Web triggers, Branch pushes | Packages the binary and dictionary, uploads them to the Registry, and creates a GitLab Release. |
+| **`run_wordpuzzle`** | Manual "Web" triggers | Automatic events (Push, Tag) | The interactive solver. Runs only when inputs (`SIZE`, `LETTERS`, etc.) are provided via the "Run pipeline" UI. |
+
+#### GitHub Actions Workflow Diagram
+
+```mermaid
+---
+config:
+  look: handDrawn
+---
+graph TD
+    subgraph "cicd.yml"
+      A["Push or Tag"] --> B{Branch?}
+      B -->|master + Tag v*| C["Build & Test"]
+      B -->|master + Push| D["Build, Test & Benchmark"]
+      B -->|Other branches| E["Build & Test"]
+      C --> F["Package Release"]
+      D --> G["Deploy Haddock & Benchmark to Pages"]
+      F --> H["Upload Release to GitHub Releases"]
+      E --> I["Complete"]
+      G --> I
+      H --> I
+    end
+    subgraph "run-wordpuzzle.yml"
+      J["Manual Run with Inputs"]
+    end
+    J --> I
+```
+
+#### GitLab CI Workflow Diagram
+
+```mermaid
+---
+config:
+  look: handDrawn
+---
+graph TD
+    subgraph " .gitlab-ci.yml"
+      A["Trigger: Push/Tag/Web"] --> B{Global Rules}
+      B -->|Source == web| C["Manual trigger"]
+      B -->|Push + Open MR| D["Skip"]
+      B -->|Other| E["Proceed"]
+      E --> F{Job Rules}
+      F -->|build_and_test| G["Build, Test, Benchmark"]
+      F -->|publish_pages| H["Deploy to GitLab Pages"]
+      F -->|package_and_release| I["Package Binary & Release"]
+    end
+    subgraph "template.yml"
+      C --> J["Run Solver with Inputs"]
+    end
+    G --> K["Pipeline Complete"]
+    H --> K
+    I --> K
+    J --> K
+```
+
+## Command-Line Parsers
+
+Apart from solving a simple word puzzle, this project also explores the
+following command-line parsers:
 
 - [System.Environment getArgs](https://hackage.haskell.org/package/base/docs/System-Environment.html)
 - [System.Console GetOpt](https://hackage.haskell.org/package/base/docs/System-Console-GetOpt.html)
@@ -465,33 +575,7 @@ The version is dynamically included from the
 configuration file.
 
 Version 1.1.2 of this project is using [LTS Haskell 22.44
-(ghc-9.6.7)](https://www.stackage.org/lts-22.44)
-
-## Dependencies Graph
-
-To produce a package dependencies graph, run:
-
-```bash
-stack dot --external | dot -Tpng -o docs/dependencies.png
-```
-
-![Dependencies Graph](docs/dependencies.png)
-
-### Haskell Build
-
-Either of the following build tools can be used:
-
-- [Cabal](https://www.haskell.org/cabal/)
-- [Stack](https://docs.haskellstack.org/en/stable/)
-
-### Haddock Documentation
-
-Documentation is built using [Haddock](https://www.haskell.org/haddock/).
-
-Included in this repository is generated documentation for the current version.
-
-- [haddock function documentation](docs/html/wordpuzzle/index.html)
-- [criterion performance benchmarks](docs/benchmark.html)
+(ghc-9.6.7)](https://www.stackage.org/lts-22.44).
 
 ## Project Resources
 
@@ -505,7 +589,8 @@ Included in this repository is generated documentation for the current version.
 ## My WordPuzzle Solver Implementations
 
 - [Clojure](https://github.com/frankhjung/clojure-wordpuzzle)
-- [Flutter](https://github.com/frankhjung/haskell-wordpuzzle)
+- [Elm](https://github.com/frankhjung/elm-wordpuzzle)
+- [Flutter](https://github.com/frankhjung/flutter-wordpuzzle)
 - [Go](https://github.com/frankhjung/go-wordpuzzle)
 - [Haskell](https://github.com/frankhjung/haskell-wordpuzzle)
 - [Java](https://github.com/frankhjung/java-wordpuzzle)
