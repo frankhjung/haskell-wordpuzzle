@@ -8,12 +8,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v1.1.2] - 2026-10-14
+
 ### Added
 
 - Add change log.
+- Add `poolMask`, a bitmask of the letter pool computed once in
+  `mkWordPuzzle`, with `maskOf`.
+- Add whole-dictionary benchmarks.
+- Add `docs/pool-mask.md` documenting the bitmask architecture and benchmark
+  improvements.
 
 ### Changed
 
+- Use bitwise letter membership instead of `elem` over the letters list,
+  cutting the dictionary filter from about 5.7 ms to 1.2 ms (nine letters)
+  and 5.2 ms to 0.35 ms (spelling bee).
 - Update `stack.mk` help, dependency graph, and dictionary.
 - Update Cabal `Makefile` so both are consistent.
 - Update `README.md` to include Lean 4.

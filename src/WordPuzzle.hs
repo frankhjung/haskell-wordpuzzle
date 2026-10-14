@@ -24,6 +24,8 @@ module WordPuzzle ( WordPuzzle
                   , mkWordPuzzle
                   , size, mandatory, letters
                   , dictionary, repeats
+                  , poolMask
+                  , maskOf
                   , validateSize
                   , validateLetters
                   , nineLetters
@@ -34,13 +36,13 @@ module WordPuzzle ( WordPuzzle
                   , toEither
                   ) where
 
-import           Data.Bits                  (shiftL, (.&.), (.|.))
+import           Data.Bits                  (unsafeShiftL, (.&.), (.|.))
 import           Data.Bool                  (bool)
 import qualified Data.ByteString.Char8      as BS
 import           Data.Char                  (isLower, ord)
 import           Data.Functor.Contravariant (Predicate (..), getPredicate)
 import           Data.Ix                    (inRange)
-import           Data.List                  (nub)
+import           Data.List                  (foldl', nub)
 import           Data.Validation            (Validation (..), toEither)
 import qualified System.IO.Streams          as Streams
 
@@ -52,6 +54,7 @@ data WordPuzzle = WordPuzzle
                   , letters    :: String   -- ^ letters to make words (4–9 unique lowercase characters)
                   , dictionary :: FilePath -- ^ dictionary for valid words
                   , repeats    :: Bool     -- ^ whether letters can be repeated
+                  , poolMask   :: !Int     -- ^ bitmask of 'letters' (see 'maskOf')
                   } deriving (Eq, Show)
 
 -- | Error given on invalid parameter.
@@ -76,6 +79,9 @@ instance Show ValidationError where
 --
 -- The data constructor is not exported from this module.
 -- Use this function to create a validated 'WordPuzzle'.
+--
+-- The letter pool bitmask ('poolMask') is computed once here, so it is not
+-- rebuilt for every dictionary word.
 mkWordPuzzle :: Bool -> Int -> Char -> String -> FilePath
              -> Validation [ValidationError] WordPuzzle
 mkWordPuzzle r s m ls d =
@@ -84,6 +90,7 @@ mkWordPuzzle r s m ls d =
              <*> validateLetters ls
              <*> pure d
              <*> pure r
+             <*> pure (maskOf ls)
              <* validateMandatoryInLetters m ls
 
 -- | Validate mandatory character.
@@ -187,6 +194,34 @@ checkLength False s = inRange (s, 9) . BS.length
 hasMandatory :: Char -> BS.ByteString -> Bool
 hasMandatory = BS.elem
 
+-- | Bit representing a lowercase letter: bit 0 for @a@ to bit 25 for @z@.
+-- Any other character has no bit (zero), so it is never in a pool.
+--
+-- >>> bitOf 'a'
+-- 1
+--
+-- >>> bitOf 'c'
+-- 4
+--
+-- >>> bitOf 'A'
+-- 0
+bitOf :: Char -> Int
+bitOf c
+  | i >= 0 && i < 26 = 1 `unsafeShiftL` i
+  | otherwise        = 0
+  where
+    i = ord c - ord 'a'
+
+-- | Bitmask of a letter pool: the union of 'bitOf' for each letter.
+--
+-- Compute this once per puzzle (see 'poolMask'), then test each dictionary
+-- character with a single bitwise AND instead of scanning the letters.
+--
+-- >>> maskOf "abc"
+-- 7
+maskOf :: String -> Int
+maskOf = foldl' (\m c -> m .|. bitOf c) 0
+
 -- | Check if a word matches the letter pool based on whether repeats
 -- are allowed.
 --
@@ -195,46 +230,58 @@ checkLettersPool :: Bool -- ^ allow repeats?
                   -> String -- ^ valid letters in letter pool
                   -> BS.ByteString -- ^ word to check
                   -> Bool -- ^ true if word matches letter pool
-checkLettersPool True  ls = spellingBee ls
-checkLettersPool False ls = nineLetters ls
+checkLettersPool True  = spellingBee
+checkLettersPool False = nineLetters
 
--- | Check if a word contains only characters from a letters list.
+-- | Check if a word contains only characters from a letters list, each used
+-- at most once.
 --
--- Uses a strict left fold over the input word with accumulator @(mask, ok)@:
+-- Uses an integer bitmask of the allowed letter pool (see 'maskOf') and a
+-- strict left fold over the input word with accumulator @(seen, ok)@:
 --
--- * @mask@ is a bitset of already seen letters.
+-- * @seen@ is a bitset of already seen letters.
 --
 -- * @ok@ tracks whether all checks have passed so far.
 --
 -- For each character, the fold:
 --
--- * fails if the character is not in the valid letter pool,
+-- * fails if the character bit is not in the pool mask,
 --
 -- * fails if the character bit is already set (repeated letter),
 --
 -- * otherwise sets the bit and continues.
+--
+-- Evaluates 'maskOf' once when partially applied.
 --
 -- Assumes that the letter pool is valid (see 'isLetters').
 nineLetters ::
      String        -- ^ valid letters
   -> BS.ByteString -- ^ dictionary word to check
   -> Bool          -- ^ true if dictionary word matches letters
-nineLetters ls = snd . BS.foldl' step (0 :: Int, True)
+nineLetters ls =
+  let !pool = maskOf ls
+  in snd . BS.foldl' (step pool) (0 :: Int, True)
   where
-    step (mask, ok) c
-      | not ok            = (mask, False) -- already failed, skip checks
-      | c `notElem` ls    = (mask, False) -- character not in letter pool
-      | mask .&. bit /= 0 = (mask, False) -- character already seen (repeated)
-      | otherwise         = (mask .|. bit, True) -- continue with bit set
+    step pool (seen, ok) c
+      | not ok          = (seen, False) -- already failed, skip checks
+      | b .&. pool == 0 = (seen, False) -- character not in letter pool
+      | seen .&. b /= 0 = (seen, False) -- character already seen (repeated)
+      | otherwise       = (seen .|. b, True) -- continue with bit set
       where
-        bit = 1 `shiftL` (ord c - ord 'a')  -- bit position for character
+        b = bitOf c
 
 -- | Check if a word contains only characters from a letters list.
 -- Repeating characters are allowed.
+--
+-- Uses an integer bitmask of the allowed letter pool (see 'maskOf') to test
+-- each character in constant time. Evaluates 'maskOf' once when partially
+-- applied.
 --
 -- Assumes that the letter pool is valid (see 'isLetters').
 spellingBee ::
      String        -- ^ valid letters
   -> BS.ByteString -- ^ dictionary word to check
   -> Bool          -- ^ true if dictionary word matches letters
-spellingBee ls = BS.all (`elem` ls)
+spellingBee ls =
+  let !pool = maskOf ls
+  in BS.all (\c -> bitOf c .&. pool /= 0)

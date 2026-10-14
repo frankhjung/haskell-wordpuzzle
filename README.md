@@ -229,6 +229,9 @@ This program solves word puzzles by listing all words that satisfy:
   - uses only valid characters in correct frequencies
 - **Special mode:** when `--repeats` is enabled, letters can repeat and there is
   no 9-letter upper bound
+- **Performance:** letter membership uses a precomputed 26-bit integer bitmask
+  (`poolMask`) for constant-time bitwise filtering without heap allocations (see
+  [Bitmask and PoolMask Optimisation](docs/pool-mask.md)).
 
 ## Validation Rules
 
@@ -293,7 +296,7 @@ Available options:
   -r,--repeats             Allow letters to repeat (like Spelling Bee)
   -h,--help                Show this help text
 
-Version: 1.1.1
+Version: 1.1.2
 ```
 
 Missing arguments:
@@ -371,28 +374,39 @@ cabal bench
 
 ```text
 $ make bench
-Configuration is affected by the following files:
-- cabal.project
-- cabal.project.freeze
-- cabal.project.local
 Build profile: -w ghc-9.6.7 -O1
 In order, the following will be built (use -v for more details):
- - wordpuzzle-1.0.3 (bench:benchmark) (ephemeral targets)
-Preprocessing benchmark 'benchmark' for wordpuzzle-1.0.3...
-Building benchmark 'benchmark' for wordpuzzle-1.0.3...
+ - wordpuzzle-1.1.2 (bench:benchmark) (file /home/frank/dev/haskell/wordpuzzle/dist-newstyle/build/x86_64-linux/ghc-9.6.7/wordpuzzle-1.1.2/cache/build changed)
+Preprocessing benchmark 'benchmark' for wordpuzzle-1.1.2...
+Building benchmark 'benchmark' for wordpuzzle-1.1.2...
 Running 1 benchmarks...
 Benchmark benchmark: RUNNING...
 benchmarking WordPuzzle/nineLetters
-time                 42.19 ns   (42.15 ns .. 42.22 ns)
-                     1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 42.18 ns   (42.16 ns .. 42.21 ns)
-std dev              85.96 ps   (63.63 ps .. 136.6 ps)
+time                 31.92 ns   (31.58 ns .. 32.56 ns)
+                     0.992 R²   (0.981 R² .. 0.999 R²)
+mean                 33.68 ns   (32.55 ns .. 37.20 ns)
+std dev              5.961 ns   (2.671 ns .. 11.23 ns)
+variance introduced by outliers: 97% (severely inflated)
 
 benchmarking WordPuzzle/spellingBee
-time                 146.4 ns   (146.1 ns .. 146.8 ns)
+time                 27.14 ns   (26.83 ns .. 27.51 ns)
+                     0.999 R²   (0.999 R² .. 1.000 R²)
+mean                 26.87 ns   (26.78 ns .. 27.06 ns)
+std dev              414.5 ps   (122.5 ps .. 716.5 ps)
+variance introduced by outliers: 20% (moderately inflated)
+
+benchmarking Dictionary/nineLetters
+time                 2.216 ms   (2.169 ms .. 2.285 ms)
+                     0.995 R²   (0.989 R² .. 1.000 R²)
+mean                 2.207 ms   (2.191 ms .. 2.240 ms)
+std dev              78.14 μs   (38.89 μs .. 130.9 μs)
+variance introduced by outliers: 21% (moderately inflated)
+
+benchmarking Dictionary/spellingBee
+time                 1.293 ms   (1.292 ms .. 1.295 ms)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 146.6 ns   (146.4 ns .. 146.8 ns)
-std dev              715.3 ps   (540.8 ps .. 1.006 ns)
+mean                 1.296 ms   (1.295 ms .. 1.298 ms)
+std dev              6.033 μs   (4.715 μs .. 8.215 μs)
 
 Benchmark benchmark: FINISH
 ```
@@ -450,7 +464,7 @@ The version is dynamically included from the
 [Cabal](https://www.haskell.org/cabal/users-guide/developing-packages.html#accessing-data-files-from-package-code)
 configuration file.
 
-Version 1.1.1 of this project is using [LTS Haskell 22.44
+Version 1.1.2 of this project is using [LTS Haskell 22.44
 (ghc-9.6.7)](https://www.stackage.org/lts-22.44)
 
 ## Dependencies Graph
@@ -481,6 +495,7 @@ Included in this repository is generated documentation for the current version.
 
 ## Project Resources
 
+- [Bitmask and PoolMask Optimisation](docs/pool-mask.md)
 - [Change Log](CHANGELOG.md)
 - [Comparing Lean 4 with Haskell](https://frankhjung.blogspot.com/2026/06/comparing-lean-4-with-haskell.html)
 - [Design Document](docs/design.md)
@@ -498,4 +513,3 @@ Included in this repository is generated documentation for the current version.
 - [Lean 4](https://github.com/frankhjung/lean-wordpuzzle)
 - [Python](https://github.com/frankhjung/python-wordpuzzle)
 - [TypeScript](https://github.com/frankhjung/typescript-wordpuzzle)
-

@@ -7,9 +7,10 @@ import           Data.Ix               (inRange)
 import           Data.Validation       (Validation (..))
 import qualified System.IO.Streams     as Streams
 import           Test.Hspec            (context, describe, hspec, it, shouldBe)
-import           WordPuzzle            (ValidationError (..), mkWordPuzzle,
-                                        nineLetters, solver, spellingBee,
-                                        toEither, validateLetters, validateSize)
+import           WordPuzzle            (ValidationError (..), maskOf,
+                                        mkWordPuzzle, nineLetters, poolMask,
+                                        solver, spellingBee, toEither,
+                                        validateLetters, validateSize)
 
 -- | Extract a 'Success' value or fail the test.
 unsafeMk :: Show e => Validation [e] a -> a
@@ -115,6 +116,27 @@ main = hspec $ do
         toEither (mkWordPuzzle False 4 'e' "abcd" "dict")
           `shouldBe`
             Left [MandatoryNotInLetters 'e' "abcd"]
+
+  describe "maskOf" $ do
+    it "is zero for an empty pool" $
+      maskOf "" `shouldBe` 0
+    it "sets bit 0 for a and bit 25 for z" $
+      maskOf "az" `shouldBe` 1 + 2 ^ (25 :: Int)
+    it "ignores order and duplicates" $
+      maskOf "cabbage" `shouldBe` maskOf "abcge"
+    it "ignores non-lowercase characters" $
+      maskOf "aB1-" `shouldBe` 1
+
+  describe "poolMask" $
+    it "is computed from letters by mkWordPuzzle" $
+      poolMask (unsafeMk (mkWordPuzzle False 4 'a' "abcd" "dict"))
+        `shouldBe` maskOf "abcd"
+
+  describe "out of range characters" $ do
+    it "rejects characters outside a-z in nineLetters without error" $
+      nineLetters "abcd" "ab-d" `shouldBe` False
+    it "rejects characters outside a-z in spellingBee without error" $
+      spellingBee "abcd" "abCd" `shouldBe` False
 
   describe "nineLetters" $ do
     -- use a valid pool (unique letters, 4-9)
